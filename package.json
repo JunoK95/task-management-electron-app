@@ -23,8 +23,10 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
+    "@supabase/supabase-js": "^2.81.1",
     "electron-updater": "^6.3.9",
-    "node-notifier": "^10.0.1"
+    "node-notifier": "^10.0.1",
+    "react-router-dom": "^7.9.6"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
