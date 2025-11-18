@@ -1,3 +1,17 @@
+$light-bg: #ffffff;
+$light-sidebar: #f0f0f0;
+$light-sidebar-active: #c0c0c0;
+$light-text: #333333;
+$light-accent: #0078d4;
+$light-hover: #e0e0e0;
+
+$dark-bg: #252526;
+$dark-sidebar: #1e1e1e;
+$dark-sidebar-active: #333333;
+$dark-text: #e0e0e0;
+$dark-accent: #0a84ff;
+$dark-hover: #2a2a2a;
+
 :root {
   --surface-menu: #fafafa;
   --surface: #f6f7f8;
@@ -11,7 +25,6 @@
   --selected: rgba(0, 0, 0, 0.08);
 }
 
-/* Dark mode */
 .dark {
   --surface-menu: #2b2d31;
   --surface: #1f2024;
@@ -24,19 +37,3 @@
   --hover: rgba(255, 255, 255, 0.08);
   --selected: rgba(255, 255, 255, 0.14);
 }
-
-// Light theme
-$light-bg: #ffffff;
-$light-sidebar: #f0f0f0;
-$light-sidebar-active: #c0c0c0;
-$light-text: #333333;
-$light-accent: #0078d4;
-$light-hover: #e0e0e0;
-
-// Dark theme
-$dark-bg: #252526;
-$dark-sidebar: #1e1e1e;
-$dark-sidebar-active: #333333;
-$dark-text: #e0e0e0;
-$dark-accent: #0a84ff;
-$dark-hover: #2a2a2a;

@@ -1,0 +1,19 @@
+@use './variables' as vars;
+
+body.light {
+  --bg-color: #{vars.$light-bg};
+  --sidebar-bg: #{vars.$light-sidebar};
+  --sidebar-active: #{vars.$light-sidebar-active};
+  --text-color: #{vars.$light-text};
+  --accent-color: #{vars.$light-accent};
+  --hover-color: #{vars.$light-hover};
+}
+
+body.dark {
+  --bg-color: #{vars.$dark-bg};
+  --sidebar-bg: #{vars.$dark-sidebar};
+  --sidebar-active: #{vars.$dark-sidebar-active};
+  --text-color: #{vars.$dark-text};
+  --accent-color: #{vars.$dark-accent};
+  --hover-color: #{vars.$dark-hover};
+}

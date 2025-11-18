@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
+import SidebarFooter from './SidebarFooter';
 
 export default function Sidebar() {
   const navItems = [
@@ -25,7 +26,17 @@ export default function Sidebar() {
             {item.label}
           </NavLink>
         ))}
+        {Array.from({ length: 20 }).map((_, i) => (
+          <NavLink
+            key={`test-nav-${i}`}
+            to={`#item${i}`}
+            className={({ isActive }) => clsx(styles['sidebar__item'])}
+          >
+            Item {i}
+          </NavLink>
+        ))}
       </nav>
+      <SidebarFooter />
     </aside>
   );
 }

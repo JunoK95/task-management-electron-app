@@ -6,6 +6,7 @@ import { PrivateRoute } from './PrivateRoute';
 import HomePage from '@renderer/pages/HomePage';
 import TasksPage from '@renderer/pages/TasksPage';
 import AppLayout from '@renderer/layouts/AppLayout/AppLayout';
+import SettingsPage from '@renderer/pages/settings/SettingsPage';
 
 export default function AppRouter(): JSX.Element {
   return (
@@ -28,6 +29,16 @@ export default function AppRouter(): JSX.Element {
               </PrivateRoute>
             }
           />
+          <Route path="settings">
+            <Route
+              index
+              element={
+                <PrivateRoute>
+                  <SettingsPage />
+                </PrivateRoute>
+              }
+            />
+          </Route>
           <Route path="/tasks">
             <Route
               index

@@ -6,19 +6,22 @@ body,
   padding: 0;
   background: var(--bg-color);
   color: var(--text-color);
-  font-family: system-ui, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
-/* Transparent macOS-like scrollbar */
+/* Transparent macOS-style scrollbars */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
 }
 
-/* WebKit browsers (Electron/Chromium) */
 *::-webkit-scrollbar {
   width: 8px;
-  background: transparent; // fully transparent track
+  background: transparent;
 }
 
 *::-webkit-scrollbar-track {
@@ -26,9 +29,9 @@ body,
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.28);
   border-radius: 12px;
-  border: 2px solid transparent; // gives "floating" look
+  border: 2px solid transparent;
   background-clip: padding-box;
   transition: background-color 0.15s ease;
 }
@@ -37,13 +40,13 @@ body,
   background-color: rgba(0, 0, 0, 0.45);
 }
 
-/* Dark mode support */
+/* Dark mode */
 .dark * {
   scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
 }
 
 .dark *::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.33);
 }
 
 .dark *::-webkit-scrollbar-thumb:hover {
