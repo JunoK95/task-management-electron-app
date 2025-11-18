@@ -1,4 +1,4 @@
-import { signIn, signOut, signUp } from '@renderer/services/auth/email';
+import { signIn, signOut, signUp } from '@renderer/services/supabase/auth';
 import logError from '@renderer/utils/logError';
 import { JSX, useState } from 'react';
 

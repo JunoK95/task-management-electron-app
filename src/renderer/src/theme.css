@@ -1,0 +1,162 @@
+/* ----------------------
+   Root Variables
+-----------------------*/
+:root {
+  /* Light Theme Colors */
+  --color-light-bg: #ffffff;
+  --color-light-sidebar: #f0f0f0;
+  --color-light-sidebar-active: #c0c0c0;
+  --color-light-text: #333333;
+  --color-light-accent: #0078d4;
+  --color-light-hover: #e0e0e0;
+
+  /* Dark Theme Colors */
+  --color-dark-bg: #252526;
+  --color-dark-sidebar: #1e1e1e;
+  --color-dark-sidebar-active: #333333;
+  --color-dark-text: #e0e0e0;
+  --color-dark-accent: #0a84ff;
+  --color-dark-hover: #2a2a2a;
+}
+
+/* ----------------------
+   Theme Selector
+-----------------------*/
+body.light {
+  --bg-color: var(--color-light-bg);
+  --sidebar-bg: var(--color-light-sidebar);
+  --sidebar-active: var(--color-light-sidebar-active);
+  --text-color: var(--color-light-text);
+  --accent-color: var(--color-light-accent);
+  --hover-color: var(--color-light-hover);
+}
+
+body.dark {
+  --bg-color: var(--color-dark-bg);
+  --sidebar-bg: var(--color-dark-sidebar);
+  --sidebar-active: var(--color-dark-sidebar-active);
+  --text-color: var(--color-dark-text);
+  --accent-color: var(--color-dark-accent);
+  --hover-color: var(--color-dark-hover);
+}
+
+/* ----------------------
+   Global Styles
+-----------------------*/
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ----------------------
+   Layout Container
+-----------------------*/
+.app-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+/* ----------------------
+   Sidebar
+-----------------------*/
+.sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: var(--hover-color);
+}
+
+.sidebar-link.active {
+  background-color: var(--sidebar-active);
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+/* ----------------------
+   Main Content
+-----------------------*/
+.app-main {
+  flex-grow: 1;
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px;
+  background-color: var(--bg-color);
+}
+
+/* ----------------------
+   Buttons / Accent
+-----------------------*/
+button,
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--accent-color);
+  color: #fff;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+button:hover,
+.btn:hover {
+  background-color: darken(var(--accent-color), 10%);
+}
+
+/* ----------------------
+   Optional: Menu
+-----------------------*/
+.menu-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--sidebar-bg);
+  color: var(--text-color);
+}
+
+.menu-button:hover {
+  background-color: var(--hover-color);
+}

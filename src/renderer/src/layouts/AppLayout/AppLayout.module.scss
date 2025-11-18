@@ -1,0 +1,13 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  background: var(--surface);
+
+  &__content {
+    flex: 1;
+    overflow: auto;
+    padding: 24px;
+    background: var(--surface);
+    color: var(--text);
+  }
+}
