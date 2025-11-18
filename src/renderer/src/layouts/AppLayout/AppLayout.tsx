@@ -1,16 +1,21 @@
+import { Outlet } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import styles from './AppLayout.module.scss';
 
-interface Props {
-  children: React.ReactNode;
-}
+export default function AppLayout() {
+  const navItems = [
+    { label: 'Home', to: '/' },
+    { label: 'Tasks', to: '/tasks' },
+    { label: 'Settings', to: '/settings' }
+  ];
 
-export default function AppLayout({ children }: Props) {
+  const title = 'My Workspace';
   return (
     <div className={styles.layout}>
-      <Sidebar />
-
-      <main className={styles['layout__content']}>{children}</main>
+      <Sidebar navItems={navItems} title={title} />
+      <main className={styles['layout__content']}>
+        <Outlet />
+      </main>
     </div>
   );
 }

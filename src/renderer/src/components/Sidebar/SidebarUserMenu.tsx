@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './SidebarUserMenu.module.scss';
 import { supabase } from '@renderer/services/supabase/client';
 

@@ -1,10 +1,10 @@
 import type { Session } from '@supabase/supabase-js';
 
-export interface AuthContextType {
+export type AuthContextType = {
   session: Session | null;
   loading: boolean;
-}
+};
 
-export interface AuthProviderProps {
+export type AuthProviderProps = {
   children: React.ReactNode;
-}
+};

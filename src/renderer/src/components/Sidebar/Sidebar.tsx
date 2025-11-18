@@ -3,17 +3,20 @@ import clsx from 'clsx';
 import styles from './Sidebar.module.scss';
 import SidebarFooter from './SidebarFooter';
 
-export default function Sidebar() {
-  const navItems = [
-    { label: 'Home', to: '/' },
-    { label: 'Tasks', to: '/tasks' },
-    { label: 'Settings', to: '/settings' }
-  ];
+type Props = {
+  title?: string;
+  navItems?: { label: string; to: string }[];
+  showUserMenu?: boolean;
+};
 
+export default function Sidebar({
+  title = 'My Workspace',
+  navItems = [],
+  showUserMenu = true
+}: Props) {
   return (
     <aside className={styles.sidebar}>
-      <div className={styles['sidebar__logo']}>MyApp</div>
-
+      <div className={styles['sidebar__logo']}>{title}</div>
       <nav className={styles['sidebar__nav']}>
         {navItems.map((item) => (
           <NavLink
@@ -26,17 +29,8 @@ export default function Sidebar() {
             {item.label}
           </NavLink>
         ))}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <NavLink
-            key={`test-nav-${i}`}
-            to={`#item${i}`}
-            className={({ isActive }) => clsx(styles['sidebar__item'])}
-          >
-            Item {i}
-          </NavLink>
-        ))}
       </nav>
-      <SidebarFooter />
+      {showUserMenu && <SidebarFooter />}
     </aside>
   );
 }

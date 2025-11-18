@@ -11,16 +11,16 @@ import SettingsPage from '@renderer/pages/settings/SettingsPage';
 export default function AppRouter(): JSX.Element {
   return (
     <HashRouter>
-      <AppLayout>
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route element={<AppLayout />}>
           <Route
             path="/"
             element={
@@ -29,16 +29,6 @@ export default function AppRouter(): JSX.Element {
               </PrivateRoute>
             }
           />
-          <Route path="settings">
-            <Route
-              index
-              element={
-                <PrivateRoute>
-                  <SettingsPage />
-                </PrivateRoute>
-              }
-            />
-          </Route>
           <Route path="/tasks">
             <Route
               index
@@ -65,10 +55,20 @@ export default function AppRouter(): JSX.Element {
               }
             />
           </Route>
-          {/* Catch-all: redirect to dashboard if logged in, else login */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </AppLayout>
+        </Route>
+        <Route path="settings">
+          <Route
+            index
+            element={
+              <PrivateRoute>
+                <SettingsPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        {/* Catch-all: redirect to dashboard if logged in, else login */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </HashRouter>
   );
 }

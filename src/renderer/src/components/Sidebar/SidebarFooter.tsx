@@ -1,14 +1,17 @@
-import React from 'react';
 import styles from './SidebarFooter.module.scss';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@renderer/hooks/useAuth';
+import { useModal } from '@renderer/hooks/useModal';
 
 export default function SidebarFooter() {
   const { session } = useAuth();
+  const { openSettings } = useModal();
   const user = session?.user;
-  const navigate = useNavigate();
 
   const avatarLetter = user?.email?.[0]?.toUpperCase() ?? '?';
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className={styles.footer}>
@@ -28,11 +31,7 @@ export default function SidebarFooter() {
       </div>
 
       {/* Right: Settings Icon */}
-      <button
-        className={styles.settingsButton}
-        onClick={() => navigate('/settings')}
-        title="Settings"
-      >
+      <button className={styles.settingsButton} onClick={() => openSettings()} title="Settings">
         ⚙️
       </button>
     </div>
