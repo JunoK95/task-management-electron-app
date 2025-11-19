@@ -9,14 +9,10 @@ type Props = {
   showUserMenu?: boolean;
 };
 
-export default function Sidebar({
-  title = 'My Workspace',
-  navItems = [],
-  showUserMenu = true
-}: Props) {
+export default function Sidebar({ title, navItems = [], showUserMenu = true }: Props) {
   return (
     <aside className={styles.sidebar}>
-      <div className={styles['sidebar__logo']}>{title}</div>
+      {title && <div className={styles['sidebar__logo']}>{title}</div>}
       <nav className={styles['sidebar__nav']}>
         {navItems.map((item) => (
           <NavLink

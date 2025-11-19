@@ -1,8 +1,8 @@
 // import Versions from './components/Versions'
 // import electronLogo from './assets/electron.svg'
 
+import SettingsModal from './components/settings/SettingsModal/SettingsModal';
 import { useModal } from './hooks/useModal';
-import SettingsLayout from './layouts/SettingsLayout/SettingsLayout';
 import AppRouter from './routes/AppRouter';
 
 function App(): React.JSX.Element {
@@ -10,12 +10,12 @@ function App(): React.JSX.Element {
   // const handleNotify = (): void => {
   //   window.electronAPI.notify('Hello from React', 'This is a node-notifier alert!');
   // };
-  const { isSettingsOpen, closeSettings } = useModal();
+  const { isSettingsOpen } = useModal();
 
   return (
     <>
       <AppRouter />
-      <SettingsLayout open={isSettingsOpen} onClose={() => closeSettings()} />
+      {isSettingsOpen && <SettingsModal />}
     </>
   );
 }

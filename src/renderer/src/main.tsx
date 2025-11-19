@@ -9,13 +9,16 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { AuthProvider } from './context/auth/AuthProvider';
 import { ModalProvider } from './context/modal/ModalProvider';
+import ThemeProvider from './context/theme/ThemeProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <ModalProvider>
-        <App />
-      </ModalProvider>
+      <ThemeProvider>
+        <ModalProvider>
+          <App />
+        </ModalProvider>
+      </ThemeProvider>
     </AuthProvider>
   </StrictMode>
 );

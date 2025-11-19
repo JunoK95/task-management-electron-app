@@ -5,8 +5,7 @@ import styles from './AppLayout.module.scss';
 export default function AppLayout() {
   const navItems = [
     { label: 'Home', to: '/' },
-    { label: 'Tasks', to: '/tasks' },
-    { label: 'Settings', to: '/settings' }
+    { label: 'Tasks', to: '/tasks' }
   ];
 
   const title = 'My Workspace';
