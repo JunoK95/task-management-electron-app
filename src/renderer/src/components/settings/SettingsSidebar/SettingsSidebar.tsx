@@ -1,5 +1,7 @@
 import styles from './SettingsSidebar.module.scss';
 import { SettingsSection } from '../types';
+import { useAuth } from '@renderer/hooks/useAuth';
+import { useModal } from '@renderer/hooks/useModal';
 
 interface Props {
   active: SettingsSection;
@@ -7,6 +9,9 @@ interface Props {
 }
 
 export default function SettingsSidebar({ active, onSelect }: Props) {
+  const { signOut } = useAuth();
+  const { closeSettings } = useModal();
+
   const groups = [
     {
       label: 'General',
@@ -28,12 +33,20 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
     }
   ];
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      closeSettings();
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <div className={styles.sidebar}>
-      {groups.map((group, groupIndex) => (
+      {groups.map((group) => (
         <div key={group.label} className={styles.group}>
           <h2 className={styles.groupLabel}>{group.label}</h2>
-
           {group.items.map((item) => (
             <button
               key={item.key}
@@ -43,10 +56,14 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
               {item.label}
             </button>
           ))}
-
-          {groupIndex < groups.length - 1 && <div className={styles.sectionDivider} />}
+          <div className={styles.sectionDivider} />
         </div>
       ))}
+      <div className={styles.group}>
+        <button className={`${styles.navItem}`} onClick={() => handleLogout()}>
+          {'Log Out'}
+        </button>
+      </div>
     </div>
   );
 }

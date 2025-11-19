@@ -31,5 +31,54 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
     };
   }, []);
 
-  return <AuthContext.Provider value={{ session, loading }}>{children}</AuthContext.Provider>;
+  const signIn = async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) return { error: error.message };
+    return {};
+  };
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    });
+
+    if (error) return { error: error.message };
+    return {};
+  };
+
+  const signInWithApple = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple'
+    });
+
+    if (error) return { error: error.message };
+    return {};
+  };
+
+  const signUp = async (email, password) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) return { error: error.message };
+    return {};
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ session, loading, signIn, signInWithApple, signInWithGoogle, signOut, signUp }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }

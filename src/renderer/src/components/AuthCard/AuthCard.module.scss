@@ -1,0 +1,50 @@
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 24px 24px;
+  background: var(--surface-menu);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.auth-card--error {
+  border: 1px solid #d33;
+  animation: shake 0.3s ease;
+}
+
+.auth-card__title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.auth-card__error-message {
+  color: #d33;
+  font-size: 13px;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+}

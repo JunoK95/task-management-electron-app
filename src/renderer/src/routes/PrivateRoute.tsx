@@ -16,7 +16,7 @@ export function PrivateRoute({ children }: PrivateRouteProps): JSX.Element | nul
 
   if (!session) {
     // Not logged in → redirect to login
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
 
   return <>{children}</>;

@@ -1,0 +1,26 @@
+.oauth-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s ease;
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+
+  &--google {
+    background: #fff;
+    color: #444;
+  }
+
+  &--apple {
+    background: #000;
+    color: #fff;
+  }
+}

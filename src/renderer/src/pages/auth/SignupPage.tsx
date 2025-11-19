@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import styles from './LoginPage.module.scss';
+import styles from './SignupPage.module.scss';
 import AuthCard from '@renderer/components/AuthCard/AuthCard';
 import Input from '@renderer/components/Input/Input';
 import { Button } from '@renderer/components/Button/Button';
@@ -9,30 +9,36 @@ import { useAuth } from '@renderer/hooks/useAuth';
 import Separator from '@renderer/components/Separator/Separator';
 import { Link } from 'react-router-dom';
 
-export default function LoginPage() {
+export default function SignupPage() {
   const { signIn, signInWithGoogle, signInWithApple } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Confirm password validation
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
     const { error } = await signIn(email, password);
     if (error) setError(error);
   };
 
   return (
-    <div className={styles['login-page']}>
-      <div className={styles['login-page__left-panel']}>
-        <div className={styles['login-page__branding']}>
+    <div className={styles['signup-page']}>
+      <div className={styles['signup-page__left-panel']}>
+        <div className={styles['signup-page__branding']}>
           <h1>Your App</h1>
           <p>Organize everything effortlessly.</p>
         </div>
       </div>
 
-      <div className={styles['login-page__right-panel']}>
-        <AuthCard title="Welcome Back" error={error}>
-          <form className={styles['login-page__form']} onSubmit={handleSubmit}>
+      <div className={styles['signup-page__right-panel']}>
+        <AuthCard title="Create Account" error={error}>
+          <form className={styles['signup-page__form']} onSubmit={handleSubmit}>
             <Input
               label="Email"
               type="email"
@@ -47,15 +53,26 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit">Sign In</Button>
+            <Input
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+
+            <Button type="submit">Sign Up</Button>
+
+            <div className={styles['signup-page__footer']}>
+              <span>Already have an account? </span>
+              <Link to="/login" className={styles['signup-page__login-link']}>
+                Sign In
+              </Link>
+            </div>
           </form>
-          <div className={styles['login-page__footer']}>
-            <span>Don’t have an account? </span>
-            <Link to="/auth/signup" className={styles['login-page__signup-link']}>
-              Sign Up
-            </Link>
-          </div>
+
           <Separator />
+
           <OAuthButton provider="google" onClick={signInWithGoogle} />
           <OAuthButton provider="apple" onClick={signInWithApple} />
         </AuthCard>

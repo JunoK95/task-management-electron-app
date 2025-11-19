@@ -10,7 +10,7 @@ export default function SidebarUserMenu({ onNavigate, onClose }) {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    onNavigate('/login');
+    onNavigate('/auth/login');
     onClose();
   };
 

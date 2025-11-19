@@ -7,19 +7,30 @@ import HomePage from '@renderer/pages/HomePage';
 import TasksPage from '@renderer/pages/TasksPage';
 import AppLayout from '@renderer/layouts/AppLayout/AppLayout';
 import SettingsPage from '@renderer/pages/settings/SettingsPage';
+import SignupPage from '@renderer/pages/auth/SignupPage';
 
 export default function AppRouter(): JSX.Element {
   return (
     <HashRouter>
       <Routes>
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
+        <Route path={'/auth'}>
+          <Route
+            path="login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="signup"
+            element={
+              <PublicRoute>
+                <SignupPage />
+              </PublicRoute>
+            }
+          />
+        </Route>
         <Route element={<AppLayout />}>
           <Route
             path="/"
