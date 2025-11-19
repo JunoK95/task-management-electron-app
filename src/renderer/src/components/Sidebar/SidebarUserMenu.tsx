@@ -1,5 +1,5 @@
+import { supabase } from '../../services/supabase/client';
 import styles from './SidebarUserMenu.module.scss';
-import { supabase } from '@renderer/services/supabase/client';
 
 export default function SidebarUserMenu({ onNavigate, onClose }) {
   const toggleTheme = () => {

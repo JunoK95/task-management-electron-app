@@ -1,7 +1,7 @@
-import Modal from '@renderer/components/Modal/Modal';
+import Modal from '../../components/Modal/Modal';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import { useTheme } from '../../hooks/useTheme';
 import styles from './SettingsLayout.module.scss';
-import { useTheme } from '@renderer/hooks/useTheme';
-import Sidebar from '@renderer/components/Sidebar/Sidebar';
 
 interface Props {
   open: boolean;

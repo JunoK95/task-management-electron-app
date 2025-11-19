@@ -1,7 +1,7 @@
 import styles from './SettingsSidebar.module.scss';
 import { SettingsSection } from '../types';
-import { useAuth } from '@renderer/hooks/useAuth';
-import { useModal } from '@renderer/hooks/useModal';
+import { useAuth } from '../../../hooks/useAuth';
+import { useModal } from '../../../hooks/useModal';
 
 interface Props {
   active: SettingsSection;

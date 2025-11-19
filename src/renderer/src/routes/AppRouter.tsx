@@ -1,13 +1,13 @@
 import { JSX } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { PublicRoute } from './PublicRoute';
-import LoginPage from '@renderer/pages/auth/LoginPage';
 import { PrivateRoute } from './PrivateRoute';
-import HomePage from '@renderer/pages/HomePage';
-import TasksPage from '@renderer/pages/TasksPage';
-import AppLayout from '@renderer/layouts/AppLayout/AppLayout';
-import SettingsPage from '@renderer/pages/settings/SettingsPage';
-import SignupPage from '@renderer/pages/auth/SignupPage';
+import LoginPage from '../pages/auth/LoginPage';
+import SignupPage from '../pages/auth/SignupPage';
+import AppLayout from '../layouts/AppLayout/AppLayout';
+import HomePage from '../pages/HomePage';
+import TasksPage from '../pages/TasksPage';
+import SettingsPage from '../pages/settings/SettingsPage';
 
 export default function AppRouter(): JSX.Element {
   return (

@@ -8,7 +8,7 @@ import AccountSection from '../sections/AccountSection';
 import NotificationsSection from '../sections/NotificationsSection';
 import ShortcutsSection from '../sections/ShortcutsSection';
 import AdvancedSection from '../sections/AdvancedSection';
-import { useModal } from '@renderer/hooks/useModal';
+import { useModal } from '../../../hooks/useModal';
 
 export default function SettingsModal() {
   const { closeSettings } = useModal();

@@ -1,6 +1,6 @@
+import { useAuth } from '../../hooks/useAuth';
+import { useModal } from '../../hooks/useModal';
 import styles from './SidebarFooter.module.scss';
-import { useAuth } from '@renderer/hooks/useAuth';
-import { useModal } from '@renderer/hooks/useModal';
 
 export default function SidebarFooter() {
   const { session } = useAuth();
