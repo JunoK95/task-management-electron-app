@@ -1,12 +1,8 @@
-import { JSX, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { JSX } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-interface PrivateRouteProps {
-  children: ReactNode;
-}
-
-export function PrivateRoute({ children }: PrivateRouteProps): JSX.Element | null {
+export function PrivateRoute(): JSX.Element | null {
   const { session, loading } = useAuth();
 
   if (loading) {
@@ -19,5 +15,5 @@ export function PrivateRoute({ children }: PrivateRouteProps): JSX.Element | nul
     return <Navigate to="/auth/login" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }

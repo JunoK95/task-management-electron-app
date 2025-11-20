@@ -1,83 +1,54 @@
 import { JSX } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { PublicRoute } from './PublicRoute';
-import { PrivateRoute } from './PrivateRoute';
+
+import AppLayout from '../layouts/AppLayout/AppLayout';
+
 import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
-import AppLayout from '../layouts/AppLayout/AppLayout';
+
 import HomePage from '../pages/HomePage';
 import TasksPage from '../pages/TasksPage';
+import ProjectsPage from '../pages/ProjectsPage';
 import SettingsPage from '../pages/settings/SettingsPage';
+import { PublicRoute } from './PublicRoute';
+import { PrivateRoute } from './PrivateRoute';
 
 export default function AppRouter(): JSX.Element {
   return (
     <HashRouter>
       <Routes>
-        <Route path={'/auth'}>
-          <Route
-            path="login"
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="signup"
-            element={
-              <PublicRoute>
-                <SignupPage />
-              </PublicRoute>
-            }
-          />
+        {/* ---------- PUBLIC ROUTES ---------- */}
+        <Route element={<PublicRoute />}>
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/signup" element={<SignupPage />} />
         </Route>
-        <Route element={<AppLayout />}>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <HomePage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/tasks">
-            <Route
-              index
-              element={
-                <PrivateRoute>
-                  <TasksPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="new"
-              element={
-                <PrivateRoute>
-                  <div>New Task Page</div>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <PrivateRoute>
-                  <div>Task Detail Page</div>
-                </PrivateRoute>
-              }
-            />
+
+        {/* ---------- PRIVATE (APP) ROUTES ---------- */}
+        <Route element={<PrivateRoute />}>
+          <Route element={<AppLayout />}>
+            {/* Dashboard / home */}
+            <Route index element={<HomePage />} />
+
+            {/* Tasks */}
+            <Route path="tasks">
+              <Route index element={<TasksPage />} />
+              <Route path="new" element={<div>New Task Page</div>} />
+              <Route path=":id" element={<div>Task Detail Page</div>} />
+            </Route>
+
+            {/* Projects */}
+            <Route path="projects">
+              <Route index element={<ProjectsPage />} />
+              <Route path="new" element={<div>New Project Page</div>} />
+              <Route path=":id" element={<div>Project Detail Page</div>} />
+            </Route>
+
+            {/* Settings */}
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Route>
-        <Route path="settings">
-          <Route
-            index
-            element={
-              <PrivateRoute>
-                <SettingsPage />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-        {/* Catch-all: redirect to dashboard if logged in, else login */}
+
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

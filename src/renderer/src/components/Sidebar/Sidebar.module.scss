@@ -29,8 +29,8 @@
   }
 
   &__item {
-    padding: 8px 14px;
-    margin: 0 8px;
+    padding: 8px 4px;
+    margin-right: 14px;
     font-size: 13px;
     border-radius: 6px;
     cursor: pointer;
@@ -48,7 +48,7 @@
     &:hover {
       background: var(--hover);
       color: var(--text);
-      padding-left: 18px; // subtle mac-like movement
+      padding-left: 12px; // subtle mac-like movement
     }
 
     &--active {

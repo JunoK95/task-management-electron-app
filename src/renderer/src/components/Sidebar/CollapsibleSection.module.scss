@@ -1,0 +1,105 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+
+  &__header {
+    width: 100%;
+    background: transparent;
+    box-sizing: border-box;
+    padding: 4px 16px;
+    border: none;
+    outline: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    cursor: pointer;
+
+    span {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    button {
+      all: unset;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button:focus {
+      outline: revert;
+    }
+
+    button:hover {
+      background: var(--hover);
+      border-radius: 12px;
+    }
+
+    &__title {
+      flex-grow: 1;
+    }
+
+    &__right {
+      display: flex;
+      gap: 2px;
+    }
+  }
+
+  /* Chevron rotation */
+  &__icon {
+    transition:
+      transform 0.22s ease,
+      opacity 0.2s ease;
+    opacity: 0.7;
+
+    &--open {
+      transform: rotate(90deg);
+      opacity: 1;
+    }
+  }
+
+  /* Outer wrapper handles the height animation */
+  &__outer {
+    overflow: hidden;
+    transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Inner content fades + slides */
+  &__content {
+    padding-left: 16px; // aligns under header
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    animation: fadeSlide 0.25s ease;
+  }
+
+  /* Divider between groups */
+  &__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 4px 0;
+  }
+}
+
+/* Subtle macOS-like fade + slide animation */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
