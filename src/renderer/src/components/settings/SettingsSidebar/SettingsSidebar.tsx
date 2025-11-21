@@ -2,6 +2,8 @@ import styles from './SettingsSidebar.module.scss';
 import { SettingsSection } from '../types';
 import { useAuth } from '../../../hooks/useAuth';
 import { useModal } from '../../../hooks/useModal';
+import clsx from 'clsx';
+import { LogOut } from 'lucide-react';
 
 interface Props {
   active: SettingsSection;
@@ -60,7 +62,8 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
         </div>
       ))}
       <div className={styles.group}>
-        <button className={`${styles.navItem}`} onClick={() => handleLogout()}>
+        <button className={clsx([styles.navItem, styles.logout])} onClick={() => handleLogout()}>
+          <LogOut size={16} />
           {'Log Out'}
         </button>
       </div>

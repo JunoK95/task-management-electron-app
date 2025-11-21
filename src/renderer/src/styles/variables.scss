@@ -23,6 +23,10 @@ $dark-hover: #2a2a2a;
 
   --hover: rgba(0, 0, 0, 0.05);
   --selected: rgba(0, 0, 0, 0.08);
+
+  --error: #ff3b30;
+  --success: #34c759;
+  --warning: #ffcc00;
 }
 
 .dark {
@@ -36,4 +40,8 @@ $dark-hover: #2a2a2a;
 
   --hover: rgba(255, 255, 255, 0.08);
   --selected: rgba(255, 255, 255, 0.14);
+
+  --error: #ff453a;
+  --success: #30d158;
+  --warning: #ffd60a;
 }

@@ -70,3 +70,13 @@
 .sidebar > :last-child {
   flex-shrink: 0; /* Footer doesn't shrink */
 }
+
+.sidebar__item--top {
+  margin-left: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}

@@ -62,6 +62,15 @@
   color: var(--text-strong);
 }
 
+.logout {
+  color: var(--error);
+
+  &:hover {
+    background: var(--hover);
+    color: var(--error);
+  }
+}
+
 .sectionDivider {
   height: 1px;
   background: var(--border);

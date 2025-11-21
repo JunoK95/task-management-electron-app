@@ -59,9 +59,6 @@ export default function CollapsibleSection({
           {children}
         </div>
       </div>
-
-      {/* Divider */}
-      <div className={styles.section__divider} />
     </div>
   );
 }
