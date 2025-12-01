@@ -14,7 +14,7 @@ if (typeof global.TextDecoder === 'undefined') {
 // Mock import.meta.env
 Object.defineProperty(process, 'env', {
   value: {
-    VITE_SUPABASE_URL: 'https://test.supabase.io',
-    VITE_SUPABASE_ANON_KEY: 'anon-key'
+    VITE_DEV_SUPABASE_URL: 'https://test.supabase.io',
+    VITE_DEV_SUPABASE_ANON_KEY: 'anon-key'
   }
 });

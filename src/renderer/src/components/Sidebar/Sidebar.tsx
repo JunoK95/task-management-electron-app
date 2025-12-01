@@ -4,6 +4,7 @@ import styles from './Sidebar.module.scss';
 import SidebarFooter from './SidebarFooter';
 import CollapsibleSection from './CollapsibleSection';
 import { PlusCircle } from 'lucide-react';
+import { Fragment } from 'react/jsx-runtime';
 
 type NavItem = {
   label: string;
@@ -51,43 +52,19 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
             )
           }
         >
-          {'Dashboard'}
-        </NavLink>
-        <NavLink
-          to={'/dashboard'}
-          className={({ isActive }) =>
-            clsx(
-              styles['sidebar__item'],
-              styles['sidebar__item--top'],
-              isActive && styles['sidebar__item--active']
-            )
-          }
-        >
-          {'Dashboard'}
-        </NavLink>
-        <NavLink
-          to={'/dashboard'}
-          className={({ isActive }) =>
-            clsx(
-              styles['sidebar__item'],
-              styles['sidebar__item--top'],
-              isActive && styles['sidebar__item--active']
-            )
-          }
-        >
-          {'Dashboard'}
+          Dashboard
         </NavLink>
         {groups.map((group, i) => (
-          <>
+          <Fragment key={group.title + i}>
             <CollapsibleSection
-              key={group.title}
+              key={group.title + i}
               title={group.title}
               onTitleClick={group.onTitleClick}
               onPlusClick={group.onPlusClick}
             >
               {group.items.map((item) => (
                 <NavLink
-                  key={item.to}
+                  key={`${group.title}-${item.to}`}
                   to={item.to}
                   className={({ isActive }) =>
                     clsx(styles['sidebar__item'], isActive && styles['sidebar__item--active'])
@@ -97,8 +74,10 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
                 </NavLink>
               ))}
             </CollapsibleSection>
-            {i < groups.length - 1 && <div className={styles.divider} />}
-          </>
+            {i < groups.length - 1 && (
+              <div key={group.title + i + 'divider'} className={styles.divider} />
+            )}
+          </Fragment>
         ))}
       </nav>
 

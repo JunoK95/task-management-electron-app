@@ -10,7 +10,7 @@ import { OAuthButton } from '../../components/OAuthButton/OauthButton';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function SignupPage() {
-  const { signIn, signInWithGoogle, signInWithApple } = useAuth();
+  const { signUp, signInWithGoogle, signInWithApple } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,7 +23,7 @@ export default function SignupPage() {
       setError('Passwords do not match');
       return;
     }
-    const { error } = await signIn(email, password);
+    const { error } = await signUp(email, password);
     if (error) setError(error);
   };
 
