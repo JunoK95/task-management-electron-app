@@ -3,15 +3,17 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import AppLayout from '../layouts/AppLayout/AppLayout';
 
-import LoginPage from '../pages/auth/LoginPage';
-import SignupPage from '../pages/auth/SignupPage';
+import LoginPage from '../pages/Auth/Login/LoginPage';
+import SignupPage from '../pages/Auth/Signup/SignupPage';
 
 import HomePage from '../pages/HomePage';
-import TasksPage from '../pages/TasksPage';
-import ProjectsPage from '../pages/ProjectsPage';
-import SettingsPage from '../pages/settings/SettingsPage';
+import TasksPage from '../pages/Tasks/TasksPage';
+import ProjectsPage from '../pages/Projects/ProjectsPage';
+import SettingsPage from '../pages/Settings/SettingsPage';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
+import NewTasksPage from '../pages/Tasks/New/NewTasksPage';
+import TaskDetailsPage from '../pages/Tasks/Details/TaskDetailsPage';
 
 export default function AppRouter(): JSX.Element {
   return (
@@ -32,8 +34,8 @@ export default function AppRouter(): JSX.Element {
             {/* Tasks */}
             <Route path="tasks">
               <Route index element={<TasksPage />} />
-              <Route path="new" element={<div>New Task Page</div>} />
-              <Route path=":id" element={<div>Task Detail Page</div>} />
+              <Route path="new" element={<NewTasksPage />} />
+              <Route path=":id" element={<TaskDetailsPage />} />
             </Route>
 
             {/* Projects */}

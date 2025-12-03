@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from '../../context/auth/AuthProvider';
-import LoginPage from './LoginPage';
+import { AuthProvider } from '../../../context/auth/AuthProvider';
+import LoginPage from '../LoginPage';
 import { act } from 'react';
 
 jest.mock('../../services/supabase/env', () => ({
