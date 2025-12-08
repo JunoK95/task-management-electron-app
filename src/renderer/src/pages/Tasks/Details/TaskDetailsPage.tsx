@@ -1,9 +1,11 @@
-import React from 'react';
-
 type Props = {};
 
 function TaskDetailsPage({}: Props) {
-  return <div>TaskDetailsPage</div>;
+  return (
+    <div>
+      <h1></h1>
+    </div>
+  );
 }
 
 export default TaskDetailsPage;

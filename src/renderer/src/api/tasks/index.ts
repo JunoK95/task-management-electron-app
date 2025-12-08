@@ -8,13 +8,16 @@ export type TaskFilters = {
 
 export type UpdateTaskInput = {
   id: string; // task id
+  owner_id?: string;
+  project_id?: string;
+  workspace_id?: string;
   title?: string;
   description?: string;
   priority?: 'low' | 'medium' | 'high' | 'urgent';
   status?: string;
-  start_at?: string | null;
-  due_at?: string | null;
-  remind_at?: string | null;
+  start_at?: Date | null;
+  due_at?: Date | null;
+  remind_at?: Date | null;
 };
 
 export async function getTasks(filters: TaskFilters) {
@@ -37,9 +40,9 @@ export async function createTask(payload: {
   project_id?: string;
   workspace_id?: string;
   priority?: string;
-  start_at?: Date;
-  due_at?: Date;
-  reminder_at?: Date;
+  start_at?: Date | null;
+  due_at?: Date | null;
+  remind_at?: Date | null;
 }) {
   const { data, error } = await supabase.from('tasks').insert([payload]).select().single();
   if (error) throw error;

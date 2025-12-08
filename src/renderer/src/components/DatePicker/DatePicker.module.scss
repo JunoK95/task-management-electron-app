@@ -1,0 +1,46 @@
+/* DatePicker.module.scss */
+
+.datePickerWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-color); /* Gray-700 */
+  margin-bottom: 0.25rem;
+}
+
+.input {
+  appearance: none;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem; /* Rounded md */
+  font-size: 0.875rem; /* Text-sm */
+  color: var(--text-color);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: var(--accent-color); /* Blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  outline: none;
+}
+
+:global(body.dark) {
+  // Target the input when body has 'dark' class
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(1);
+  }
+}
+
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  padding-left: 8px;
+  cursor: pointer;
+  filter: none; // default for light mode
+}

@@ -24,7 +24,9 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
+    "@hookform/resolvers": "^5.2.2",
     "@supabase/supabase-js": "^2.86.0",
+    "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-query": "^5.90.11",
     "clsx": "^2.1.1",
     "electron-updater": "^6.3.9",
@@ -32,7 +34,10 @@
     "lucide-react": "^0.554.0",
     "nanoid": "^5.1.6",
     "node-notifier": "^10.0.1",
-    "react-router-dom": "^7.9.6"
+    "react-hook-form": "^7.67.0",
+    "react-router-dom": "^7.9.6",
+    "tailwindcss": "^4.1.17",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.5",
