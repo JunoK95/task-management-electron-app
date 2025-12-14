@@ -88,6 +88,13 @@ export async function getTasksPaged(page: number, perPage: number) {
   };
 }
 
+export async function getTaskById(taskId: string) {
+  const { data, error } = await supabase.from('tasks').select('*').eq('id', taskId).single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function createTask(payload: {
   title: string;
   owner_id?: string;
