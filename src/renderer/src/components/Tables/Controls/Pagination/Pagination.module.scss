@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: 0.15s;
+  text-align: center;
+  vertical-align: middle;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background: var(--hover);
+  }
+}
+
+.info {
+  color: var(--text-color);
+  font-size: 14px;
+}

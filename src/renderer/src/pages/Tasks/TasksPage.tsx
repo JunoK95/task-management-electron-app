@@ -1,27 +1,43 @@
-import { Link } from 'react-router-dom';
 import { useTasks } from '../../queries/useTasks';
-import { useAuth } from '../../hooks/useAuth';
+import TaskTable from '../../components/Tables/TaskTable/TaskTable';
+import { useState } from 'react';
+import Pagination from '../../components/Tables/Controls/Pagination/Pagination';
+import TaskTableFilters from '../../components/Tables/Controls/TaskTableFilters/TaskTableFilters';
+import { TaskFilters } from '../../api/tasks';
 
-type Props = {};
+function TasksPage() {
+  const [page, setPage] = useState(1);
+  const [status, setStatus] = useState<TaskFilters['status']>('all');
+  const [priority, setPriority] = useState<TaskFilters['priority']>('all');
+  const perPage = 5; // Use a reasonable default
 
-function TasksPage({}: Props) {
-  const { session } = useAuth();
-  const { data } = useTasks({ ownerId: session?.user.id || '' });
-  console.log('Tasks', data);
+  const { data, isFetching } = useTasks(page, perPage);
+
+  const totalPages = data ? Math.ceil(data.total / perPage) : 1;
+
+  const handlePageChange = (nextPage: number) => {
+    if (nextPage < 1 || nextPage > totalPages || nextPage === page) return;
+    setPage(nextPage);
+  };
+
+  console.log('Page:', page, 'TotalPages:', totalPages);
+
   return (
     <div>
-      <p>List of your tasks grouped by projects</p>
-      <p>Search bar All Tasks with filters</p>
-      {data?.length === 0 && <p>No tasks found.</p>}
-      {data?.map((task) => (
-        <div key={task.id}>
-          <h3>{task.title}</h3>
-          <p>{task.description}</p>
-        </div>
-      ))}
-      {/* Links for testing navigation */}
-      <Link to="/tasks/new">Create New Task</Link>
-      <Link to="/tasks/1">Go to task</Link>
+      <TaskTable tasks={data?.data ?? []} isLoading={isFetching} />
+      <div>{page}</div>
+      <TaskTableFilters
+        status={status}
+        priority={priority}
+        onStatusChange={setStatus}
+        onPriorityChange={setPriority}
+      />
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        isLoading={isFetching}
+      />
     </div>
   );
 }

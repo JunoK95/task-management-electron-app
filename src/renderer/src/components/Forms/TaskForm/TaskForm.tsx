@@ -26,6 +26,8 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
   type TaskFormInput = z.input<typeof TaskFormSchema>; // before preprocess
   type TaskFormValues = z.infer<typeof TaskFormSchema>; // after preprocess
 
+  const isLoading = createTask.isPending || updateTask.isPending;
+
   const {
     register,
     handleSubmit,
@@ -35,6 +37,17 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     defaultValues: initialValues
   });
 
+  const successCallback = () => {
+    // Example: navigate back or show a toast
+    navigate(-1);
+    alert('Task saved successfully!');
+  };
+
+  const errorCallback = (error: unknown) => {
+    console.error('Failed to save task:', error);
+    alert('Failed to save task. Please try again.');
+  };
+
   const onSubmit = (data: TaskFormValues) => {
     const start_at = new Date(data.start_at || '');
     const due_at = data.due_at ? new Date(data.due_at) : null;
@@ -42,9 +55,21 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     const owner_id = ownerId || '';
 
     if (mode === 'create') {
-      createTask.mutate({ ...data, owner_id, start_at, due_at, remind_at });
+      createTask.mutate(
+        { ...data, owner_id, start_at, due_at, remind_at },
+        {
+          onSuccess: successCallback,
+          onError: errorCallback
+        }
+      );
     } else {
-      updateTask.mutate({ ...data, id: '', owner_id, start_at, due_at, remind_at });
+      updateTask.mutate(
+        { ...data, id: '', owner_id, start_at, due_at, remind_at },
+        {
+          onSuccess: successCallback,
+          onError: errorCallback
+        }
+      );
     }
   };
 
@@ -129,7 +154,15 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
             </Button>
           </div>
           <div>
-            <Button type="submit">{mode === 'create' ? 'Add task' : 'Update task'}</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading
+                ? mode === 'create'
+                  ? 'Adding...'
+                  : 'Updating...'
+                : mode === 'create'
+                  ? 'Add task'
+                  : 'Update task'}
+            </Button>
           </div>
         </div>
       </div>

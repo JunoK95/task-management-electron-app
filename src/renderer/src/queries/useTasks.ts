@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTasks, TaskFilters } from '../api/tasks';
+import { getTasksPaged } from '../api/tasks';
 
-export function useTasks(filters: TaskFilters) {
+export function useTasks(page: number, perPage: number) {
   return useQuery({
-    queryKey: ['tasks', filters], // cache is per-filter combo
-    queryFn: () => getTasks(filters),
-    enabled: Object.values(filters).some(Boolean) // only run if a filter is provided
+    queryKey: ['tasks', page, perPage],
+    queryFn: () => getTasksPaged(page, perPage),
+    staleTime: 5000,
+    retry: false, // Add this to prevent infinite retries on errors
+    refetchOnWindowFocus: false // optional, depending on your needs
   });
 }

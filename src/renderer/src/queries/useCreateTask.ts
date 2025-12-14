@@ -1,14 +1,11 @@
-// hooks/tasks/useCreateTask.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createTask, TaskFilters } from '../api/tasks';
 
 export function useCreateTask(filters: TaskFilters) {
   const qc = useQueryClient();
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: createTask,
-
-    // ⭐ Optimistic Update ⭐
     onMutate: async (newTask) => {
       const key = ['tasks', filters];
 
@@ -17,21 +14,21 @@ export function useCreateTask(filters: TaskFilters) {
       const previous = qc.getQueryData(key);
 
       qc.setQueryData(key, (old: any[] | undefined) => {
-        if (!old) return [newTask];
+        if (!old) return [{ ...newTask, id: 'optimistic-' + crypto.randomUUID() }];
         return [...old, { ...newTask, id: 'optimistic-' + crypto.randomUUID() }];
       });
 
       return { previous };
     },
-
     onError: (_err, _newTask, ctx) => {
       if (ctx?.previous) {
         qc.setQueryData(['tasks', filters], ctx.previous);
       }
     },
-
     onSettled: () => {
       qc.invalidateQueries({ queryKey: ['tasks', filters] });
     }
   });
+
+  return mutation; // returns the full mutation object, which includes isLoading
 }

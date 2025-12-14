@@ -13,7 +13,6 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         data: { session }
       } = await supabase.auth.getSession();
 
-      console.log('Initial session:', session);
       setSession(session);
       setLoading(false);
     };
