@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import styles from './Pagination.module.scss';
 
 type Props = {

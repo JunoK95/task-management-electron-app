@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronRight, Plus } from 'lucide-react';
 import clsx from 'clsx';
+import { ChevronRight, Plus } from 'lucide-react';
+import { useState, useRef, useEffect, JSX } from 'react';
+
 import styles from './CollapsibleSection.module.scss';
 
 type Props = {
@@ -17,7 +18,7 @@ export default function CollapsibleSection({
   defaultOpen = true,
   onTitleClick,
   onPlusClick
-}: Props) {
+}: Props): JSX.Element {
   const [open, setOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);

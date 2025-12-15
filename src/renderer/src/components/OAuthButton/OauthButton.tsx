@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import styles from './OAuthButton.module.scss';
 
 interface OAuthButtonProps {

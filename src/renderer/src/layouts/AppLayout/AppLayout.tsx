@@ -1,8 +1,10 @@
+import { JSX } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import styles from './AppLayout.module.scss';
 
-export default function AppLayout() {
+import styles from './AppLayout.module.scss';
+import Sidebar from '../../components/Sidebar/Sidebar';
+
+export default function AppLayout(): JSX.Element {
   const navigate = useNavigate();
   const groups = [
     {

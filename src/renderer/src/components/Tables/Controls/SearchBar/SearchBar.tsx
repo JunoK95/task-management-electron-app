@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
+
 import styles from './SearchBar.module.scss';
 
 type Props = {

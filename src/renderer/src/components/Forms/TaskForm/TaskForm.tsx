@@ -1,15 +1,16 @@
-import { useForm } from 'react-hook-form';
-import styles from './TaskForm.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+
+import styles from './TaskForm.module.scss';
 import { TaskFormSchema, TaskFormValues } from './taskSchema';
 import { useCreateTask } from '../../../queries/useCreateTask';
 import { useUpdateTask } from '../../../queries/useUpdateTask';
-import Select from '../../Select/Select';
-import DatePicker from '../../DatePicker/DatePicker';
 import { Button } from '../../Button/Button';
-import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
+import DatePicker from '../../DatePicker/DatePicker';
+import Select from '../../Select/Select';
 
 type Props = {
   mode: 'create' | 'update';
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) {
+  const { id } = useParams();
   const createTask = useCreateTask(filters.projectId);
   const updateTask = useUpdateTask(filters);
   const navigate = useNavigate();
@@ -53,6 +55,9 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     const due_at = data.due_at ? new Date(data.due_at) : null;
     const remind_at = data.remind_at ? new Date(data.remind_at) : null;
     const owner_id = ownerId || '';
+    const taskId = id || '';
+
+    console.log('Submitting form with data:', { data, owner_id, start_at, due_at, remind_at });
 
     if (mode === 'create') {
       createTask.mutate(
@@ -63,8 +68,16 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
         }
       );
     } else {
+      console.log('Updating task with data:', {
+        ...data,
+        id: taskId,
+        owner_id,
+        start_at,
+        due_at,
+        remind_at
+      });
       updateTask.mutate(
-        { ...data, id: '', owner_id, start_at, due_at, remind_at },
+        { ...data, id: taskId, owner_id, start_at, due_at, remind_at },
         {
           onSuccess: successCallback,
           onError: errorCallback

@@ -1,4 +1,3 @@
-import React, { useMemo, useState } from 'react';
 import {
   createColumnHelper,
   flexRender,
@@ -7,6 +6,8 @@ import {
   useReactTable,
   SortingState
 } from '@tanstack/react-table';
+import React, { useMemo, useState } from 'react';
+
 import styles from './TaskTable.module.scss';
 import { Task } from '../../../api/tasks/index';
 

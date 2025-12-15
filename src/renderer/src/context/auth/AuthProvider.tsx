@@ -1,5 +1,6 @@
 import { Session } from '@supabase/supabase-js';
 import { JSX, ReactNode, useEffect, useState } from 'react';
+
 import { AuthContext } from './AuthContext';
 import { supabase } from '../../services/supabase/client';
 

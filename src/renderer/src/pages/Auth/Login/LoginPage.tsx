@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './LoginPage.module.scss';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../../hooks/useAuth';
 import AuthCard from '../../../components/AuthCard/AuthCard';
-import Input from '../../../components/Input/Input';
 import { Button } from '../../../components/Button/Button';
-import Separator from '../../../components/Separator/Separator';
+import Input from '../../../components/Input/Input';
 import { OAuthButton } from '../../../components/OAuthButton/OauthButton';
+import Separator from '../../../components/Separator/Separator';
+import { useAuth } from '../../../hooks/useAuth';
 
 export default function LoginPage() {
   const { signIn, signInWithGoogle, signInWithApple } = useAuth();

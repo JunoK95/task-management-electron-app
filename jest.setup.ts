@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { TextEncoder, TextDecoder } from 'util';
 
 // @ts-ignore

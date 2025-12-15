@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './DatePicker.module.scss';
 
 interface DatePickerProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -20,5 +21,8 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
     );
   }
 );
+
+// ✅ THIS LINE FIXES THE ESLINT ERROR
+DatePicker.displayName = 'DatePicker';
 
 export default DatePicker;

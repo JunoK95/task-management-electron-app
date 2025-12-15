@@ -1,5 +1,6 @@
 // src/renderer/src/components/AuthCard/AuthCard.test.tsx
 import { render, screen } from '@testing-library/react';
+
 import AuthCard from './AuthCard';
 
 describe('AuthCard', () => {

@@ -1,9 +1,10 @@
-import styles from './SettingsSidebar.module.scss';
-import { SettingsSection } from '../types';
-import { useAuth } from '../../../hooks/useAuth';
-import { useModal } from '../../../hooks/useModal';
 import clsx from 'clsx';
 import { LogOut } from 'lucide-react';
+
+import styles from './SettingsSidebar.module.scss';
+import { useAuth } from '../../../hooks/useAuth';
+import { useModal } from '../../../hooks/useModal';
+import { SettingsSection } from '../types';
 
 interface Props {
   active: SettingsSection;
@@ -36,12 +37,8 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
   ];
 
   const handleLogout = async () => {
-    try {
-      await signOut();
-      closeSettings();
-    } catch (error) {
-      throw error;
-    }
+    await signOut();
+    closeSettings();
   };
 
   return (

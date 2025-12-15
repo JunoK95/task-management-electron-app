@@ -1,5 +1,5 @@
-import { useState, JSX } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState, JSX } from 'react';
 import './Menu.css';
 
 interface MenuItem {

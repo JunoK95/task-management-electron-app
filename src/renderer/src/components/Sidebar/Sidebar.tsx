@@ -1,10 +1,12 @@
-import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
+import { PlusCircle } from 'lucide-react';
+import { JSX } from 'react';
+import { Fragment } from 'react/jsx-runtime';
+import { NavLink } from 'react-router-dom';
+
+import CollapsibleSection from './CollapsibleSection';
 import styles from './Sidebar.module.scss';
 import SidebarFooter from './SidebarFooter';
-import CollapsibleSection from './CollapsibleSection';
-import { PlusCircle } from 'lucide-react';
-import { Fragment } from 'react/jsx-runtime';
 
 type NavItem = {
   label: string;
@@ -24,7 +26,7 @@ type Props = {
   showUserMenu?: boolean;
 };
 
-export default function Sidebar({ title, groups = [], showUserMenu = true }: Props) {
+export default function Sidebar({ title, groups = [], showUserMenu = true }: Props): JSX.Element {
   return (
     <aside className={styles.sidebar}>
       {title && <div className={styles['sidebar__logo']}>{title}</div>}

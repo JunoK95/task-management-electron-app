@@ -1,14 +1,15 @@
-import { useTasks } from '../../queries/useTasks';
-import TaskTable from '../../components/Tables/TaskTable/TaskTable';
-import { useMemo, useState } from 'react';
-import Pagination from '../../components/Tables/Controls/Pagination/Pagination';
-import TaskTableFilters from '../../components/Tables/Controls/TaskTableFilters/TaskTableFilters';
-import { TaskFilters } from '../../api/tasks';
-import SearchBar from '../../components/Tables/Controls/SearchBar/SearchBar';
 import { useQueryClient } from '@tanstack/react-query';
+import { JSX, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function TasksPage() {
+import { TaskFilters } from '@/api/tasks';
+import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
+import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
+import TaskTableFilters from '@/components/Tables/Controls/TaskTableFilters/TaskTableFilters';
+import TaskTable from '@/components/Tables/TaskTable/TaskTable';
+import { useTasks } from '@/queries/useTasks';
+
+function TasksPage(): JSX.Element {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<TaskFilters['status']>('all');
@@ -27,12 +28,12 @@ function TasksPage() {
 
   const totalPages = data ? Math.ceil(data.total / perPage) : 1;
 
-  const handlePageChange = (nextPage: number) => {
+  const handlePageChange = (nextPage: number): void => {
     if (nextPage < 1 || nextPage > totalPages || nextPage === page) return;
     setPage(nextPage);
   };
 
-  const handleRowClick = (id: string) => {
+  const handleRowClick = (id: string): void => {
     const task = data?.data.find((t) => t.id === id);
     if (!task) return;
 

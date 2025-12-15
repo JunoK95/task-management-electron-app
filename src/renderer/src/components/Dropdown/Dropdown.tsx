@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+
 import styles from './Dropdown.module.scss';
 
 interface DropdownProps {

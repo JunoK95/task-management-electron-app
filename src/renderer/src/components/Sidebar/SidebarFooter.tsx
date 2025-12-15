@@ -1,8 +1,11 @@
+import { SettingsIcon } from 'lucide-react';
+import { JSX } from 'react';
+
+import styles from './SidebarFooter.module.scss';
 import { useAuth } from '../../hooks/useAuth';
 import { useModal } from '../../hooks/useModal';
-import styles from './SidebarFooter.module.scss';
 
-export default function SidebarFooter() {
+export default function SidebarFooter(): JSX.Element | null {
   const { session } = useAuth();
   const { openSettings } = useModal();
   const user = session?.user;
@@ -32,7 +35,7 @@ export default function SidebarFooter() {
 
       {/* Right: Settings Icon */}
       <button className={styles.settingsButton} onClick={() => openSettings()} title="Settings">
-        ⚙️
+        <SettingsIcon size={20} />
       </button>
     </div>
   );

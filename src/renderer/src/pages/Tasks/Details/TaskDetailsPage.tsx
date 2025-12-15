@@ -1,18 +1,19 @@
 import { useParams } from 'react-router-dom';
+
+import { TaskForm } from '../../../components/Forms/TaskForm/TaskForm';
+import { useAuth } from '../../../hooks/useAuth';
 import { useTaskDetails } from '../../../queries/useTaskDetails';
 
-type Props = {};
+function TaskDetailsPage({}) {
+  const { session } = useAuth();
 
-function TaskDetailsPage({}: Props) {
   const { id } = useParams<{ id: string }>();
   const { data } = useTaskDetails(id);
 
-  console.log('Task Details:', data);
+  console.log('Task Details:', id, data);
   return (
     <div>
-      <h1>
-        {data.title} - {data?.status}
-      </h1>
+      <TaskForm ownerId={session?.user.id} mode="update" initialValues={data} filters={[]} />
     </div>
   );
 }

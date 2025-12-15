@@ -1,19 +1,17 @@
 import { JSX } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
 import AppLayout from '../layouts/AppLayout/AppLayout';
-
 import LoginPage from '../pages/Auth/Login/LoginPage';
 import SignupPage from '../pages/Auth/Signup/SignupPage';
-
 import HomePage from '../pages/HomePage';
-import TasksPage from '../pages/Tasks/TasksPage';
 import ProjectsPage from '../pages/Projects/ProjectsPage';
 import SettingsPage from '../pages/Settings/SettingsPage';
-import { PublicRoute } from './PublicRoute';
-import { PrivateRoute } from './PrivateRoute';
-import NewTasksPage from '../pages/Tasks/New/NewTasksPage';
 import TaskDetailsPage from '../pages/Tasks/Details/TaskDetailsPage';
+import NewTasksPage from '../pages/Tasks/New/NewTasksPage';
+import TasksPage from '../pages/Tasks/TasksPage';
 
 export default function AppRouter(): JSX.Element {
   return (

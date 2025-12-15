@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+
 import { ModalContext } from './ModalContext';
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {

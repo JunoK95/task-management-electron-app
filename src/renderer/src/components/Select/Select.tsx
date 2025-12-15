@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './Select.module.scss';
 
 interface Option {
@@ -40,5 +41,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     );
   }
 );
+
+Select.displayName = 'Select';
 
 export default Select;

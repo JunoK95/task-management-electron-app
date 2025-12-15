@@ -1,5 +1,6 @@
 // auth.js
 import { Session, User, WeakPassword } from '@supabase/supabase-js';
+
 import { supabase } from '../supabase/client';
 
 // Sign Up

@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import styles from './SettingsModal.module.scss';
-import { SettingsSection } from '../types';
-import SettingsSidebar from '../SettingsSidebar/SettingsSidebar';
 
-import AppearanceSection from '../sections/AppearanceSection';
+import styles from './SettingsModal.module.scss';
+import { useModal } from '../../../hooks/useModal';
 import AccountSection from '../sections/AccountSection';
+import AdvancedSection from '../sections/AdvancedSection';
+import AppearanceSection from '../sections/AppearanceSection';
 import NotificationsSection from '../sections/NotificationsSection';
 import ShortcutsSection from '../sections/ShortcutsSection';
-import AdvancedSection from '../sections/AdvancedSection';
-import { useModal } from '../../../hooks/useModal';
+import SettingsSidebar from '../SettingsSidebar/SettingsSidebar';
+import { SettingsSection } from '../types';
 
 export default function SettingsModal() {
   const { closeSettings } = useModal();

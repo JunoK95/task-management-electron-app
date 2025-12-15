@@ -1,9 +1,7 @@
-import { useAuth } from '../../../hooks/useAuth';
 import { TaskForm } from '../../../components/Forms/TaskForm/TaskForm';
+import { useAuth } from '../../../hooks/useAuth';
 
-type Props = {};
-
-function NewTasksPage({}: Props) {
+function NewTasksPage({}) {
   const { session } = useAuth();
 
   return (
