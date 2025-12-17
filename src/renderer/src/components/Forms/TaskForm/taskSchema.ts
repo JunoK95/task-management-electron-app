@@ -10,9 +10,9 @@ export const TaskFormSchema = z.object({
   start_at: z.string().nullable().optional(),
   due_at: z.string().nullable().optional(),
   remind_at: z.string().nullable().optional(),
-  owner_id: z.string().optional(),
-  project_id: z.string().optional(),
-  workspace_id: z.string().optional()
+  owner_id: z.string().nullable().optional(),
+  project_id: z.string().nullable().optional(),
+  workspace_id: z.string().nullable().optional()
 });
 
 export type TaskFormValues = z.infer<typeof TaskFormSchema>;

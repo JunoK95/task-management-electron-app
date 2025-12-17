@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -39,6 +40,10 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     defaultValues: initialValues
   });
 
+  useEffect(() => {
+    console.log('errors', errors);
+  }, [errors]);
+
   const successCallback = () => {
     // Example: navigate back or show a toast
     navigate(-1);
@@ -56,12 +61,14 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     const remind_at = data.remind_at ? new Date(data.remind_at) : null;
     const owner_id = ownerId || '';
     const taskId = id || '';
+    const project_id = data.project_id ?? undefined;
+    const workspace_id = data.workspace_id ?? undefined;
 
     console.log('Submitting form with data:', { data, owner_id, start_at, due_at, remind_at });
 
     if (mode === 'create') {
       createTask.mutate(
-        { ...data, owner_id, start_at, due_at, remind_at },
+        { ...data, owner_id, start_at, due_at, remind_at, project_id, workspace_id },
         {
           onSuccess: successCallback,
           onError: errorCallback
@@ -77,7 +84,7 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
         remind_at
       });
       updateTask.mutate(
-        { ...data, id: taskId, owner_id, start_at, due_at, remind_at },
+        { ...data, id: taskId, owner_id, start_at, due_at, remind_at, project_id, workspace_id },
         {
           onSuccess: successCallback,
           onError: errorCallback

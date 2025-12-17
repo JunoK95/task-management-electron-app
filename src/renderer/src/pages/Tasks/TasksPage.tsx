@@ -9,12 +9,14 @@ import TaskTableFilters from '@/components/Tables/Controls/TaskTableFilters/Task
 import TaskTable from '@/components/Tables/TaskTable/TaskTable';
 import { useTasks } from '@/queries/useTasks';
 
+import styles from './TasksPage.module.scss';
+
 function TasksPage(): JSX.Element {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<TaskFilters['status']>('all');
   const [priority, setPriority] = useState<TaskFilters['priority']>('all');
-  const perPage = 5;
+  const perPage = 10;
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -44,7 +46,8 @@ function TasksPage(): JSX.Element {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
+      <h2>My Tasks</h2>
       <SearchBar value={search} onChange={setSearch} />
       <TaskTableFilters
         status={status}

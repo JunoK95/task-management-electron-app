@@ -6,6 +6,8 @@ import {
   useReactTable,
   SortingState
 } from '@tanstack/react-table';
+import { formatDistanceToNow } from 'date-fns';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
 import styles from './TaskTable.module.scss';
@@ -54,7 +56,7 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
         header: 'Due',
         cell: (info) => {
           const v = info.getValue();
-          return v ? new Date(v).toLocaleString() : '-';
+          return v ? formatDistanceToNow(new Date(v), { addSuffix: true }) : '-';
         },
         enableSorting: true
       })
@@ -87,7 +89,13 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
                   onClick={() => canSort && header.column.toggleSorting()}
                 >
                   {flexRender(header.column.columnDef.header, header.getContext())}
-                  {sortState ? (sortState === 'asc' ? ' 🔼' : ' 🔽') : null}
+                  {sortState ? (
+                    sortState === 'asc' ? (
+                      <ChevronUp size={12} style={{ marginLeft: '8px' }} />
+                    ) : (
+                      <ChevronDown size={12} style={{ marginLeft: '8px' }} />
+                    )
+                  ) : null}
                 </th>
               );
             })}
