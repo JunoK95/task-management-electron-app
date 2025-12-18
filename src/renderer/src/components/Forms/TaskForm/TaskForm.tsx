@@ -5,6 +5,9 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useMyProfile } from '@/queries/useMyProfile';
+import { useWorkspaces } from '@/queries/useWorkspaces';
+
 import styles from './TaskForm.module.scss';
 import { TaskFormSchema, TaskFormValues } from './taskSchema';
 import { useCreateTask } from '../../../queries/useCreateTask';
@@ -22,9 +25,13 @@ type Props = {
 
 export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) {
   const { id } = useParams();
+  const { data: workspaces } = useWorkspaces();
+  const { data: profile } = useMyProfile();
   const createTask = useCreateTask(filters.projectId);
   const updateTask = useUpdateTask(filters);
   const navigate = useNavigate();
+
+  const defaultWorkspaceId = workspaces && workspaces.length > 0 ? workspaces[0].id : undefined;
 
   type TaskFormInput = z.input<typeof TaskFormSchema>; // before preprocess
   type TaskFormValues = z.infer<typeof TaskFormSchema>; // after preprocess
@@ -44,6 +51,8 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     console.log('errors', errors);
   }, [errors]);
 
+  console.log('My Profile:', profile);
+
   const successCallback = () => {
     // Example: navigate back or show a toast
     navigate(-1);
@@ -62,7 +71,7 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     const owner_id = ownerId || '';
     const taskId = id || '';
     const project_id = data.project_id ?? undefined;
-    const workspace_id = data.workspace_id ?? undefined;
+    const workspace_id = defaultWorkspaceId ?? undefined;
 
     console.log('Submitting form with data:', { data, owner_id, start_at, due_at, remind_at });
 

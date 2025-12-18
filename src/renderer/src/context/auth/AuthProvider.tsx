@@ -1,10 +1,12 @@
 import { Session } from '@supabase/supabase-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { JSX, ReactNode, useEffect, useState } from 'react';
 
 import { AuthContext } from './AuthContext';
 import { supabase } from '../../services/supabase/client';
 
 export function AuthProvider({ children }: { children: ReactNode }): JSX.Element {
+  const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -71,6 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    queryClient.clear();
     setSession(null);
   };
 

@@ -1,11 +1,15 @@
 import { JSX } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
+import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
+
 import styles from './AppLayout.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 
 export default function AppLayout(): JSX.Element {
   const navigate = useNavigate();
+  const { data: workspace } = useCurrentWorkspace();
+
   const groups = [
     {
       title: 'Tasks',
@@ -33,7 +37,7 @@ export default function AppLayout(): JSX.Element {
       ]
     }
   ];
-  const title = 'My Workspace';
+  const title = workspace?.name || 'My Workspace';
 
   return (
     <div className={styles.layout}>
