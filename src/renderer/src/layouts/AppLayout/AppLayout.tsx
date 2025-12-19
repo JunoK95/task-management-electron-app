@@ -2,7 +2,7 @@ import { JSX } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
-import { ROUTES } from '@/routes/Routes';
+import { ROUTES } from '@/routes/routes';
 
 import styles from './AppLayout.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
