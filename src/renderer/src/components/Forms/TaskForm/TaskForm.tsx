@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { useMyProfile } from '@/queries/useMyProfile';
-import { useWorkspaces } from '@/queries/useWorkspaces';
 
 import styles from './TaskForm.module.scss';
 import { TaskFormSchema, TaskFormValues } from './taskSchema';
@@ -24,14 +23,11 @@ type Props = {
 };
 
 export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) {
-  const { id } = useParams();
-  const { data: workspaces } = useWorkspaces();
+  const { workspaceId = '', taskId = '' } = useParams();
   const { data: profile } = useMyProfile();
   const createTask = useCreateTask(filters.projectId);
   const updateTask = useUpdateTask(filters);
   const navigate = useNavigate();
-
-  const defaultWorkspaceId = workspaces && workspaces.length > 0 ? workspaces[0].id : undefined;
 
   type TaskFormInput = z.input<typeof TaskFormSchema>; // before preprocess
   type TaskFormValues = z.infer<typeof TaskFormSchema>; // after preprocess
@@ -69,15 +65,13 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     const due_at = data.due_at ? new Date(data.due_at) : null;
     const remind_at = data.remind_at ? new Date(data.remind_at) : null;
     const owner_id = ownerId || '';
-    const taskId = id || '';
     const project_id = data.project_id ?? undefined;
-    const workspace_id = defaultWorkspaceId ?? undefined;
 
     console.log('Submitting form with data:', { data, owner_id, start_at, due_at, remind_at });
 
     if (mode === 'create') {
       createTask.mutate(
-        { ...data, owner_id, start_at, due_at, remind_at, project_id, workspace_id },
+        { ...data, owner_id, start_at, due_at, remind_at, project_id, workspace_id: workspaceId },
         {
           onSuccess: successCallback,
           onError: errorCallback
@@ -93,7 +87,16 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
         remind_at
       });
       updateTask.mutate(
-        { ...data, id: taskId, owner_id, start_at, due_at, remind_at, project_id, workspace_id },
+        {
+          ...data,
+          id: taskId,
+          owner_id,
+          start_at,
+          due_at,
+          remind_at,
+          project_id,
+          workspace_id: workspaceId
+        },
         {
           onSuccess: successCallback,
           onError: errorCallback

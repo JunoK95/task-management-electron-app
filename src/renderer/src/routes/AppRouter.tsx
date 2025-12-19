@@ -39,14 +39,14 @@ export default function AppRouter(): JSX.Element {
               <Route path="tasks">
                 <Route index element={<TasksPage />} />
                 <Route path="new" element={<NewTasksPage />} />
-                <Route path=":id" element={<TaskDetailsPage />} />
+                <Route path=":taskId" element={<TaskDetailsPage />} />
               </Route>
 
               {/* Projects */}
               <Route path="projects">
                 <Route index element={<ProjectsPage />} />
                 <Route path="new" element={<NewProjectsPage />} />
-                <Route path=":id" element={<div>Project Detail Page</div>} />
+                <Route path=":projectId" element={<div>Project Detail Page</div>} />
               </Route>
 
               {/* Settings */}

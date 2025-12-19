@@ -7,10 +7,10 @@ import { useTaskDetails } from '../../../queries/useTaskDetails';
 function TaskDetailsPage({}) {
   const { session } = useAuth();
 
-  const { id } = useParams<{ id: string }>();
-  const { data } = useTaskDetails(id);
+  const { taskId } = useParams<{ taskId: string }>();
+  const { data } = useTaskDetails(taskId);
 
-  console.log('Task Details:', id, data);
+  console.log('Task Details:', taskId, data);
   return (
     <div>
       <TaskForm ownerId={session?.user.id} mode="update" initialValues={data} filters={[]} />

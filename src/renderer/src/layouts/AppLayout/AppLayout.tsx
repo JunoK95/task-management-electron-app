@@ -2,6 +2,7 @@ import { JSX } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
+import { ROUTES } from '@/routes/Routes';
 
 import styles from './AppLayout.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -9,12 +10,13 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 export default function AppLayout(): JSX.Element {
   const navigate = useNavigate();
   const { data: workspace } = useCurrentWorkspace();
+  const workspaceId = workspace?.id;
 
   const groups = [
     {
       title: 'Tasks',
-      onTitleClick: () => navigate('/tasks'),
-      onPlusClick: () => navigate('/tasks/new'),
+      onTitleClick: () => navigate(ROUTES.WORKSPACES.TASKS.ROOT(workspaceId!)),
+      onPlusClick: () => navigate(ROUTES.WORKSPACES.TASKS.NEW(workspaceId!)),
       items: [
         { label: 'Overview', to: '/overview' },
         { label: 'Board', to: '/board' }
@@ -22,8 +24,8 @@ export default function AppLayout(): JSX.Element {
     },
     {
       title: 'Projects',
-      onTitleClick: () => navigate('/projects'),
-      onPlusClick: () => navigate('/projects/new'),
+      onTitleClick: () => navigate(ROUTES.WORKSPACES.PROJECTS.ROOT(workspaceId!)),
+      onPlusClick: () => navigate(ROUTES.WORKSPACES.PROJECTS.NEW(workspaceId!)),
       items: [
         { label: 'Overview', to: '/overview' },
         { label: 'Board', to: '/board' }

@@ -34,6 +34,11 @@ export type Task = {
   start_at?: Date | null;
   due_at?: Date | null;
   remind_at?: Date | null;
+  workspace_id?: string;
+  project_id?: string;
+  owner_id?: string;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; total: number }> {

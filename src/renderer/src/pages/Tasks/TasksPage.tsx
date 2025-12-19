@@ -8,6 +8,7 @@ import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import TaskTableFilters from '@/components/Tables/Controls/TaskTableFilters/TaskTableFilters';
 import TaskTable from '@/components/Tables/TaskTable/TaskTable';
 import { useTasks } from '@/queries/useTasks';
+import { ROUTES } from '@/routes/Routes';
 
 import styles from './TasksPage.module.scss';
 
@@ -42,7 +43,7 @@ function TasksPage(): JSX.Element {
     // ✅ seed detail cache
     queryClient.setQueryData(['task', id], task);
 
-    navigate(`/tasks/${id}`);
+    navigate(ROUTES.WORKSPACES.TASKS.DETAILS(task.workspace_id, task.id));
   };
 
   return (
