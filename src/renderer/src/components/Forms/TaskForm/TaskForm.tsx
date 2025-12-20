@@ -5,8 +5,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { useMyProfile } from '@/queries/useMyProfile';
-
 import styles from './TaskForm.module.scss';
 import { TaskFormSchema, TaskFormValues } from './taskSchema';
 import { useCreateTask } from '../../../queries/useCreateTask';
@@ -24,7 +22,6 @@ type Props = {
 
 export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) {
   const { workspaceId = '', taskId = '' } = useParams();
-  const { data: profile } = useMyProfile();
   const createTask = useCreateTask(filters.projectId);
   const updateTask = useUpdateTask(filters);
   const navigate = useNavigate();
@@ -46,8 +43,6 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
   useEffect(() => {
     console.log('errors', errors);
   }, [errors]);
-
-  console.log('My Profile:', profile);
 
   const successCallback = () => {
     // Example: navigate back or show a toast

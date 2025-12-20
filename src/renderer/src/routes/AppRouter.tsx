@@ -6,6 +6,7 @@ import { WorkspaceLayout } from '@/layouts/WorkspaceLayout/WorkspaceLayout';
 import LoginPage from '@/pages/Auth/Login/LoginPage';
 import SignupPage from '@/pages/Auth/Signup/SignupPage';
 import AuthGate from '@/pages/AuthGate';
+import ProjectDetailsPage from '@/pages/Projects/Details/ProjectDetailsPage';
 import NewProjectsPage from '@/pages/Projects/New/NewProjectsPage';
 import ProjectsPage from '@/pages/Projects/ProjectsPage';
 import SettingsPage from '@/pages/Settings/SettingsPage';
@@ -46,7 +47,7 @@ export default function AppRouter(): JSX.Element {
               <Route path="projects">
                 <Route index element={<ProjectsPage />} />
                 <Route path="new" element={<NewProjectsPage />} />
-                <Route path=":projectId" element={<div>Project Detail Page</div>} />
+                <Route path=":projectId" element={<ProjectDetailsPage />} />
               </Route>
 
               {/* Settings */}
