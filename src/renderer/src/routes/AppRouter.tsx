@@ -13,6 +13,7 @@ import SettingsPage from '@/pages/Settings/SettingsPage';
 import TaskDetailsPage from '@/pages/Tasks/Details/TaskDetailsPage';
 import NewTasksPage from '@/pages/Tasks/New/NewTasksPage';
 import TasksPage from '@/pages/Tasks/TasksPage';
+import NewWorkplacePage from '@/pages/Workspace/New/NewWorkplacePage';
 import WorkspacePage from '@/pages/Workspace/WorkspacePage';
 
 import { PrivateRoute } from './PrivateRoute';
@@ -34,24 +35,27 @@ export default function AppRouter(): JSX.Element {
             {/* Root → redirect */}
             <Route index element={<AuthGate />} />
             {/* Workspace scope */}
-            <Route path="workspaces/:workspaceId" element={<WorkspaceLayout />}>
-              <Route path="dashboard" element={<WorkspacePage />} />
-              {/* Tasks */}
-              <Route path="tasks">
-                <Route index element={<TasksPage />} />
-                <Route path="new" element={<NewTasksPage />} />
-                <Route path=":taskId" element={<TaskDetailsPage />} />
-              </Route>
+            <Route path="workspaces">
+              <Route path="new" element={<NewWorkplacePage />} />
+              <Route path=":workspaceId" element={<WorkspaceLayout />}>
+                <Route path="dashboard" element={<WorkspacePage />} />
+                {/* Tasks */}
+                <Route path="tasks">
+                  <Route index element={<TasksPage />} />
+                  <Route path="new" element={<NewTasksPage />} />
+                  <Route path=":taskId" element={<TaskDetailsPage />} />
+                </Route>
 
-              {/* Projects */}
-              <Route path="projects">
-                <Route index element={<ProjectsPage />} />
-                <Route path="new" element={<NewProjectsPage />} />
-                <Route path=":projectId" element={<ProjectDetailsPage />} />
-              </Route>
+                {/* Projects */}
+                <Route path="projects">
+                  <Route index element={<ProjectsPage />} />
+                  <Route path="new" element={<NewProjectsPage />} />
+                  <Route path=":projectId" element={<ProjectDetailsPage />} />
+                </Route>
 
-              {/* Settings */}
-              <Route path="settings" element={<SettingsPage />} />
+                {/* Settings */}
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
             </Route>
           </Route>
         </Route>

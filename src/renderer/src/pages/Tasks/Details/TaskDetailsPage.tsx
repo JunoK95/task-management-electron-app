@@ -1,19 +1,28 @@
 import { useParams } from 'react-router-dom';
 
+import { useMyProfile } from '@/queries/useMyProfile';
+import { useProjects } from '@/queries/useProjects';
+import { useWorkspaces } from '@/queries/useWorkspaces';
+
 import { TaskForm } from '../../../components/Forms/TaskForm/TaskForm';
-import { useAuth } from '../../../hooks/useAuth';
 import { useTaskDetails } from '../../../queries/useTaskDetails';
 
 function TaskDetailsPage({}) {
-  const { session } = useAuth();
-
-  const { taskId } = useParams<{ taskId: string }>();
+  const { workspaceId, taskId } = useParams<{ workspaceId: string; taskId: string }>();
+  const { data: workspaces } = useWorkspaces();
+  const { data: projects } = useProjects(workspaceId!);
   const { data } = useTaskDetails(taskId);
+  const { data: user } = useMyProfile();
 
-  console.log('Task Details:', taskId, data);
   return (
     <div>
-      <TaskForm ownerId={session?.user.id} mode="update" initialValues={data} filters={[]} />
+      <TaskForm
+        mode="update"
+        initialValues={data}
+        workspaces={workspaces}
+        ownerId={user?.id}
+        projects={projects}
+      />
     </div>
   );
 }

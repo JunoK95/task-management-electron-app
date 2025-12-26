@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import styles from './TaskForm.module.scss';
@@ -16,14 +16,23 @@ import Select from '../../Select/Select';
 type Props = {
   mode: 'create' | 'update';
   initialValues?: Partial<TaskFormValues>;
-  filters: any; // projectId | workspaceId | ownerId
   ownerId?: string;
+  taskId?: string;
+  workspaceId?: string;
+  workspaces?: any[];
+  projects?: any[];
 };
 
-export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) {
-  const { workspaceId = '', taskId = '' } = useParams();
-  const createTask = useCreateTask(filters.projectId);
-  const updateTask = useUpdateTask(filters);
+export function TaskForm({
+  mode,
+  initialValues = {},
+  ownerId,
+  workspaceId,
+  workspaces = [],
+  projects = []
+}: Props) {
+  const createTask = useCreateTask({});
+  const updateTask = useUpdateTask({});
   const navigate = useNavigate();
 
   type TaskFormInput = z.input<typeof TaskFormSchema>; // before preprocess
@@ -56,41 +65,48 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
   };
 
   const onSubmit = (data: TaskFormValues) => {
-    const start_at = new Date(data.start_at || '');
+    const start_at = data.start_at ? new Date(data.start_at) : null;
     const due_at = data.due_at ? new Date(data.due_at) : null;
     const remind_at = data.remind_at ? new Date(data.remind_at) : null;
-    const owner_id = ownerId || '';
-    const project_id = data.project_id ?? undefined;
+    const project_id = data.project_id || '';
 
-    console.log('Submitting form with data:', { data, owner_id, start_at, due_at, remind_at });
+    console.log('submitting', {
+      ...data,
+      owner_id: ownerId,
+      workspace_id: workspaceId,
+      project_id,
+      start_at,
+      due_at,
+      remind_at
+    });
 
     if (mode === 'create') {
       createTask.mutate(
-        { ...data, owner_id, start_at, due_at, remind_at, project_id, workspace_id: workspaceId },
+        {
+          ...data,
+          owner_id: ownerId,
+          workspace_id: workspaceId,
+          project_id,
+          start_at,
+          due_at,
+          remind_at
+        },
         {
           onSuccess: successCallback,
           onError: errorCallback
         }
       );
     } else {
-      console.log('Updating task with data:', {
-        ...data,
-        id: taskId,
-        owner_id,
-        start_at,
-        due_at,
-        remind_at
-      });
       updateTask.mutate(
         {
           ...data,
-          id: taskId,
-          owner_id,
+          id: initialValues.id!,
+          owner_id: ownerId,
+          project_id,
+          workspace_id: workspaceId,
           start_at,
           due_at,
-          remind_at,
-          project_id,
-          workspace_id: workspaceId
+          remind_at
         },
         {
           onSuccess: successCallback,
@@ -117,6 +133,16 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
     { value: 'completed', label: 'Completed' }
   ];
 
+  const workspaceOptions = workspaces.map((workspace: any) => ({
+    value: workspace.id,
+    label: workspace.name
+  }));
+
+  const projectOptions = projects.map((project: any) => ({
+    value: project.id,
+    label: project.name
+  }));
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Title */}
@@ -131,6 +157,27 @@ export function TaskForm({ mode, initialValues = {}, filters, ownerId }: Props) 
       {/* Description */}
       <div className={styles['input-wrapper']}>
         <textarea placeholder="Description" {...register('description')} />
+      </div>
+      <div className={styles['select-row']}>
+        {/* Workspace */}
+        <div className={styles['select-wrapper']}>
+          <Select
+            id="workspace_id"
+            label="Workspace"
+            options={workspaceOptions}
+            {...register('workspace_id')}
+          />
+        </div>
+
+        {/* Project */}
+        <div className={styles['select-wrapper']}>
+          <Select
+            id="project_id"
+            label="Project"
+            options={projectOptions}
+            {...register('project_id')}
+          />
+        </div>
       </div>
 
       <div className={styles['select-row']}>

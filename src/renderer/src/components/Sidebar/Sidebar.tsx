@@ -1,12 +1,16 @@
 import clsx from 'clsx';
-import { PlusCircle } from 'lucide-react';
+import { ChevronDown, ChevronRight, PlusCircle } from 'lucide-react';
 import { JSX } from 'react';
 import { Fragment } from 'react/jsx-runtime';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+import { useWorkspaces } from '@/queries/useWorkspaces';
+import { ROUTES } from '@/routes/routes';
 
 import CollapsibleSection from './CollapsibleSection';
 import styles from './Sidebar.module.scss';
 import SidebarFooter from './SidebarFooter';
+import DropdownSelect from '../DropdownSelect/DropdownSelect';
 
 type NavItem = {
   label: string;
@@ -27,9 +31,39 @@ type Props = {
 };
 
 export default function Sidebar({ title, groups = [], showUserMenu = true }: Props): JSX.Element {
+  const { data: workspaces } = useWorkspaces();
+  const navigate = useNavigate();
+
+  const options =
+    workspaces?.map((workspace) => ({
+      label: workspace.name,
+      value: ROUTES.WORKSPACES.DASHBOARD(workspace.id)
+    })) || [];
+
+  options.push({ label: '+ Add Workspace', value: ROUTES.WORKSPACES.NEW });
+
+  const handleChange = (option: any) => {
+    console.log('Selected value:', option);
+    navigate(option.value);
+  };
+
   return (
     <aside className={styles.sidebar}>
-      {title && <div className={styles['sidebar__logo']}>{title}</div>}
+      <div className={styles['sidebar__header']}>
+        <DropdownSelect
+          options={options}
+          placeholder="Select an option"
+          onChange={handleChange}
+          renderButton={({ isOpen, toggle }) => (
+            <div className={styles['sidebar__logo']} onClick={toggle}>
+              <div className={styles['sidebar__logo__text']}>{title}</div>
+              <div className={styles['sidebar__logo__icon']}>
+                {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+              </div>
+            </div>
+          )}
+        />
+      </div>
       <nav className={styles['sidebar__nav']}>
         <NavLink
           to={'/dashboard'}

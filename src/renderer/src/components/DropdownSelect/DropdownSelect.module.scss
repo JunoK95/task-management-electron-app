@@ -1,0 +1,69 @@
+.dropdown {
+  position: relative;
+  min-width: 200px;
+}
+
+.selectButton {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.selectButton:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.optionsContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+  z-index: 1000;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid var(--hover);
+  background-color: var(--sidebar-active);
+  color: var(--text-color);
+  margin-top: 4px;
+}
+
+.optionsContainer.open {
+  max-height: 300px; /* or any large enough value */
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.option:hover,
+.option:focus {
+  background-color: var(--hover);
+}

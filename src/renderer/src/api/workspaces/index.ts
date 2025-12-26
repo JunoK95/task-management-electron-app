@@ -1,5 +1,11 @@
 import { supabase } from '../../services/supabase/client';
 
+export type WorkspaceFormValues = {
+  name: string;
+  description: string;
+  status: string;
+};
+
 async function getWorkspaces() {
   const { data, error } = await supabase.from('workspaces').select('*');
   if (error) throw error;
@@ -12,4 +18,11 @@ async function getWorkspace(id: string) {
   return data[0];
 }
 
-export { getWorkspaces, getWorkspace };
+async function createWorkspace(payload: WorkspaceFormValues) {
+  const { data, error } = await supabase.from('workspaces').insert(payload).select().single();
+
+  if (error) throw error;
+  return data;
+}
+
+export { getWorkspaces, getWorkspace, createWorkspace };
