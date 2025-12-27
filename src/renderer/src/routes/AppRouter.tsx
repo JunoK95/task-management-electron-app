@@ -36,8 +36,8 @@ export default function AppRouter(): JSX.Element {
             <Route index element={<AuthGate />} />
             {/* Workspace scope */}
             <Route path="workspaces">
-              <Route path="new" element={<NewWorkplacePage />} />
               <Route path=":workspaceId" element={<WorkspaceLayout />}>
+                <Route path="new" element={<NewWorkplacePage />} />
                 <Route path="dashboard" element={<WorkspacePage />} />
                 {/* Tasks */}
                 <Route path="tasks">

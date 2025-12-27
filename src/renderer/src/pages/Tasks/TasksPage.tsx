@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { JSX, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { TaskFilters } from '@/api/tasks';
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
@@ -13,6 +13,7 @@ import { ROUTES } from '@/routes/routes';
 import styles from './TasksPage.module.scss';
 
 function TasksPage(): JSX.Element {
+  const { workspaceId } = useParams();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<TaskFilters['status']>('all');
@@ -23,8 +24,8 @@ function TasksPage(): JSX.Element {
   const navigate = useNavigate();
 
   const filters = useMemo(
-    () => ({ page, perPage, status, priority, search }),
-    [page, perPage, status, priority, search]
+    () => ({ page, perPage, status, priority, search, workspaceId }),
+    [page, perPage, status, priority, search, workspaceId]
   );
 
   const { data, isFetching } = useTasks(filters);

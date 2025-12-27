@@ -5,7 +5,11 @@ type Props = {};
 function WorkspacePage({}: Props) {
   const { data: workspace } = useCurrentWorkspace();
 
-  return <div>{workspace?.name || 'No workspace found'}</div>;
+  return (
+    <div>
+      <h2>{workspace?.name || 'No workspace found'}</h2>
+    </div>
+  );
 }
 
 export default WorkspacePage;

@@ -8,7 +8,8 @@ export const ROUTES = {
 
   WORKSPACES: {
     ROOT: '/workspaces',
-    NEW: '/workspaces/new',
+    NEW: (workspaceId: string | ':workspaceId' = ':workspaceId') =>
+      `/workspaces/${workspaceId}/new`,
     WORKSPACE: (workspaceId: string | ':workspaceId' = ':workspaceId') =>
       `/workspaces/${workspaceId}`,
     DASHBOARD: (workspaceId: string | ':workspaceId' = ':workspaceId') =>

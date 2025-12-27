@@ -68,45 +68,32 @@ export function TaskForm({
     const start_at = data.start_at ? new Date(data.start_at) : null;
     const due_at = data.due_at ? new Date(data.due_at) : null;
     const remind_at = data.remind_at ? new Date(data.remind_at) : null;
-    const project_id = data.project_id || '';
 
-    console.log('submitting', {
+    const payload = {
       ...data,
       owner_id: ownerId,
       workspace_id: workspaceId,
-      project_id,
       start_at,
       due_at,
       remind_at
-    });
+    };
+
+    if (payload.project_id === '') {
+      delete payload.project_id;
+    }
+
+    console.log('Submitting task with payload:', payload);
 
     if (mode === 'create') {
-      createTask.mutate(
-        {
-          ...data,
-          owner_id: ownerId,
-          workspace_id: workspaceId,
-          project_id,
-          start_at,
-          due_at,
-          remind_at
-        },
-        {
-          onSuccess: successCallback,
-          onError: errorCallback
-        }
-      );
+      createTask.mutate(payload, {
+        onSuccess: successCallback,
+        onError: errorCallback
+      });
     } else {
       updateTask.mutate(
         {
-          ...data,
-          id: initialValues.id!,
-          owner_id: ownerId,
-          project_id,
-          workspace_id: workspaceId,
-          start_at,
-          due_at,
-          remind_at
+          ...payload,
+          id: initialValues.id!
         },
         {
           onSuccess: successCallback,
@@ -142,6 +129,7 @@ export function TaskForm({
     value: project.id,
     label: project.name
   }));
+  projectOptions.unshift({ value: '', label: 'No Project' });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -216,11 +204,7 @@ export function TaskForm({
       </div>
       {/* Submit */}
       <div className={styles['form-footer']}>
-        <div className={styles.left}>
-          {/* <div className={styles['select-wrapper']}>
-            <Select id="status" label="Project" options={options} {...register('project_id')} />
-          </div> */}
-        </div>
+        <div className={styles.left}></div>
         <div className={styles.right}>
           <div>
             <Button type="button" onClick={onCancel}>

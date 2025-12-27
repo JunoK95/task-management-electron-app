@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ChevronDown, ChevronRight, PlusCircle } from 'lucide-react';
 import { JSX } from 'react';
 import { Fragment } from 'react/jsx-runtime';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import { useWorkspaces } from '@/queries/useWorkspaces';
 import { ROUTES } from '@/routes/routes';
@@ -32,6 +32,7 @@ type Props = {
 
 export default function Sidebar({ title, groups = [], showUserMenu = true }: Props): JSX.Element {
   const { data: workspaces } = useWorkspaces();
+  const { workspaceId } = useParams();
   const navigate = useNavigate();
 
   const options =
@@ -40,7 +41,7 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
       value: ROUTES.WORKSPACES.DASHBOARD(workspace.id)
     })) || [];
 
-  options.push({ label: '+ Add Workspace', value: ROUTES.WORKSPACES.NEW });
+  options.push({ label: '+ Add Workspace', value: ROUTES.WORKSPACES.NEW(workspaceId) });
 
   const handleChange = (option: any) => {
     console.log('Selected value:', option);

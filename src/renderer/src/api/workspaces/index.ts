@@ -18,11 +18,13 @@ async function getWorkspace(id: string) {
   return data[0];
 }
 
-async function createWorkspace(payload: WorkspaceFormValues) {
-  const { data, error } = await supabase.from('workspaces').insert(payload).select().single();
+async function createWorkspace(payload: { name: string }) {
+  const { data, error } = await supabase.rpc('create_workspace', {
+    _name: payload.name
+  });
 
   if (error) throw error;
-  return data;
+  return data; // workspace_id
 }
 
 export { getWorkspaces, getWorkspace, createWorkspace };
