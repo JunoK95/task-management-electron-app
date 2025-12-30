@@ -1,8 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
+import { Task } from '@/types';
 
 import { getTaskById } from '../api/tasks';
 
-export function useTaskDetails(taskId?: string) {
+export function useTaskDetails(taskId?: string): UseQueryResult<Task> {
   return useQuery({
     queryKey: ['task', taskId],
     queryFn: () => getTaskById(taskId!),

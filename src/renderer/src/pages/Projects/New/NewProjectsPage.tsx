@@ -11,11 +11,12 @@ function NewProjectsPage({}: Props) {
   const { data: user } = useMyProfile();
 
   assertDefined(user?.id, 'User ID is required to create a project');
+  assertDefined(workspaceId, 'Workspace ID is required to create a project');
 
   return (
     <div>
       <h2>Add New Project</h2>
-      <ProjectForm userId={user?.id} workspaceId={workspaceId!} />
+      <ProjectForm userId={user?.id} workspaceId={workspaceId} />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { Workspace } from '@/types';
+
 import { supabase } from '../../services/supabase/client';
 
 export type WorkspaceFormValues = {
@@ -6,13 +8,13 @@ export type WorkspaceFormValues = {
   status: string;
 };
 
-async function getWorkspaces() {
+async function getWorkspaces(): Promise<Workspace[]> {
   const { data, error } = await supabase.from('workspaces').select('*');
   if (error) throw error;
   return data;
 }
 
-async function getWorkspace(id: string) {
+async function getWorkspace(id: string): Promise<Workspace> {
   const { data, error } = await supabase.from('workspaces').select('*').eq('id', id);
   if (error) throw error;
   return data[0];
