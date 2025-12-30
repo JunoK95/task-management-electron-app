@@ -44,7 +44,7 @@ function TasksPage(): JSX.Element {
     // ✅ seed detail cache
     queryClient.setQueryData(['task', id], task);
 
-    navigate(ROUTES.WORKSPACES.TASKS.DETAILS(task.workspace_id, task.id));
+    navigate(ROUTES.WORKSPACES.TASKS.DETAILS(task.workspace_id!, task.id));
   };
 
   return (

@@ -20,4 +20,11 @@
   &:active {
     filter: brightness(0.95);
   }
+
+  &--primary {
+    background: var(--accent-color);
+    color: white;
+  }
 }
+
+/* Variants */

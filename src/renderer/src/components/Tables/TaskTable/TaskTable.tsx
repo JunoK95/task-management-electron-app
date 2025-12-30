@@ -10,8 +10,9 @@ import { formatDistanceToNow } from 'date-fns';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
+import { Task } from '@/types';
+
 import styles from './TaskTable.module.scss';
-import { Task } from '../../../api/tasks/index';
 
 type Props = {
   tasks: Task[];
@@ -46,7 +47,7 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
           const v = info.getValue();
           return (
             <span className={`${styles.badge} ${styles[`status-${v}`]}`}>
-              {v.replace('_', ' ')}
+              {v!.replace('_', ' ')}
             </span>
           );
         },

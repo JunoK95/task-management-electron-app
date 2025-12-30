@@ -12,7 +12,7 @@ function ProjectsPage({}: Props) {
 
   return (
     <div>
-      <h2>Projects</h2>
+      <h2>Current projects</h2>
       <ul>
         {projects?.map((project) => (
           <li

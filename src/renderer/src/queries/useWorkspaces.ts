@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { getWorkspaces } from '@/api/workspaces';
+import { Workspace } from '@/types';
 
-export function useWorkspaces() {
+export function useWorkspaces(): UseQueryResult<Workspace[]> {
   return useQuery({
     queryKey: ['workspaces'],
     queryFn: () => getWorkspaces(),

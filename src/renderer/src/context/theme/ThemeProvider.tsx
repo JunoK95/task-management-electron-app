@@ -1,4 +1,4 @@
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState, ReactNode, useCallback } from 'react';
 
 import { ThemeContext } from './ThemeContext';
 
@@ -14,11 +14,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Safe setter that updates class + state + localStorage
-  const setTheme = (t: Theme) => {
+  const setTheme = useCallback((t: Theme) => {
     setThemeState(t);
     applyTheme(t);
     localStorage.setItem('theme', t);
-  };
+  }, []);
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
@@ -30,7 +30,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const initial = saved ?? system;
 
     setTheme(initial);
-  }, []);
+  }, [setTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>

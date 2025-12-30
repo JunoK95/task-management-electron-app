@@ -14,6 +14,7 @@ export function useCreateTask(filters: TaskFilters) {
 
       const previous = qc.getQueryData(key);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       qc.setQueryData(key, (old: any[] | undefined) => {
         if (!old) return [{ ...newTask, id: 'optimistic-' + crypto.randomUUID() }];
         return [...old, { ...newTask, id: 'optimistic-' + crypto.randomUUID() }];

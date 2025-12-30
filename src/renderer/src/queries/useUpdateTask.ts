@@ -1,27 +1,45 @@
 // hooks/tasks/useUpdateTask.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { updateTask, UpdateTaskInput, TaskFilters } from '../api/tasks';
+import { updateTask } from '@/api/tasks';
+import type { Task, TaskFilters, TaskUpdate } from '@/types';
+import { dateToString } from '@/utils/dateToString';
+
+type TasksCache = {
+  data: Task[];
+  total: number;
+};
 
 export function useUpdateTask(filters: TaskFilters) {
   const qc = useQueryClient();
   const key = ['tasks', filters];
 
   return useMutation({
-    mutationFn: updateTask,
+    mutationFn: (input: TaskUpdate) => updateTask(input),
 
     // -----------------------------------
     // ⭐ Optimistic Update
     // -----------------------------------
-    onMutate: async (updated: UpdateTaskInput) => {
+    onMutate: async (updated: TaskUpdate) => {
       await qc.cancelQueries({ queryKey: key });
 
-      const previous = qc.getQueryData(key);
+      const previous = qc.getQueryData<TasksCache>(key);
 
-      qc.setQueryData(key, (old: any[] | undefined) => {
+      const updatedForCache = {
+        ...updated,
+        start_at: dateToString(updated.start_at),
+        due_at: dateToString(updated.due_at),
+        remind_at: dateToString(updated.remind_at)
+      };
+
+      qc.setQueryData<TasksCache>(key, (old) => {
         if (!old) return old;
-
-        return old.map((task) => (task.id === updated.id ? { ...task, ...updated } : task));
+        return {
+          ...old,
+          data: old.data.map((task) =>
+            task.id === updated.id ? { ...task, ...updatedForCache } : task
+          )
+        };
       });
 
       return { previous };

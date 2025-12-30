@@ -1,114 +1,95 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+// src/components/TaskForm/TaskForm.tsx
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
+
+import { Button } from '@/components/Button/Button';
+import DatePicker from '@/components/DatePicker/DatePicker';
+import Select from '@/components/Select/Select';
+import { useCreateTask } from '@/queries/useCreateTask';
+import { useUpdateTask } from '@/queries/useUpdateTask';
+import type { Workspace, Project, TaskFormValues, TaskInsert, TaskUpdate } from '@/types';
 
 import styles from './TaskForm.module.scss';
-import { TaskFormSchema, TaskFormValues } from './taskSchema';
-import { useCreateTask } from '../../../queries/useCreateTask';
-import { useUpdateTask } from '../../../queries/useUpdateTask';
-import { Button } from '../../Button/Button';
-import DatePicker from '../../DatePicker/DatePicker';
-import Select from '../../Select/Select';
 
 type Props = {
   mode: 'create' | 'update';
-  initialValues?: Partial<TaskFormValues>;
-  ownerId?: string;
-  taskId?: string;
+  initialValues?: Partial<TaskFormValues> & { id?: string };
   workspaceId?: string;
-  workspaces?: any[];
-  projects?: any[];
+  workspaces?: Workspace[];
+  projects?: Project[];
 };
 
 export function TaskForm({
   mode,
   initialValues = {},
-  ownerId,
   workspaceId,
   workspaces = [],
   projects = []
 }: Props) {
+  const navigate = useNavigate();
   const createTask = useCreateTask({});
   const updateTask = useUpdateTask({});
-  const navigate = useNavigate();
-
-  type TaskFormInput = z.input<typeof TaskFormSchema>; // before preprocess
-  type TaskFormValues = z.infer<typeof TaskFormSchema>; // after preprocess
-
   const isLoading = createTask.isPending || updateTask.isPending;
 
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TaskFormValues, any, TaskFormInput>({
-    resolver: zodResolver(TaskFormSchema),
+  } = useForm<TaskFormValues>({
     defaultValues: initialValues
   });
 
   useEffect(() => {
-    console.log('errors', errors);
+    if (Object.keys(errors).length > 0) {
+      console.error('Form errors:', errors);
+    }
   }, [errors]);
 
-  const successCallback = () => {
-    // Example: navigate back or show a toast
-    navigate(-1);
-    alert('Task saved successfully!');
-  };
-
+  const successCallback = () => navigate(-1);
   const errorCallback = (error: unknown) => {
     console.error('Failed to save task:', error);
     alert('Failed to save task. Please try again.');
   };
 
-  const onSubmit = (data: TaskFormValues) => {
-    const start_at = data.start_at ? new Date(data.start_at) : null;
-    const due_at = data.due_at ? new Date(data.due_at) : null;
-    const remind_at = data.remind_at ? new Date(data.remind_at) : null;
+  /** Convert Date → string for Supabase */
+  const dateToString = (date?: Date | null): string | null => (date ? date.toISOString() : null);
 
-    const payload = {
-      ...data,
-      owner_id: ownerId,
-      workspace_id: workspaceId,
-      start_at,
-      due_at,
-      remind_at
-    };
+  /** Map form values → Supabase insert/update input */
+  const toTaskInsert = (values: TaskFormValues): TaskInsert => ({
+    title: values.title,
+    description: values.description,
+    priority: values.priority,
+    status: values.status,
+    workspace_id: workspaceId,
+    project_id: values.project_id || undefined,
+    start_at: dateToString(values.start_at),
+    due_at: dateToString(values.due_at),
+    remind_at: dateToString(values.remind_at)
+  });
 
-    if (payload.project_id === '') {
-      delete payload.project_id;
-    }
-
-    console.log('Submitting task with payload:', payload);
-
+  /** Submit handler */
+  const onSubmit: SubmitHandler<TaskFormValues> = (values) => {
     if (mode === 'create') {
-      createTask.mutate(payload, {
-        onSuccess: successCallback,
-        onError: errorCallback
-      });
+      const payload: TaskInsert = toTaskInsert(values);
+      createTask.mutate(payload, { onSuccess: successCallback, onError: errorCallback });
     } else {
-      updateTask.mutate(
-        {
-          ...payload,
-          id: initialValues.id!
-        },
-        {
-          onSuccess: successCallback,
-          onError: errorCallback
-        }
-      );
+      if (!initialValues.id) throw new Error('Task ID is required for update');
+
+      const payload: TaskUpdate = {
+        id: initialValues.id, // now TS knows it's a string
+        ...toTaskInsert(values)
+      };
+
+      updateTask.mutate(payload, { onSuccess: successCallback, onError: errorCallback });
     }
   };
 
-  const onCancel = () => {
-    // Handle cancel action
-    navigate(-1);
-  };
+  const onCancel = () => navigate(-1);
 
-  const options = [
+  /** ---------- Options ---------- */
+  const priorityOptions = [
     { value: 'low', label: 'Low' },
     { value: 'medium', label: 'Medium' },
     { value: 'high', label: 'High' }
@@ -120,25 +101,22 @@ export function TaskForm({
     { value: 'completed', label: 'Completed' }
   ];
 
-  const workspaceOptions = workspaces.map((workspace: any) => ({
-    value: workspace.id,
-    label: workspace.name
-  }));
+  const workspaceOptions = workspaces.map((w) => ({ value: w.id, label: w.name }));
 
-  const projectOptions = projects.map((project: any) => ({
-    value: project.id,
-    label: project.name
-  }));
-  projectOptions.unshift({ value: '', label: 'No Project' });
+  const projectOptions = [
+    { value: '', label: 'No Project' },
+    ...projects.map((p) => ({ value: p.id, label: p.name }))
+  ];
 
+  /** ---------- Render ---------- */
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Title */}
-      <div className={clsx([styles['input-wrapper']])}>
+      <div className={styles['input-wrapper']}>
         <input
           placeholder="What needs to be done?"
-          className={clsx([styles.title, errors.title && styles.error])}
-          {...register('title')}
+          className={clsx(styles.title, errors.title && styles.error)}
+          {...register('title', { required: true })}
         />
       </div>
 
@@ -146,18 +124,18 @@ export function TaskForm({
       <div className={styles['input-wrapper']}>
         <textarea placeholder="Description" {...register('description')} />
       </div>
+
+      {/* Workspace / Project */}
       <div className={styles['select-row']}>
-        {/* Workspace */}
         <div className={styles['select-wrapper']}>
           <Select
             id="workspace_id"
             label="Workspace"
             options={workspaceOptions}
-            {...register('workspace_id')}
+            {...register('workspace_id', { required: true })}
           />
         </div>
 
-        {/* Project */}
         <div className={styles['select-wrapper']}>
           <Select
             id="project_id"
@@ -168,22 +146,27 @@ export function TaskForm({
         </div>
       </div>
 
+      {/* Priority / Status / Due */}
       <div className={styles['select-row']}>
-        {/* Priority */}
         <div className={styles['select-wrapper']}>
-          <Select id="priority" label="Priority" options={options} {...register('priority')} />
+          <Select
+            id="priority"
+            label="Priority"
+            options={priorityOptions}
+            {...register('priority')}
+          />
         </div>
 
-        {/* Status */}
         <div className={styles['select-wrapper']}>
           <Select id="status" label="Status" options={statusOptions} {...register('status')} />
         </div>
 
-        {/* Due Date */}
         <div className={styles['select-wrapper']}>
           <DatePicker type="datetime-local" label="Due Date" id="due_at" {...register('due_at')} />
         </div>
       </div>
+
+      {/* Dates */}
       <div className={styles['select-row']}>
         <div className={styles['select-wrapper']}>
           <DatePicker
@@ -193,35 +176,33 @@ export function TaskForm({
             {...register('start_at')}
           />
         </div>
+
         <div className={styles['select-wrapper']}>
           <DatePicker
             type="datetime-local"
-            label="Reminder at"
+            label="Reminder At"
             id="remind_at"
             {...register('remind_at')}
           />
         </div>
       </div>
-      {/* Submit */}
+
+      {/* Footer */}
       <div className={styles['form-footer']}>
-        <div className={styles.left}></div>
+        <div className={styles.left} />
         <div className={styles.right}>
-          <div>
-            <Button type="button" onClick={onCancel}>
-              {'Cancel'}
-            </Button>
-          </div>
-          <div>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading
-                ? mode === 'create'
-                  ? 'Adding...'
-                  : 'Updating...'
-                : mode === 'create'
-                  ? 'Add task'
-                  : 'Update task'}
-            </Button>
-          </div>
+          <Button type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading
+              ? mode === 'create'
+                ? 'Adding...'
+                : 'Updating...'
+              : mode === 'create'
+                ? 'Add task'
+                : 'Update task'}
+          </Button>
         </div>
       </div>
     </form>

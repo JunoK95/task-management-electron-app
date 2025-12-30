@@ -12,6 +12,7 @@ export function useDeleteTask(filters: TaskFilters) {
     onMutate: async (taskId: string) => {
       await qc.cancelQueries({ queryKey: key });
       const previous = qc.getQueryData(key);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       qc.setQueryData(key, (old: any[] | undefined) =>
         old ? old.filter((t) => t.id !== taskId) : old
       );

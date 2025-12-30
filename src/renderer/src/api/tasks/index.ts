@@ -1,44 +1,15 @@
-import { supabase } from '../../services/supabase/client';
+import { supabase } from '@/services/supabase/client';
+import type { Task, TaskInsert, TaskUpdate } from '@/types';
 
 export type TaskFilters = {
   projectId?: string | null;
   workspaceId?: string | null;
   ownerId?: string | null;
-  priority?: 'low' | 'medium' | 'high' | 'all';
-  status?: 'pending' | 'in_progress' | 'completed' | 'all';
-  search?: string | null; // text search
-  page?: number; // 1-based
+  priority?: Task['priority'] | 'all';
+  status?: Task['status'] | 'all';
+  search?: string | null;
+  page?: number;
   perPage?: number;
-};
-
-export type UpdateTaskInput = {
-  id: string; // task id
-  owner_id?: string;
-  project_id?: string;
-  workspace_id?: string;
-  title?: string;
-  description?: string;
-  priority?: 'low' | 'medium' | 'high';
-  status?: string;
-  start_at?: Date | null;
-  due_at?: Date | null;
-  remind_at?: Date | null;
-};
-
-export type Task = {
-  id: string;
-  title: string;
-  description?: string;
-  priority: 'low' | 'normal' | 'high';
-  status: 'pending' | 'in_progress' | 'completed';
-  start_at?: Date | null;
-  due_at?: Date | null;
-  remind_at?: Date | null;
-  workspace_id?: string;
-  project_id?: string;
-  owner_id?: string;
-  created_at: Date;
-  updated_at: Date;
 };
 
 export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; total: number }> {
@@ -50,73 +21,37 @@ export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; to
 
   if (filters.priority && filters.priority !== 'all')
     query = query.eq('priority', filters.priority);
+
   if (filters.status && filters.status !== 'all') query = query.eq('status', filters.status);
 
   if (filters.search) query = query.ilike('title', `%${filters.search}%`);
 
-  // Pagination
   const page = filters.page ?? 1;
   const perPage = filters.perPage ?? 10;
-  const from = (page - 1) * perPage;
-  const to = from + perPage - 1;
-  query = query.range(from, to);
 
-  // Sort newest first
-  query = query.order('created_at', { ascending: false });
-
-  const { data, error, count } = await query;
-
-  if (error) throw error;
-  return { data: data || [], total: count || 0 };
-}
-
-export async function getTasksPaged(page: number, perPage: number) {
-  console.log(`Fetching page ${page}`);
-  const from = (page - 1) * perPage;
-  const to = from + perPage - 1;
-
-  const { data, count, error } = await supabase
-    .from('tasks')
-    .select('*', { count: 'exact' })
+  const { data, error, count } = await query
     .order('created_at', { ascending: false })
-    .range(from, to);
+    .range((page - 1) * perPage, page * perPage - 1);
 
-  if (error) {
-    console.error('Fetch error:', error);
-    throw error;
-  }
+  if (error) throw error;
 
-  console.log(`Fetched page ${page}:`, { data, count });
-  return {
-    data: data ?? [],
-    total: count ?? 0
-  };
+  return { data: data ?? [], total: count ?? 0 };
 }
 
-export async function getTaskById(taskId: string) {
-  const { data, error } = await supabase.from('tasks').select('*').eq('id', taskId).single();
+export async function getTaskById(id: string): Promise<Task> {
+  const { data, error } = await supabase.from('tasks').select('*').eq('id', id).single();
 
   if (error) throw error;
   return data;
 }
 
-export async function createTask(payload: {
-  title: string;
-  owner_id?: string;
-  description?: string;
-  project_id?: string;
-  workspace_id?: string;
-  priority?: string;
-  start_at?: Date | null;
-  due_at?: Date | null;
-  remind_at?: Date | null;
-}) {
-  const { data, error } = await supabase.from('tasks').insert([payload]).select().single();
+export async function createTask(payload: TaskInsert): Promise<Task> {
+  const { data, error } = await supabase.from('tasks').insert(payload).select().single();
+
   if (error) throw error;
   return data;
 }
-
-export async function updateTask(input: UpdateTaskInput) {
+export async function updateTask(input: TaskUpdate): Promise<Task> {
   const { id, ...fields } = input;
 
   const { data, error } = await supabase
@@ -130,8 +65,8 @@ export async function updateTask(input: UpdateTaskInput) {
   return data;
 }
 
-export async function deleteTask(taskId: string) {
-  const { data, error } = await supabase.from('tasks').delete().eq('id', taskId).select().single();
+export async function deleteTask(id: string): Promise<Task> {
+  const { data, error } = await supabase.from('tasks').delete().eq('id', id).select().single();
 
   if (error) throw error;
   return data;

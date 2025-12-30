@@ -43,9 +43,9 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
 
   options.push({ label: '+ Add Workspace', value: ROUTES.WORKSPACES.NEW(workspaceId) });
 
-  const handleChange = (option: any) => {
+  const handleChange = (option: { label: string; value: string | number }) => {
     console.log('Selected value:', option);
-    navigate(option.value);
+    navigate(option.value.toString());
   };
 
   return (
