@@ -12,7 +12,6 @@ function ProjectDetailsPage({}: Props) {
 
   const tasks = tasksData?.data || [];
 
-  console.log(projectId, project);
   return (
     <div>
       <h1>{project?.name}</h1>
