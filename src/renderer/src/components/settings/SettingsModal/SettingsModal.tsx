@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
+import { useModal } from '@/hooks/useModal';
+
 import styles from './SettingsModal.module.scss';
-import { useModal } from '../../../hooks/useModal';
 import AccountSection from '../sections/AccountSection';
 import AdvancedSection from '../sections/AdvancedSection';
 import AppearanceSection from '../sections/AppearanceSection';

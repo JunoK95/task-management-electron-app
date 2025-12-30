@@ -2,8 +2,9 @@ import { Session } from '@supabase/supabase-js';
 import { useQueryClient } from '@tanstack/react-query';
 import { JSX, ReactNode, useEffect, useState } from 'react';
 
+import { supabase } from '@/services/supabase/client';
+
 import { AuthContext } from './AuthContext';
-import { supabase } from '../../services/supabase/client';
 
 export function AuthProvider({ children }: { children: ReactNode }): JSX.Element {
   const queryClient = useQueryClient();

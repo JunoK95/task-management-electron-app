@@ -1,8 +1,9 @@
 import { LogOutIcon, Settings } from 'lucide-react';
 import { JSX } from 'react';
 
+import { supabase } from '@/services/supabase/client';
+
 import styles from './SidebarUserMenu.module.scss';
-import { supabase } from '../../services/supabase/client';
 
 export type Props = {
   onNavigate: (path: string) => void;

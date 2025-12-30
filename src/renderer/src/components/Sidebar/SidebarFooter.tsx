@@ -1,9 +1,10 @@
 import { SettingsIcon } from 'lucide-react';
 import { JSX } from 'react';
 
+import { useAuth } from '@/hooks/useAuth';
+import { useModal } from '@/hooks/useModal';
+
 import styles from './SidebarFooter.module.scss';
-import { useAuth } from '../../hooks/useAuth';
-import { useModal } from '../../hooks/useModal';
 
 export default function SidebarFooter(): JSX.Element | null {
   const { session } = useAuth();

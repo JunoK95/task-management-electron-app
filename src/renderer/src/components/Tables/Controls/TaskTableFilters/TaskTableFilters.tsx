@@ -1,5 +1,6 @@
+import { TaskFilters } from '@/api/tasks';
+
 import styles from './TaskTableFilters.module.scss';
-import { TaskFilters } from '../../../../api/tasks';
 
 type Props = {
   status: TaskFilters['status'];

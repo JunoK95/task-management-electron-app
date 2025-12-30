@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import { LogOut } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
+import { useModal } from '@/hooks/useModal';
+
 import styles from './SettingsSidebar.module.scss';
-import { useAuth } from '../../../hooks/useAuth';
-import { useModal } from '../../../hooks/useModal';
 import { SettingsSection } from '../types';
 
 interface Props {

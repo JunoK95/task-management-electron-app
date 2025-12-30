@@ -1,6 +1,5 @@
+import { supabase } from '@/services/supabase/client';
 import { Project } from '@/types';
-
-import { supabase } from '../../services/supabase/client';
 
 export type ProjectFormValues = {
   name: string;

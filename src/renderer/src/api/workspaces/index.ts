@@ -1,6 +1,5 @@
+import { supabase } from '@/services/supabase/client';
 import { Workspace } from '@/types';
-
-import { supabase } from '../../services/supabase/client';
 
 export type WorkspaceFormValues = {
   name: string;
