@@ -76,6 +76,7 @@ export type Database = {
           description: string | null;
           id: string;
           name: string;
+          objective: string | null;
           workspace_id: string | null;
         };
         Insert: {
@@ -84,6 +85,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           name: string;
+          objective?: string | null;
           workspace_id?: string | null;
         };
         Update: {
@@ -92,6 +94,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           name?: string;
+          objective?: string | null;
           workspace_id?: string | null;
         };
         Relationships: [
@@ -176,6 +179,7 @@ export type Database = {
         Row: {
           content: string;
           created_at: string | null;
+          embedding: string | null;
           id: string;
           task_id: string | null;
           user_id: string | null;
@@ -183,6 +187,7 @@ export type Database = {
         Insert: {
           content: string;
           created_at?: string | null;
+          embedding?: string | null;
           id?: string;
           task_id?: string | null;
           user_id?: string | null;
@@ -190,6 +195,7 @@ export type Database = {
         Update: {
           content?: string;
           created_at?: string | null;
+          embedding?: string | null;
           id?: string;
           task_id?: string | null;
           user_id?: string | null;
@@ -214,10 +220,12 @@ export type Database = {
       tasks: {
         Row: {
           created_at: string | null;
+          created_by: string | null;
           description: string | null;
           due_at: string | null;
+          embedding: string | null;
           id: string;
-          owner_id: string | null;
+          owner_id: string;
           priority: string | null;
           project_id: string | null;
           remind_at: string | null;
@@ -229,10 +237,12 @@ export type Database = {
         };
         Insert: {
           created_at?: string | null;
+          created_by?: string | null;
           description?: string | null;
           due_at?: string | null;
+          embedding?: string | null;
           id?: string;
-          owner_id?: string | null;
+          owner_id?: string;
           priority?: string | null;
           project_id?: string | null;
           remind_at?: string | null;
@@ -244,10 +254,12 @@ export type Database = {
         };
         Update: {
           created_at?: string | null;
+          created_by?: string | null;
           description?: string | null;
           due_at?: string | null;
+          embedding?: string | null;
           id?: string;
-          owner_id?: string | null;
+          owner_id?: string;
           priority?: string | null;
           project_id?: string | null;
           remind_at?: string | null;
@@ -258,6 +270,13 @@ export type Database = {
           workspace_id?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: 'tasks_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
           {
             foreignKeyName: 'tasks_owner_id_fkey';
             columns: ['owner_id'];

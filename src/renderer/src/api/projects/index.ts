@@ -1,12 +1,5 @@
 import { supabase } from '@/services/supabase/client';
-import { Project } from '@/types';
-
-export type ProjectFormValues = {
-  name: string;
-  created_by: string;
-  workspace_id: string;
-  description?: string;
-};
+import { Project, ProjectFormValues } from '@/types';
 
 export async function getProjectById(id: string): Promise<Project> {
   const { data, error } = await supabase.from('projects').select().eq('id', id).single();

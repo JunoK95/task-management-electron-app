@@ -1,22 +1,38 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ProjectForm from '@/components/Forms/ProjectForm/ProjectForm';
-import { useMyProfile } from '@/queries/useMyProfile';
+import { useCreateProject } from '@/queries/useCreateProject';
+import { ProjectFormValues } from '@/types/domain/project';
 import { assertDefined } from '@/utils/assertDefined';
 
 type Props = {};
 
 function NewProjectsPage({}: Props) {
+  const navigate = useNavigate();
   const { workspaceId } = useParams();
-  const { data: user } = useMyProfile();
 
-  assertDefined(user?.id, 'User ID is required to create a project');
   assertDefined(workspaceId, 'Workspace ID is required to create a project');
+
+  const createProject = useCreateProject(workspaceId);
+
+  const successCallback = () => {
+    // Example: navigate back or show a toast
+    navigate(-1);
+    alert('Project saved successfully!');
+  };
+  const handleSubmit = (data: ProjectFormValues) => {
+    createProject.mutate(
+      { ...data, workspace_id: workspaceId },
+      {
+        onSuccess: successCallback
+      }
+    );
+  };
 
   return (
     <div>
       <h2>Add New Project</h2>
-      <ProjectForm userId={user?.id} workspaceId={workspaceId} />
+      <ProjectForm loading={createProject.isPending} onSubmit={handleSubmit} />
     </div>
   );
 }

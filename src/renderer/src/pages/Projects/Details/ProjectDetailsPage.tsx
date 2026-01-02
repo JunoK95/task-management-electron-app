@@ -2,13 +2,17 @@ import { useParams } from 'react-router-dom';
 
 import { useProjectDetails } from '@/queries/useProjectDetails';
 import { useTasks } from '@/queries/useTasks';
+import { assertDefined } from '@/utils/assertDefined';
 
 type Props = {};
 
 function ProjectDetailsPage({}: Props) {
-  const { projectId = '' } = useParams();
-  const { data: project } = useProjectDetails(projectId!);
-  const { data: tasksData } = useTasks({ projectId: projectId! });
+  const { projectId } = useParams();
+
+  assertDefined(projectId, 'projectId is required');
+
+  const { data: project } = useProjectDetails(projectId);
+  const { data: tasksData } = useTasks({ projectId: projectId });
 
   const tasks = tasksData?.data || [];
 
