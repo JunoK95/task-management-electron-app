@@ -1,3 +1,5 @@
+import { TaskPriority, TaskStatus } from '../enums';
+
 /**
  * Filters used by task queries
  */
@@ -5,8 +7,8 @@ export type TaskFilters = {
   projectId?: string | null;
   workspaceId?: string | null;
   ownerId?: string | null;
-  priority?: 'low' | 'medium' | 'high' | 'all';
-  status?: 'pending' | 'in_progress' | 'completed' | 'all';
+  priority?: TaskPriority | 'all';
+  status?: TaskStatus | 'all';
   search?: string | null;
   page?: number;
   perPage?: number;
@@ -22,8 +24,8 @@ export type CreateTaskInput = {
   owner_id?: string;
   workspace_id?: string;
   project_id?: string;
-  priority?: 'low' | 'medium' | 'high';
-  status?: 'pending' | 'in_progress' | 'completed';
+  priority?: TaskPriority;
+  status?: TaskStatus;
   start_at?: Date | null;
   due_at?: Date | null;
   remind_at?: Date | null;
@@ -41,8 +43,8 @@ export type TaskFormValues = {
   description?: string | null;
   workspace_id: string;
   project_id?: string | null;
-  priority: 'low' | 'medium' | 'high' | null;
-  status: 'pending' | 'in_progress' | 'completed' | null;
+  priority: TaskPriority | null;
+  status: TaskStatus | null;
   start_at?: Date | null;
   due_at?: Date | null;
   remind_at?: Date | null;

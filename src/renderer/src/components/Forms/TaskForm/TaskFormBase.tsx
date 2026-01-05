@@ -4,11 +4,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/Button/Button';
 import DatePicker from '@/components/DatePicker/DatePicker';
 import Select from '@/components/Select/Select';
-import type { Workspace, Project } from '@/types';
+import type { Workspace, Project, TaskFormValues } from '@/types';
 
 import styles from './TaskForm.module.scss';
-
-import type { TaskFormValues } from './types';
 
 type Props = {
   defaultValues?: Partial<TaskFormValues>;

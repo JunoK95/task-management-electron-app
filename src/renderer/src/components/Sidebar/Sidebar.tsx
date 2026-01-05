@@ -4,6 +4,7 @@ import { JSX } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
+import { useModal } from '@/hooks/useModal';
 import { useWorkspaces } from '@/queries/useWorkspaces';
 import { ROUTES } from '@/routes/routes';
 
@@ -31,6 +32,7 @@ type Props = {
 };
 
 export default function Sidebar({ title, groups = [], showUserMenu = true }: Props): JSX.Element {
+  const { openTaskForm } = useModal();
   const { data: workspaces } = useWorkspaces();
   const { workspaceId } = useParams();
   const navigate = useNavigate();
@@ -45,6 +47,11 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
 
   const handleChange = (option: { label: string; value: string | number }) => {
     navigate(option.value.toString());
+  };
+
+  const handleQuickAddClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    openTaskForm();
   };
 
   return (
@@ -65,19 +72,13 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
         />
       </div>
       <nav className={styles['sidebar__nav']}>
-        <NavLink
-          to={'/dashboard'}
-          className={({ isActive }) =>
-            clsx(
-              styles['sidebar__item'],
-              styles['sidebar__item--top'],
-              isActive && styles['sidebar__item--active']
-            )
-          }
+        <div
+          className={clsx(styles['sidebar__item'], styles['sidebar__item--top'])}
+          onClick={handleQuickAddClick}
         >
           <PlusCircle size={16} />
           Quick Add
-        </NavLink>
+        </div>
         <NavLink
           to={'/dashboard'}
           className={({ isActive }) =>

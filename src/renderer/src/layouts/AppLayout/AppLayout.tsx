@@ -1,7 +1,9 @@
 import { JSX } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
+import TaskFormModal from '@/components/Forms/TaskForm/TaskFormModal';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import { useModal } from '@/hooks/useModal';
 import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
 import { ROUTES } from '@/routes/routes';
 
@@ -9,6 +11,7 @@ import styles from './AppLayout.module.scss';
 
 export default function AppLayout(): JSX.Element {
   const navigate = useNavigate();
+  const { isTaskFormOpen } = useModal();
   const { data: workspace } = useCurrentWorkspace();
   const workspaceId = workspace?.id;
 
@@ -42,11 +45,14 @@ export default function AppLayout(): JSX.Element {
   const title = workspace?.name || 'My Workspace';
 
   return (
-    <div className={styles.layout}>
-      <Sidebar groups={groups} title={title} />
-      <main className={styles['layout__content']}>
-        <Outlet />
-      </main>
-    </div>
+    <>
+      <div className={styles.layout}>
+        <Sidebar groups={groups} title={title} />
+        <main className={styles['layout__content']}>
+          <Outlet />
+        </main>
+      </div>
+      {isTaskFormOpen && <TaskFormModal workspaceId={workspaceId!} />}
+    </>
   );
 }

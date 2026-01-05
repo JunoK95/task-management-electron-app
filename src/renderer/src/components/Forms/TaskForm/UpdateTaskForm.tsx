@@ -1,13 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
 import { useUpdateTask } from '@/queries/useUpdateTask';
-import type { TaskUpdate, Task, Workspace, Project } from '@/types';
+import type { TaskUpdate, Task, Workspace, Project, TaskFormValues } from '@/types';
 import { isTaskPriority, isTaskStatus } from '@/types/guards';
 import { dateToString } from '@/utils/dateToString';
 
 import { TaskFormBase } from './TaskFormBase';
-
-import type { TaskFormValues } from './types';
 
 export function UpdateTaskForm(props: {
   task: Task;

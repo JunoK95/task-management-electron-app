@@ -19,6 +19,9 @@ function ProjectDetailsPage({}: Props) {
   return (
     <div>
       <h1>{project?.name}</h1>
+      <code>{project?.objective}</code>
+      <p>{project?.description}</p>
+      {tasks.length === 0 && <p>No tasks found for this project.</p>}
       <ul>
         {tasks.map((task) => (
           <li key={task.id}>{task.title}</li>

@@ -21,7 +21,7 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
   if (!open) return null;
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
+    <div className={styles.overlay} onClick={onClose}>
       <div
         className={styles.modal}
         onClick={(e) => e.stopPropagation()} // prevent close on content click

@@ -1,12 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
 import { useCreateTask } from '@/queries/useCreateTask';
-import type { Project, TaskInsert, Workspace } from '@/types';
+import type { Project, TaskFormValues, TaskInsert, Workspace } from '@/types';
 import { dateToString } from '@/utils/dateToString';
 
 import { TaskFormBase } from './TaskFormBase';
-
-import type { TaskFormValues } from './types';
 
 export function CreateTaskForm(props: {
   workspaceId: string;

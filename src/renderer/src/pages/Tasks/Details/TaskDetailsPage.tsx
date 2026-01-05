@@ -1,17 +1,20 @@
 import { useParams } from 'react-router-dom';
 
-import { TaskForm } from '@/components/Forms/TaskForm/TaskForm';
-import { useProjects } from '@/queries/useProjects';
-import { useWorkspaces } from '@/queries/useWorkspaces';
+import { useTaskDetails } from '@/queries/useTaskDetails';
+import { assertDefined } from '@/utils/assertDefined';
 
 function TaskDetailsPage({}) {
-  const { workspaceId } = useParams<{ workspaceId: string; taskId: string }>();
-  const { data: workspaces } = useWorkspaces();
-  const { data: projects } = useProjects(workspaceId!);
+  const { taskId } = useParams();
+  const { data: task } = useTaskDetails(taskId);
 
+  assertDefined(task, 'task is required');
+
+  const { title, description, status } = task;
   return (
     <div>
-      <TaskForm mode="update" workspaces={workspaces} projects={projects} />
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <p>Status: {status}</p>
     </div>
   );
 }
