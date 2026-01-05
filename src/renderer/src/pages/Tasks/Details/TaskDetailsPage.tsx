@@ -1,15 +1,26 @@
 import { useParams } from 'react-router-dom';
 
 import { useTaskDetails } from '@/queries/useTaskDetails';
-import { assertDefined } from '@/utils/assertDefined';
 
 function TaskDetailsPage({}) {
   const { taskId } = useParams();
-  const { data: task } = useTaskDetails(taskId);
+  const taskDetails = useTaskDetails(taskId);
 
-  assertDefined(task, 'task is required');
+  if (taskDetails.isPending) {
+    return <div>Loading...</div>;
+  }
 
-  const { title, description, status } = task;
+  if (taskDetails.isError) {
+    return <div>Error loading task details.</div>;
+  }
+
+  if (!taskDetails.data) {
+    return <div>No task found.</div>;
+  }
+
+  const task = taskDetails.data;
+
+  const { title = '', description = ' ', status = '' } = task;
   return (
     <div>
       <h2>{title}</h2>

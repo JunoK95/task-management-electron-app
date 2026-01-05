@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+
 import Modal from '@/components/Modal/Modal';
 import { useModal } from '@/hooks/useModal';
 import { useCreateTask } from '@/queries/useCreateTask';
 import { useProjects } from '@/queries/useProjects';
+import { ROUTES } from '@/routes/routes';
 import { TaskInsert } from '@/types';
 
 import CreateTaskFormSimple from './CreateTaskFormSimple';
@@ -13,6 +16,7 @@ type Props = {
 
 function TaskFormModal({ workspaceId }: Props) {
   const { closeTaskForm } = useModal();
+  const navigate = useNavigate();
   const { data: projects = [] } = useProjects(workspaceId);
   const createTask = useCreateTask({ workspaceId });
 
@@ -20,9 +24,11 @@ function TaskFormModal({ workspaceId }: Props) {
     createTask.mutate(
       { ...values, workspace_id: workspaceId },
       {
-        onSuccess: () => {
+        onSuccess: (task) => {
+          console.log('Task created:', task);
           alert('Task created successfully!');
           closeTaskForm();
+          navigate(ROUTES.WORKSPACES.TASKS.DETAILS(workspaceId, task.id));
         }
       }
     );

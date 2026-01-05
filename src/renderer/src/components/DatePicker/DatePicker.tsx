@@ -9,7 +9,6 @@ interface DatePickerProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
   ({ label, id, defaultValue, ...rest }, ref) => {
-    console.log('DatePicker defaultValue:', defaultValue);
     return (
       <div className={styles.datePickerWrapper}>
         {label && (
