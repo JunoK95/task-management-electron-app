@@ -8,7 +8,8 @@ interface DatePickerProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
-  ({ label, id, ...rest }, ref) => {
+  ({ label, id, defaultValue, ...rest }, ref) => {
+    console.log('DatePicker defaultValue:', defaultValue);
     return (
       <div className={styles.datePickerWrapper}>
         {label && (
@@ -16,7 +17,14 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
             {label}
           </label>
         )}
-        <input type="datetime-local" id={id} className={styles.input} ref={ref} {...rest} />
+        <input
+          type="datetime-local"
+          defaultValue={defaultValue}
+          id={id}
+          className={styles.input}
+          ref={ref}
+          {...rest}
+        />
       </div>
     );
   }

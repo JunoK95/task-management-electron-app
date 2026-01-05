@@ -2,7 +2,6 @@ form {
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  padding-bottom: 24px;
   .input-wrapper {
     box-sizing: border-box;
     width: 100%;
@@ -53,12 +52,23 @@ form {
   }
 
   .form-footer {
-    margin-top: 24px;
     display: flex;
+    flex-direction: column;
     justify-content: flex-end;
     gap: 8px;
     .select-wrapper {
       margin: 0;
+    }
+    .action {
+      display: flex;
+      margin-top: 16px;
+    }
+    .left {
+      display: flex;
+      gap: 8px;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
     }
     .right {
       display: flex;
@@ -68,79 +78,5 @@ form {
       justify-content: flex-end;
       align-items: flex-end;
     }
-  }
-}
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
-
-  opacity: 0;
-  animation: fadeIn 180ms ease forwards;
-}
-
-/* Modal Window */
-.modal {
-  width: 1024px;
-  max-width: 90%;
-  max-height: 90%;
-  background: var(--surface);
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  display: flex;
-  overflow: hidden;
-
-  opacity: 0;
-  transform: scale(0.96) translateY(6px);
-  animation: modalPopIn 180ms ease forwards;
-  animation-delay: 30ms;
-}
-
-/* Content area */
-.content {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-
-  opacity: 0;
-  animation: contentFade 220ms ease forwards;
-  animation-delay: 120ms;
-}
-
-/* Keyframes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modalPopIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.96) translateY(6px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes contentFade {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

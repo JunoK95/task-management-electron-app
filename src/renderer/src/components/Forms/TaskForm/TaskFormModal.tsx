@@ -1,6 +1,7 @@
 import Modal from '@/components/Modal/Modal';
 import { useModal } from '@/hooks/useModal';
 import { useCreateTask } from '@/queries/useCreateTask';
+import { useProjects } from '@/queries/useProjects';
 import { TaskInsert } from '@/types';
 
 import CreateTaskFormSimple from './CreateTaskFormSimple';
@@ -12,6 +13,7 @@ type Props = {
 
 function TaskFormModal({ workspaceId }: Props) {
   const { closeTaskForm } = useModal();
+  const { data: projects = [] } = useProjects(workspaceId);
   const createTask = useCreateTask({ workspaceId });
 
   const handleSubmit = (values: TaskInsert) => {
@@ -31,6 +33,7 @@ function TaskFormModal({ workspaceId }: Props) {
     return (
       <div className={styles.container}>
         <CreateTaskFormSimple
+          projects={projects}
           isLoading={createTask.isPending}
           onCancel={closeTaskForm}
           onSubmit={handleSubmit}
