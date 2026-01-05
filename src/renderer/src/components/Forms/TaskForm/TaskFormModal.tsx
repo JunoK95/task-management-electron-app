@@ -22,10 +22,13 @@ function TaskFormModal({ workspaceId }: Props) {
 
   const handleSubmit = (values: TaskInsert) => {
     createTask.mutate(
-      { ...values, workspace_id: workspaceId },
+      {
+        ...values,
+        project_id: values.project_id ? values.project_id : null,
+        workspace_id: workspaceId
+      },
       {
         onSuccess: (task) => {
-          console.log('Task created:', task);
           alert('Task created successfully!');
           closeTaskForm();
           navigate(ROUTES.WORKSPACES.TASKS.DETAILS(workspaceId, task.id));
@@ -35,7 +38,6 @@ function TaskFormModal({ workspaceId }: Props) {
   };
 
   const renderSection = () => {
-    // Placeholder for Task Form content
     return (
       <div className={styles.container}>
         <CreateTaskFormSimple
