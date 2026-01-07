@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import AutoGrowTextarea from '@/components/AutoGrowTextarea/AutoGrowTextarea';
 import { Button } from '@/components/Button/Button';
-import DatePicker from '@/components/DatePicker/DatePicker';
+import DateTimePicker from '@/components/DateTimePicker/DateTimePicker';
 import Select from '@/components/Select/Select';
 import Separator from '@/components/Separator/Separator';
 import { Project, TaskInsert } from '@/types';
@@ -59,7 +59,11 @@ function CreateTaskFormSimple({
               defaultValue={''}
               {...register('project_id')}
             />
-            <DatePicker label="Due Date" defaultValue={defaultDueDate} {...register('due_at')} />
+            <DateTimePicker
+              label="Due Date"
+              defaultValue={defaultDueDate}
+              {...register('due_at')}
+            />
           </div>
         </div>
         <div className={styles.action}>

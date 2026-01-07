@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import TaskDetailsPanel from '@/components/TaskDetailsPanel/TaskDetailsPanel';
 import { useTaskDetails } from '@/queries/useTaskDetails';
 
 function TaskDetailsPage({}) {
@@ -26,6 +27,7 @@ function TaskDetailsPage({}) {
       <h2>{title}</h2>
       <p>{description}</p>
       <p>Status: {status}</p>
+      <TaskDetailsPanel task={task} />
     </div>
   );
 }

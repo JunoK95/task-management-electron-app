@@ -33,7 +33,6 @@
 }
 
 :global(body.dark) {
-  // Target the input when body has 'dark' class
   input[type='datetime-local']::-webkit-calendar-picker-indicator {
     filter: invert(1) brightness(1);
   }
@@ -42,5 +41,23 @@
 input[type='datetime-local']::-webkit-calendar-picker-indicator {
   padding-left: 8px;
   cursor: pointer;
-  filter: none; // default for light mode
+  filter: none;
+}
+
+.nativeInput {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  color: transparent; // hide native text
+  caret-color: transparent;
+}
+
+.formattedOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  pointer-events: none;
+  color: var(--text-color);
 }

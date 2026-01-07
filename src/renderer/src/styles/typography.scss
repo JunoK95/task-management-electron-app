@@ -1,0 +1,210 @@
+/* ===============================
+   Responsive Typography (Fluid)
+   =============================== */
+
+/* Font families */
+$font-sans:
+  -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$font-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+/* Viewport breakpoints */
+$vw-min: 320;
+$vw-max: 1200;
+
+/* Helper: fluid size */
+@function fluid($min, $max) {
+  @return clamp(
+    #{$min}px,
+    calc(#{$min}px + (#{$max - $min}) * ((100vw - #{$vw-min}px) / (#{$vw-max - $vw-min}))),
+    #{$max}px
+  );
+}
+
+/* Font sizes (fluid) */
+$fs-xs: fluid(11, 12);
+$fs-sm: fluid(13, 14);
+$fs-base: fluid(15, 16);
+$fs-lg: fluid(17, 18);
+$fs-xl: fluid(19, 20);
+$fs-2xl: fluid(22, 24);
+$fs-3xl: fluid(26, 30);
+$fs-4xl: fluid(32, 36);
+
+/* Line heights */
+$lh-tight: 1.2;
+$lh-normal: 1.5;
+$lh-relaxed: 1.65;
+
+/* Font weights */
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+
+/* Letter spacing */
+$ls-tight: -0.01em;
+$ls-normal: 0;
+$ls-wide: 0.03em;
+
+/* ===============================
+   Base styles
+   =============================== */
+
+body {
+  font-family: $font-sans;
+  font-size: $fs-base;
+  line-height: $lh-normal;
+  font-weight: $fw-regular;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===============================
+   Headings
+   =============================== */
+
+h1,
+.h1 {
+  font-size: $fs-4xl;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  letter-spacing: $ls-tight;
+}
+
+h2,
+.h2 {
+  font-size: $fs-3xl;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+}
+
+h3,
+.h3 {
+  font-size: $fs-2xl;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+}
+
+h4,
+.h4 {
+  font-size: $fs-xl;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+}
+
+h5,
+.h5 {
+  font-size: $fs-lg;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+}
+
+h6,
+.h6 {
+  font-size: $fs-base;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+}
+
+/* ===============================
+   Body text
+   =============================== */
+
+p,
+.body {
+  font-size: $fs-base;
+  line-height: $lh-relaxed;
+}
+
+.body-sm {
+  font-size: $fs-sm;
+  line-height: $lh-normal;
+}
+
+.body-lg {
+  font-size: $fs-lg;
+  line-height: $lh-relaxed;
+}
+
+/* ===============================
+   Utility classes
+   =============================== */
+
+.text-xs {
+  font-size: $fs-xs;
+}
+.text-sm {
+  font-size: $fs-sm;
+}
+.text-base {
+  font-size: $fs-base;
+}
+.text-lg {
+  font-size: $fs-lg;
+}
+.text-xl {
+  font-size: $fs-xl;
+}
+
+.font-regular {
+  font-weight: $fw-regular;
+}
+.font-medium {
+  font-weight: $fw-medium;
+}
+.font-semibold {
+  font-weight: $fw-semibold;
+}
+.font-bold {
+  font-weight: $fw-bold;
+}
+
+.leading-tight {
+  line-height: $lh-tight;
+}
+.leading-normal {
+  line-height: $lh-normal;
+}
+.leading-relaxed {
+  line-height: $lh-relaxed;
+}
+
+.tracking-tight {
+  letter-spacing: $ls-tight;
+}
+.tracking-normal {
+  letter-spacing: $ls-normal;
+}
+.tracking-wide {
+  letter-spacing: $ls-wide;
+}
+
+/* ===============================
+   Special text
+   =============================== */
+
+.label {
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  letter-spacing: $ls-wide;
+  text-transform: uppercase;
+}
+
+.caption {
+  font-size: $fs-xs;
+  line-height: $lh-normal;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.overline {
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+  letter-spacing: $ls-wide;
+  text-transform: uppercase;
+}
+
+code,
+pre {
+  font-family: $font-mono;
+  font-size: 0.9em;
+}
