@@ -10,6 +10,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
+import Pill from '@/components/Pill/Pill';
 import { Task } from '@/types';
 
 import styles from './TaskTable.module.scss';
@@ -26,6 +27,13 @@ const columnHelper = createColumnHelper<Task>();
 function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const priorityColorType = {
+    low: 'blue',
+    medium: 'green',
+    high: 'yellow',
+    urgent: 'red'
+  };
+
   const columns = useMemo(
     () => [
       columnHelper.accessor('title', {
@@ -36,8 +44,8 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
       columnHelper.accessor('priority', {
         header: 'Priority',
         cell: (info) => {
-          const v = info.getValue();
-          return <span className={`${styles.badge} ${styles[`priority-${v}`]}`}>{v}</span>;
+          const v = info.getValue() || '';
+          return <Pill label={v!.replace('_', ' ')} type={priorityColorType[v]} />;
         },
         enableSorting: true
       }),
@@ -45,11 +53,7 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
         header: 'Status',
         cell: (info) => {
           const v = info.getValue();
-          return (
-            <span className={`${styles.badge} ${styles[`status-${v}`]}`}>
-              {v!.replace('_', ' ')}
-            </span>
-          );
+          return <Pill label={v!.replace('_', ' ')} />;
         },
         enableSorting: true
       }),

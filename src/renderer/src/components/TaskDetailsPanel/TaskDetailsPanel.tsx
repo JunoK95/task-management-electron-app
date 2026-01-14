@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useProjects } from '@/queries/useProjects';
@@ -12,23 +13,24 @@ import Select from '../Select/Select';
 
 type Props = {
   task: Task;
+  onChange: (name: string, value: string) => void;
 };
 
-function TaskDetailsPanel({ task }: Props) {
+function TaskDetailsPanel({ task, onChange }: Props) {
   const { workspaceId } = useParams();
   const { due_at, priority, status } = task;
 
   assertDefined(workspaceId, 'workspaceId is required');
   const { data: projects = [] } = useProjects(workspaceId);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-
-  const projectOptions = projects?.map((project) => ({
-    label: project.name,
-    value: project.id
-  }));
+  const projectOptions = useMemo(
+    () =>
+      projects.map((project) => ({
+        label: project.name,
+        value: project.id
+      })),
+    [projects]
+  );
 
   const statusOptions: { label: string; value: TaskStatus }[] = [
     { label: 'Pending', value: 'pending' },
@@ -43,23 +45,49 @@ function TaskDetailsPanel({ task }: Props) {
     { label: 'Urgent', value: 'urgent' }
   ];
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (task[name] === value) return;
+
+    onChange(name, value);
+  };
+
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.row}>
         <div className={styles.label}>Project</div>
-        <Select defaultValue={task.project_id || undefined} options={projectOptions} />
+        <Select
+          value={task.project_id || undefined}
+          options={projectOptions}
+          name="project_id"
+          onChange={handleInputChange}
+        />
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Status</div>
-        <Select defaultValue={status || undefined} options={statusOptions} />
+        <Select
+          value={status || undefined}
+          options={statusOptions}
+          name="status"
+          onChange={handleInputChange}
+        />
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Priority</div>
-        <Select defaultValue={priority || undefined} options={priorityOptions} />
+        <Select
+          value={priority || undefined}
+          options={priorityOptions}
+          name="priority"
+          onChange={handleInputChange}
+        />
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Deadline</div>
-        <DateTimePicker value={due_at ? due_at : ''} onChange={handleChange} />
+        <DateTimePicker
+          name="due_at"
+          value={due_at ? due_at : undefined}
+          onChange={handleInputChange}
+        />
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Tags</div>
@@ -72,7 +100,7 @@ function TaskDetailsPanel({ task }: Props) {
           <Pill label="+ add" type="invert" onClick={() => {}} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
