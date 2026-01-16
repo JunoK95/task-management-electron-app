@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 
 import TaskDetailsPanel from '@/components/TaskDetailsPanel/TaskDetailsPanel';
-import { useTaskDetails } from '@/queries/useTaskDetails';
-import { useUpdateTask } from '@/queries/useUpdateTask';
+import { useTaskDetails } from '@/queries/tasks/useTaskDetails';
+import { useUpdateTask } from '@/queries/tasks/useUpdateTask';
 
 import styles from './TaskDetailsPage.module.scss';
 

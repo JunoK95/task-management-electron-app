@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
-import { useProjectDetails } from '@/queries/useProjectDetails';
-import { useTasks } from '@/queries/useTasks';
+import { useProjectDetails } from '@/queries/projects/useProjectDetails';
+import { useTasks } from '@/queries/tasks/useTasks';
 import { assertDefined } from '@/utils/assertDefined';
 
 type Props = {};

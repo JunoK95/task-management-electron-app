@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Modal from '@/components/Modal/Modal';
 import { useModal } from '@/hooks/useModal';
-import { useCreateTask } from '@/queries/useCreateTask';
-import { useProjects } from '@/queries/useProjects';
+import { useProjects } from '@/queries/projects/useProjects';
+import { useCreateTask } from '@/queries/tasks/useCreateTask';
 import { ROUTES } from '@/routes/routes';
 import { CreateTaskInput } from '@/types';
 

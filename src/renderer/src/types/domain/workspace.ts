@@ -1,8 +1,8 @@
 import { WorkspaceRole } from '../enums';
 
-import type { Tables } from '../db';
+import type { WorkspaceRow } from '../db';
 
-export type Workspace = Tables['workspaces']['Row'];
+export type Workspace = WorkspaceRow;
 
 export interface WorkspaceWithRole extends Workspace {
   role: WorkspaceRole;

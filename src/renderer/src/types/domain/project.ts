@@ -1,3 +1,3 @@
-import { Tables } from '../db';
+import { ProjectRow } from '../db';
 
-export type Project = Tables['projects']['Row'];
+export type Project = ProjectRow;

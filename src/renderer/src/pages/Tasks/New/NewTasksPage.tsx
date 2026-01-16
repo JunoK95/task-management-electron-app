@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 
 import { CreateTaskForm } from '@/components/Forms/TaskForm/CreateTaskForm';
-import { useProjects } from '@/queries/useProjects';
-import { useWorkspaces } from '@/queries/useWorkspaces';
+import { useProjects } from '@/queries/projects/useProjects';
+import { useWorkspaces } from '@/queries/workspaces/useWorkspaces';
 import { assertDefined } from '@/utils/assertDefined';
 
 function NewTasksPage({}) {

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/Button/Button';
-import { useCreateWorkspace } from '@/queries/useCreateWorkspace';
+import { useCreateWorkspace } from '@/queries/workspaces/useCreateWorkspace';
 
 import styles from './WorkspaceForm.module.scss';
 import { WorkspaceFormValues, workspaceSchema } from './workspaceSchema';

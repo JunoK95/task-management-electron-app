@@ -1,7 +1,7 @@
 // src/hooks/tasks/useDeleteTask.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { TaskFilters, deleteTask } from '../api/tasks';
+import { TaskFilters, deleteTask } from '@/api/tasks';
 
 export function useDeleteTask(filters: TaskFilters) {
   const qc = useQueryClient();

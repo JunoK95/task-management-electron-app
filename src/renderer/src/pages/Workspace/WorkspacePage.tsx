@@ -1,4 +1,4 @@
-import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
+import { useCurrentWorkspace } from '@/queries/workspaces/useCurrentWorkspace';
 
 type Props = {};
 

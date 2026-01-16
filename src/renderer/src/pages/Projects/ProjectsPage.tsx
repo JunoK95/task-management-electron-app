@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useProjects } from '@/queries/useProjects';
+import { useProjects } from '@/queries/projects/useProjects';
 import { ROUTES } from '@/routes/routes';
 
 type Props = {};

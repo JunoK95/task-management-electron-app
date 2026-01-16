@@ -1,3 +1,3 @@
-import { Tables } from '../db';
+import { ProfileRow } from '../db';
 
-export type Profile = Tables['profiles']['Row'];
+export type Profile = ProfileRow;

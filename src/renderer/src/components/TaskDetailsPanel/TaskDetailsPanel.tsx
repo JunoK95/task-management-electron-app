@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useProjects } from '@/queries/useProjects';
+import { useProjects } from '@/queries/projects/useProjects';
 import { themeVariables } from '@/styles/themeColors';
 import { Task } from '@/types';
 import { TaskPriority, TaskStatus } from '@/types/enums';

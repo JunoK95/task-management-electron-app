@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useCreateTask } from '@/queries/useCreateTask';
+import { useCreateTask } from '@/queries/tasks/useCreateTask';
 import type { CreateTaskInput, Project, Workspace } from '@/types';
 import { dateToString } from '@/utils/dateToString';
 

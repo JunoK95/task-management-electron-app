@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import TaskFormModal from '@/components/Forms/TaskForm/TaskFormModal';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { useModal } from '@/hooks/useModal';
-import { useCurrentWorkspace } from '@/queries/useCurrentWorkspace';
+import { useCurrentWorkspace } from '@/queries/workspaces/useCurrentWorkspace';
 import { ROUTES } from '@/routes/routes';
 
 import styles from './AppLayout.module.scss';

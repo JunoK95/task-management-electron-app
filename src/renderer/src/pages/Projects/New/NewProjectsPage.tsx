@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import ProjectForm from '@/components/Forms/ProjectForm/ProjectForm';
-import { useCreateProject } from '@/queries/useCreateProject';
-import { ProjectFormValues } from '@/types/domain/project';
+import { useCreateProject } from '@/queries/projects/useCreateProject';
+import { ProjectFormValues } from '@/types';
 import { assertDefined } from '@/utils/assertDefined';
 
 type Props = {};

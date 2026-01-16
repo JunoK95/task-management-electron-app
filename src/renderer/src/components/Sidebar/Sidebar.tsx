@@ -5,7 +5,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import { useModal } from '@/hooks/useModal';
-import { useWorkspaces } from '@/queries/useWorkspaces';
+import { useWorkspaces } from '@/queries/workspaces/useWorkspaces';
 import { ROUTES } from '@/routes/routes';
 
 import CollapsibleSection from './CollapsibleSection';
