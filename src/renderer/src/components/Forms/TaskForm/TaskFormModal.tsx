@@ -5,7 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { useCreateTask } from '@/queries/useCreateTask';
 import { useProjects } from '@/queries/useProjects';
 import { ROUTES } from '@/routes/routes';
-import { TaskInsert } from '@/types';
+import { CreateTaskInput } from '@/types';
 
 import CreateTaskFormSimple from './CreateTaskFormSimple';
 import styles from './TaskFormModal.module.scss';
@@ -20,7 +20,7 @@ function TaskFormModal({ workspaceId }: Props) {
   const { data: projects = [] } = useProjects(workspaceId);
   const createTask = useCreateTask({ workspaceId });
 
-  const handleSubmit = (values: TaskInsert) => {
+  const handleSubmit = (values: CreateTaskInput) => {
     createTask.mutate(
       {
         ...values,

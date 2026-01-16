@@ -11,9 +11,9 @@ export type CreateTaskInput = {
   description?: string | null;
   priority?: TaskPriority;
   status?: TaskStatus;
-  start_at?: Date | null;
-  due_at?: Date | null;
-  remind_at?: Date | null;
+  start_at?: string | null;
+  due_at?: string | null;
+  remind_at?: string | null;
 };
 
 export type UpdateTaskInput = {

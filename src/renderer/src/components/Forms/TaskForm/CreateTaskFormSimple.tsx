@@ -6,17 +6,17 @@ import { Button } from '@/components/Button/Button';
 import DateTimePicker from '@/components/DateTimePicker/DateTimePicker';
 import Select from '@/components/Select/Select';
 import Separator from '@/components/Separator/Separator';
-import { Project, TaskInsert } from '@/types';
+import { CreateTaskInput, Project } from '@/types';
 import { dateToString } from '@/utils/dateToString';
 
 import styles from './TaskForm.module.scss';
 
 type Props = {
-  defaultValues?: TaskInsert;
+  defaultValues?: Partial<CreateTaskInput>;
   isLoading?: boolean;
   projects: Project[];
   onCancel: () => void;
-  onSubmit: (values: TaskInsert) => void;
+  onSubmit: (values: CreateTaskInput) => void;
 };
 
 function CreateTaskFormSimple({
@@ -30,7 +30,7 @@ function CreateTaskFormSimple({
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<TaskInsert>({ defaultValues });
+  } = useForm<CreateTaskInput>({ defaultValues });
 
   const projectOptions = projects.map((project) => ({
     label: project.name,

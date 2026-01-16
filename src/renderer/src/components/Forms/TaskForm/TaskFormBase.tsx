@@ -4,16 +4,16 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/Button/Button';
 import DatePicker from '@/components/DatePicker/DatePicker';
 import Select from '@/components/Select/Select';
-import type { Workspace, Project, CreateTaskInput, UpdateTaskInput } from '@/types';
+import type { Workspace, Project, CreateTaskInput } from '@/types';
 
 import styles from './TaskForm.module.scss';
 
 type Props = {
-  defaultValues?: Partial<CreateTaskInput | UpdateTaskInput>;
+  defaultValues?: Partial<CreateTaskInput>;
   workspaces: Workspace[];
   projects: Project[];
   isLoading?: boolean;
-  onSubmit: SubmitHandler<CreateTaskInput | UpdateTaskInput>;
+  onSubmit: SubmitHandler<CreateTaskInput>;
   onCancel(): void;
 };
 
@@ -29,7 +29,7 @@ export function TaskFormBase({
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateTaskInput | UpdateTaskInput>({ defaultValues });
+  } = useForm<CreateTaskInput>({ defaultValues });
 
   const workspaceOptions = workspaces.map((w) => ({ value: w.id, label: w.name }));
   const projectOptions = [{ value: '', label: 'No Project' }].concat(

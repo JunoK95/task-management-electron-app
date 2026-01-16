@@ -1,5 +1,5 @@
 import { supabase } from '@/services/supabase/client';
-import type { Task, TaskInsert, TaskUpdate } from '@/types';
+import type { CreateTaskInput, Task, TaskUpdate } from '@/types';
 
 export type TaskFilters = {
   projectId?: string | null;
@@ -45,7 +45,7 @@ export async function getTaskById(id: string): Promise<Task> {
   return data;
 }
 
-export async function createTask(payload: TaskInsert): Promise<Task> {
+export async function createTask(payload: CreateTaskInput): Promise<Task> {
   const { data, error } = await supabase.from('tasks').insert(payload).select().single();
 
   if (error) throw error;
