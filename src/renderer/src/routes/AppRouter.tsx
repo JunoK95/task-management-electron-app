@@ -10,6 +10,7 @@ import ProjectDetailsPage from '@/pages/Projects/Details/ProjectDetailsPage';
 import NewProjectsPage from '@/pages/Projects/New/NewProjectsPage';
 import ProjectsPage from '@/pages/Projects/ProjectsPage';
 import SettingsPage from '@/pages/Settings/SettingsPage';
+import TagsPage from '@/pages/Tags/TagsPage';
 import TaskDetailsPage from '@/pages/Tasks/Details/TaskDetailsPage';
 import NewTasksPage from '@/pages/Tasks/New/NewTasksPage';
 import TasksPage from '@/pages/Tasks/TasksPage';
@@ -45,7 +46,10 @@ export default function AppRouter(): JSX.Element {
                   <Route path="new" element={<NewTasksPage />} />
                   <Route path=":taskId" element={<TaskDetailsPage />} />
                 </Route>
-
+                {/* Tags */}
+                <Route path="tags">
+                  <Route index element={<TagsPage />} />
+                </Route>
                 {/* Projects */}
                 <Route path="projects">
                   <Route index element={<ProjectsPage />} />

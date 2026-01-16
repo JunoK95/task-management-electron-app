@@ -4,13 +4,13 @@ export type Tables = Database['public']['Tables'];
 export type Enums = Database['public']['Enums'];
 export type Functions = Database['public']['Functions'];
 
-// Tables
-export type Workspace = Tables['workspaces']['Row'];
-export type Project = Tables['projects']['Row'];
-export type Task = Tables['tasks']['Row'];
-export type Profile = Tables['profiles']['Row'];
+// Raw DB rows (use sparingly)
+export type WorkspaceRow = Tables['workspaces']['Row'];
+export type ProjectRow = Tables['projects']['Row'];
+export type TaskRow = Tables['tasks']['Row'];
+export type ProfileRow = Tables['profiles']['Row'];
 
-// Inserts / Updates
+// Raw DB inserts/updates (DO NOT USE IN FORMS)
 export type WorkspaceInsert = Tables['workspaces']['Insert'];
 export type TaskInsert = Tables['tasks']['Insert'];
 export type TaskUpdate = Tables['tasks']['Update'];

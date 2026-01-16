@@ -15,7 +15,9 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 8px 12px;
+  font-size: 0.875rem;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  box-sizing: border-box;
   background: var(--bg-color);
   color: var(--text-color);
   border: none;
@@ -30,8 +32,8 @@
   margin-top: 6px;
 
   button {
-    font-size: 0.8rem;
-    padding: 4px 8px;
+    font-size: 0.875rem;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
     cursor: pointer;
   }
 }

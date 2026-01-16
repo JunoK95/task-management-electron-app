@@ -69,6 +69,36 @@ export type Database = {
           }
         ];
       };
+      project_tags: {
+        Row: {
+          project_id: string;
+          tag_id: string;
+        };
+        Insert: {
+          project_id: string;
+          tag_id: string;
+        };
+        Update: {
+          project_id?: string;
+          tag_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'project_tags_project_id_fkey';
+            columns: ['project_id'];
+            isOneToOne: false;
+            referencedRelation: 'projects';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'project_tags_tag_id_fkey';
+            columns: ['tag_id'];
+            isOneToOne: false;
+            referencedRelation: 'tags';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       projects: {
         Row: {
           created_at: string | null;
@@ -146,6 +176,77 @@ export type Database = {
           }
         ];
       };
+      tag_embeddings: {
+        Row: {
+          created_at: string | null;
+          embedding: string;
+          model: string | null;
+          tag_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          embedding: string;
+          model?: string | null;
+          tag_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          embedding?: string;
+          model?: string | null;
+          tag_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tag_embeddings_tag_id_fkey';
+            columns: ['tag_id'];
+            isOneToOne: true;
+            referencedRelation: 'tags';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      tags: {
+        Row: {
+          color: string | null;
+          created_at: string | null;
+          created_by: string;
+          id: string;
+          name: string;
+          workspace_id: string;
+        };
+        Insert: {
+          color?: string | null;
+          created_at?: string | null;
+          created_by?: string;
+          id?: string;
+          name: string;
+          workspace_id: string;
+        };
+        Update: {
+          color?: string | null;
+          created_at?: string | null;
+          created_by?: string;
+          id?: string;
+          name?: string;
+          workspace_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tags_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tags_workspace_id_fkey';
+            columns: ['workspace_id'];
+            isOneToOne: false;
+            referencedRelation: 'workspaces';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       task_attachments: {
         Row: {
           created_at: string | null;
@@ -213,6 +314,36 @@ export type Database = {
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      task_tags: {
+        Row: {
+          tag_id: string;
+          task_id: string;
+        };
+        Insert: {
+          tag_id: string;
+          task_id: string;
+        };
+        Update: {
+          tag_id?: string;
+          task_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'task_tags_tag_id_fkey';
+            columns: ['tag_id'];
+            isOneToOne: false;
+            referencedRelation: 'tags';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'task_tags_task_id_fkey';
+            columns: ['task_id'];
+            isOneToOne: false;
+            referencedRelation: 'tasks';
             referencedColumns: ['id'];
           }
         ];
@@ -397,6 +528,10 @@ export type Database = {
     };
     Functions: {
       create_workspace: { Args: { _name: string }; Returns: string };
+      is_workspace_member: {
+        Args: { _roles?: string[]; _workspace_id: string };
+        Returns: boolean;
+      };
     };
     Enums: {
       [_ in never]: never;

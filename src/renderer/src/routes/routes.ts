@@ -37,6 +37,11 @@ export const ROUTES = {
       ) => `/workspaces/${workspaceId}/projects/${projectId}`
     },
 
+    TAGS: {
+      ROOT: (workspaceId: string | ':workspaceId' = ':workspaceId') =>
+        `/workspaces/${workspaceId}/tags`
+    },
+
     SETTINGS: (workspaceId: string | ':workspaceId' = ':workspaceId') =>
       `/workspaces/${workspaceId}/settings`
   }

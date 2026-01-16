@@ -66,6 +66,7 @@ function TaskTable({ tasks, isLoading = false, onRowClick, darkMode = false }: P
         enableSorting: true
       })
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

@@ -91,6 +91,12 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
         >
           Dashboard
         </NavLink>
+        <NavLink
+          to={ROUTES.WORKSPACES.TAGS.ROOT(workspaceId)}
+          className={() => clsx(styles['sidebar__item'], styles['sidebar__item--top'])}
+        >
+          Tags
+        </NavLink>
         {groups.map((group, i) => (
           <Fragment key={group.title + i}>
             <CollapsibleSection

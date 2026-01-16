@@ -2,14 +2,15 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useProjects } from '@/queries/useProjects';
+import { themeVariables } from '@/styles/themeColors';
 import { Task } from '@/types';
 import { TaskPriority, TaskStatus } from '@/types/enums';
 import { assertDefined } from '@/utils/assertDefined';
 
 import styles from './TaskDetailsPanel.module.scss';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
-import Pill from '../Pill/Pill';
 import Select from '../Select/Select';
+import TaskTags from '../TaskTags/TaskTags';
 
 type Props = {
   task: Task;
@@ -92,12 +93,20 @@ function TaskDetailsPanel({ task, onChange }: Props) {
       <div className={styles.row}>
         <div className={styles.label}>Tags</div>
         <div className={styles.tagsGroup}>
-          <Pill label="Pill" />
-          <Pill label="success" type="success" />
-          <Pill label="Error" type="error" />
-          <Pill label="Warning" type="warning" />
-          <Pill label="Blue" type="blue" onClick={() => {}} />
-          <Pill label="+ add" type="invert" onClick={() => {}} />
+          <TaskTags
+            label="Pill"
+            onClick={() => {
+              console.log('click');
+            }}
+            onDeleteClick={() => {
+              console.log('delete clicked');
+            }}
+          />
+          <TaskTags label="success" color={themeVariables.success} />
+          <TaskTags label="Error" color={themeVariables.error} />
+          <TaskTags label="Warning" color={themeVariables.warning} />
+          <TaskTags label="Blue" color={themeVariables.low} onClick={() => {}} />
+          <TaskTags label="+ add" onClick={() => {}} />
         </div>
       </div>
     </section>
