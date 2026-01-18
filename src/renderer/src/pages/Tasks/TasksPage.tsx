@@ -2,13 +2,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { JSX, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { TaskFilters } from '@/api/tasks';
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import TaskTableFilters from '@/components/Tables/Controls/TaskTableFilters/TaskTableFilters';
 import TaskTable from '@/components/Tables/TaskTable/TaskTable';
 import { useTasks } from '@/queries/tasks/useTasks';
 import { ROUTES } from '@/routes/routes';
+import { TaskFilters } from '@/types';
 
 import styles from './TasksPage.module.scss';
 

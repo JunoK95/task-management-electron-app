@@ -1,5 +1,5 @@
 import { supabase } from '@/services/supabase/client';
-import type { Tag } from '@/types';
+import type { AddTagToTaskInput, CreateTagInput, RemoveTagFromTaskInput, Tag } from '@/types';
 
 /**
  * Get all tags for a workspace
@@ -41,11 +41,7 @@ export async function getTagsByTask(taskId: string): Promise<Tag[]> {
 /**
  * Create a new tag
  */
-export async function createTag(input: {
-  workspace_id: string;
-  name: string;
-  color?: string;
-}): Promise<Tag> {
+export async function createTag(input: CreateTagInput): Promise<Tag> {
   const { data, error } = await supabase.from('tags').insert(input).select().single();
 
   if (error) throw error;
@@ -55,7 +51,7 @@ export async function createTag(input: {
 /**
  * Attach an existing tag to a task
  */
-export async function addTagToTask(input: { task_id: string; tag_id: string }): Promise<void> {
+export async function addTagToTask(input: AddTagToTaskInput): Promise<void> {
   const { error } = await supabase.from('task_tags').insert(input);
 
   if (error) throw error;
@@ -74,7 +70,7 @@ export async function deleteTag(tagId: string): Promise<void> {
 /**
  * Remove a tag from a task (unlink only)
  */
-export async function removeTagFromTask(input: { task_id: string; tag_id: string }): Promise<void> {
+export async function removeTagFromTask(input: RemoveTagFromTaskInput): Promise<void> {
   const { error } = await supabase
     .from('task_tags')
     .delete()

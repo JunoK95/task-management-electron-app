@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createTask, TaskFilters } from '@/api/tasks';
+import { createTask } from '@/api/tasks';
+import { TaskFilters } from '@/types';
 
 export function useCreateTask(filters: TaskFilters) {
   const qc = useQueryClient();

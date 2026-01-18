@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useProjects } from '@/queries/projects/useProjects';
+import { useTaskTags } from '@/queries/tags/useTaskTags';
 import { themeVariables } from '@/styles/themeColors';
 import { Task } from '@/types';
 import { TaskPriority, TaskStatus } from '@/types/enums';
@@ -19,10 +20,13 @@ type Props = {
 
 function TaskDetailsPanel({ task, onChange }: Props) {
   const { workspaceId } = useParams();
-  const { due_at, priority, status } = task;
+  const { id, due_at, priority, status } = task;
 
   assertDefined(workspaceId, 'workspaceId is required');
   const { data: projects = [] } = useProjects(workspaceId);
+  const { data: tags } = useTaskTags(id);
+
+  console.log('Tags', tags);
 
   const projectOptions = useMemo(
     () =>

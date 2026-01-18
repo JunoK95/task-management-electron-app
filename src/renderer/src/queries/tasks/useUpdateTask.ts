@@ -2,63 +2,53 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { updateTask } from '@/api/tasks';
-import type { Task, TaskFilters, TaskUpdate } from '@/types';
+import { optimisticPatchAutoLists } from '@/lib/react-query/optimisticPatchAutoLists';
+import type { Task, UpdateTaskInput } from '@/types';
 import { dateToString } from '@/utils/dateToString';
 
-type TasksCache = {
-  data: Task[];
-  total: number;
-};
+const patchDefined = (obj: UpdateTaskInput): Partial<Task> =>
+  Object.fromEntries(
+    Object.entries(obj)
+      .map(([k, v]) => {
+        if (['start_at', 'due_at', 'remind_at'].includes(k)) {
+          return [k, v !== undefined ? dateToString(v as Date | null) : undefined];
+        }
+        return [k, v];
+      })
+      .filter(([, v]) => v !== undefined)
+  ) as Partial<Task>;
 
-export function useUpdateTask(filters: TaskFilters) {
+export function useUpdateTask(taskId: string, workspaceId: string) {
   const qc = useQueryClient();
-  const key = ['tasks', filters];
 
   return useMutation({
-    mutationFn: (input: TaskUpdate) => updateTask(input),
+    mutationFn: (input: UpdateTaskInput) => updateTask(input),
 
-    // -----------------------------------
-    // ⭐ Optimistic Update
-    // -----------------------------------
-    onMutate: async (updated: TaskUpdate) => {
-      await qc.cancelQueries({ queryKey: key });
+    onMutate: async (updated) => {
+      await qc.cancelQueries();
 
-      const previous = qc.getQueryData<TasksCache>(key);
+      const patch = patchDefined(updated);
 
-      const updatedForCache = {
-        ...updated,
-        start_at: dateToString(updated.start_at),
-        due_at: dateToString(updated.due_at),
-        remind_at: dateToString(updated.remind_at)
-      };
-
-      qc.setQueryData<TasksCache>(key, (old) => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: old.data.map((task) =>
-            task.id === updated.id ? { ...task, ...updatedForCache } : task
-          )
-        };
+      const optimistic = optimisticPatchAutoLists<Task>(qc, {
+        entityKey: ['task', taskId],
+        listPrefix: ['tasks', workspaceId],
+        id: updated.id,
+        patch
       });
 
-      return { previous };
+      return optimistic;
     },
 
-    // -----------------------------------
-    // ❗ Rollback on failure
-    // -----------------------------------
     onError: (_err, _vars, ctx) => {
-      if (ctx?.previous) {
-        qc.setQueryData(key, ctx.previous);
-      }
+      ctx?.rollback();
     },
 
-    // -----------------------------------
-    // 🔄 Always refetch server truth
-    // -----------------------------------
     onSettled: () => {
-      qc.invalidateQueries({ queryKey: key });
+      qc.invalidateQueries({ queryKey: ['task', taskId] });
+      qc.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) && q.queryKey[0] === 'tasks' && q.queryKey[1] === workspaceId
+      });
     }
   });
 }

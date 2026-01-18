@@ -1,16 +1,5 @@
 import { supabase } from '@/services/supabase/client';
-import type { CreateTaskInput, Task, TaskUpdate } from '@/types';
-
-export type TaskFilters = {
-  projectId?: string | null;
-  workspaceId?: string | null;
-  ownerId?: string | null;
-  priority?: Task['priority'] | 'all';
-  status?: Task['status'] | 'all';
-  search?: string | null;
-  page?: number;
-  perPage?: number;
-};
+import type { CreateTaskInput, Task, TaskFilters, UpdateTaskInput } from '@/types';
 
 export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; total: number }> {
   let query = supabase.from('tasks').select('*', { count: 'exact' });
@@ -51,7 +40,7 @@ export async function createTask(payload: CreateTaskInput): Promise<Task> {
   if (error) throw error;
   return data;
 }
-export async function updateTask(input: TaskUpdate): Promise<Task> {
+export async function updateTask(input: UpdateTaskInput): Promise<Task> {
   const { id, ...fields } = input;
 
   const { data, error } = await supabase
