@@ -1,5 +1,15 @@
+// modal/ModalContext.ts
 import { createContext } from 'react';
 
-import { ModalContextType } from './types';
+import type { ModalPayloads, ModalState, ModalType } from './types';
 
-export const ModalContext = createContext<ModalContextType | null>(null);
+export interface ModalContextValue {
+  modal: ModalState;
+  open: <K extends ModalType>(
+    type: K,
+    ...payload: ModalPayloads[K] extends void ? [] : [ModalPayloads[K]]
+  ) => void;
+  close: () => void;
+}
+
+export const ModalContext = createContext<ModalContextValue | undefined>(undefined);

@@ -2,8 +2,24 @@ import { useContext } from 'react';
 
 import { ModalContext } from '../context/modal/ModalContext';
 
-export const useModal = () => {
+export function useModal() {
   const ctx = useContext(ModalContext);
   if (!ctx) throw new Error('useModal must be used inside ModalProvider');
-  return ctx;
-};
+
+  return {
+    ...ctx,
+
+    // payload-less modal
+    openSettings: () => ctx.open('settings'),
+
+    // require workspaceId when opening create task
+    openCreateTask: (workspaceId: string, projectId?: string) => {
+      console.log(workspaceId, projectId);
+      ctx.open('task-create', { workspaceId, projectId });
+    },
+
+    // pass taskId
+    openViewTask: (taskId: string) => ctx.open('task-view', { taskId }),
+    openEditTask: (taskId: string) => ctx.open('task-edit', { taskId })
+  };
+}

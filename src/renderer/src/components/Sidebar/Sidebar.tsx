@@ -32,7 +32,7 @@ type Props = {
 };
 
 export default function Sidebar({ title, groups = [], showUserMenu = true }: Props): JSX.Element {
-  const { openTaskForm } = useModal();
+  const { openCreateTask } = useModal();
   const { data: workspaces } = useWorkspaces();
   const { workspaceId } = useParams();
   const navigate = useNavigate();
@@ -51,7 +51,9 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
 
   const handleQuickAddClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    openTaskForm();
+
+    if (!workspaceId) return; // do nothing if no workspace
+    openCreateTask(workspaceId);
   };
 
   return (

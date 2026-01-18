@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import Modal from '@/components/Modal/Modal';
-import { useModal } from '@/hooks/useModal';
 import { useProjects } from '@/queries/projects/useProjects';
 import { useCreateTask } from '@/queries/tasks/useCreateTask';
 import { ROUTES } from '@/routes/routes';
@@ -12,15 +11,17 @@ import styles from './TaskFormModal.module.scss';
 
 type Props = {
   workspaceId: string;
+  onClose: () => void;
 };
 
-function TaskFormModal({ workspaceId }: Props) {
-  const { closeTaskForm } = useModal();
+function TaskFormModal({ workspaceId, onClose }: Props) {
+  console.log('Workspace ID in TaskForm', workspaceId);
   const navigate = useNavigate();
   const { data: projects = [] } = useProjects(workspaceId);
   const createTask = useCreateTask({ workspaceId });
 
   const handleSubmit = (values: CreateTaskInput) => {
+    console.log('creating with', values);
     createTask.mutate(
       {
         ...values,
@@ -30,7 +31,7 @@ function TaskFormModal({ workspaceId }: Props) {
       {
         onSuccess: (task) => {
           alert('Task created successfully!');
-          closeTaskForm();
+          onClose();
           navigate(ROUTES.WORKSPACES.TASKS.DETAILS(workspaceId, task.id));
         }
       }
@@ -43,7 +44,7 @@ function TaskFormModal({ workspaceId }: Props) {
         <CreateTaskFormSimple
           projects={projects}
           isLoading={createTask.isPending}
-          onCancel={closeTaskForm}
+          onCancel={onClose}
           onSubmit={handleSubmit}
         />
       </div>
@@ -51,7 +52,7 @@ function TaskFormModal({ workspaceId }: Props) {
   };
 
   return (
-    <Modal open={true} onClose={closeTaskForm}>
+    <Modal open={true} onClose={onClose}>
       {renderSection()}
     </Modal>
   );

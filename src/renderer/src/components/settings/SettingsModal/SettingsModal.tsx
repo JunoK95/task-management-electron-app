@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { useModal } from '@/hooks/useModal';
-
 import styles from './SettingsModal.module.scss';
 import AccountSection from '../sections/AccountSection';
 import AdvancedSection from '../sections/AdvancedSection';
@@ -11,8 +9,11 @@ import ShortcutsSection from '../sections/ShortcutsSection';
 import SettingsSidebar from '../SettingsSidebar/SettingsSidebar';
 import { SettingsSection } from '../types';
 
-export default function SettingsModal() {
-  const { closeSettings } = useModal();
+type Props = {
+  onClose: () => void;
+};
+
+export default function SettingsModal({ onClose }: Props) {
   const [active, setActive] = useState<SettingsSection>('appearance');
 
   const renderSection = () => {
@@ -33,7 +34,7 @@ export default function SettingsModal() {
   };
 
   return (
-    <div className={styles.overlay} onClick={closeSettings}>
+    <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <SettingsSidebar active={active} onSelect={setActive} />
         <div className={styles.content}>{renderSection()}</div>

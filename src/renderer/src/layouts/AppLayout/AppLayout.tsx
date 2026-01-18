@@ -3,9 +3,8 @@ import { Menu } from 'lucide-react';
 import { JSX, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import TaskFormModal from '@/components/Forms/TaskForm/TaskFormModal';
+import { ModalRoot } from '@/components/ModalRoot/ModalRoot';
 import Sidebar from '@/components/Sidebar/Sidebar';
-import { useModal } from '@/hooks/useModal';
 import { useCurrentWorkspace } from '@/queries/workspaces/useCurrentWorkspace';
 import { ROUTES } from '@/routes/routes';
 
@@ -13,7 +12,6 @@ import styles from './AppLayout.module.scss';
 
 export default function AppLayout(): JSX.Element {
   const navigate = useNavigate();
-  const { isTaskFormOpen } = useModal();
   const { data: workspace } = useCurrentWorkspace();
 
   const workspaceId = workspace?.id;
@@ -77,9 +75,8 @@ export default function AppLayout(): JSX.Element {
         <main className={styles.content}>
           <Outlet />
         </main>
+        <ModalRoot />
       </div>
-
-      {isTaskFormOpen && workspaceId && <TaskFormModal workspaceId={workspaceId} />}
     </>
   );
 }
