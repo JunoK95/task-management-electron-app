@@ -1,70 +1,16 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
+import {
+  clamp,
+  hexToRgb,
+  hsvToRgb,
+  isValidHex,
+  normalizeHex,
+  rgbToHex,
+  rgbToHsv
+} from '@/utils/colorAndHex';
+
 import styles from './ColorPicker.module.scss';
-
-const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
-
-const isValidHex = (v: string) => /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v);
-
-const normalizeHex = (v: string) =>
-  v.length === 4 ? `#${v[1]}${v[1]}${v[2]}${v[2]}${v[3]}${v[3]}` : v.toLowerCase();
-
-function hexToRgb(hex: string) {
-  const v = hex.replace('#', '');
-  const n = parseInt(
-    v.length === 3
-      ? v
-          .split('')
-          .map((c) => c + c)
-          .join('')
-      : v,
-    16
-  );
-  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
-}
-
-function rgbToHex(r: number, g: number, b: number) {
-  return `#${[r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('')}`;
-}
-
-function rgbToHsv(r: number, g: number, b: number) {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  const d = max - min;
-  let h = 0;
-  const s = max === 0 ? 0 : d / max;
-  if (d !== 0) {
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
-    }
-    h /= 6;
-  }
-  return { h, s, v: max };
-}
-
-function hsvToRgb(h: number, s: number, v: number) {
-  const i = Math.floor(h * 6);
-  const f = h * 6 - i;
-  const p = v * (1 - s),
-    q = v * (1 - f * s),
-    t = v * (1 - (1 - f) * s);
-  const m = i % 6;
-  const r = [v, q, p, p, t, v][m];
-  const g = [t, v, v, q, p, p][m];
-  const b = [p, p, t, v, v, q][m];
-  return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-}
 
 export type ColorPickerProps = {
   value?: string;
@@ -131,6 +77,7 @@ export default function ColorPicker({ value = '#3b82f6', onChange, size = 180 }:
     setInputValue(rgbToHex(rgbObj.r, rgbObj.g, rgbObj.b));
     emit(nh, s, v);
   };
+
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setInputValue(val);
@@ -143,15 +90,19 @@ export default function ColorPicker({ value = '#3b82f6', onChange, size = 180 }:
         <div
           ref={satRef}
           className={styles.sat}
-          style={{ width: size, height: size, background: `hsl(${h * 360},100%,50%)` }}
+          style={
+            {
+              '--hue': `${h * 360}deg`,
+              width: size,
+              height: size
+            } as React.CSSProperties
+          }
           onPointerDown={(e) => {
             (e.target as HTMLElement).setPointerCapture(e.pointerId);
             onSatPointer(e);
           }}
           onPointerMove={(e) => e.buttons && onSatPointer(e)}
         >
-          <div className={styles.satWhite} />
-          <div className={styles.satBlack} />
           <div
             className={styles.satThumb}
             style={{ left: `calc(${s * 100}% - 0.5rem)`, top: `calc(${(1 - v) * 100}% - 0.5rem)` }}

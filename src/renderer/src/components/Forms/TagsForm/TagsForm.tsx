@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/Button/Button';
 import ColorPicker from '@/components/ColorPicker/ColorPicker';
+import Dropdown from '@/components/Dropdown/Dropdown';
 import Input from '@/components/Input/Input';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import TaskTags from '@/components/TaskTags/TaskTags';
@@ -28,14 +29,19 @@ function TagsForm({}: Props) {
     createTag.mutate({ workspace_id: workspaceId, name: inputValue, color: '#0D0D0D' });
   };
 
-  console.log('Available Tags', tags);
+  const handleColorChange = (color: string) => {
+    console.log(color);
+    setColorValue(color);
+  };
 
   return (
     <div>
       <div>
         <Input label={'Tag label'} value={inputValue} onChange={handleChange} />
         <div>
-          <ColorPicker value={colorValue} onChange={(color: string) => setColorValue(color)} />
+          <Dropdown label={'color'}>
+            <ColorPicker value={colorValue} onChange={handleColorChange} />
+          </Dropdown>
         </div>
         <Button onClick={handleSubmit}>Submit</Button>
       </div>

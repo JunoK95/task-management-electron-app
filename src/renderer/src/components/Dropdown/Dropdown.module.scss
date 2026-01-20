@@ -20,8 +20,8 @@
   position: absolute;
   top: 110%;
   min-width: 160px;
-  background: #fff;
-  border: 1px solid #d0d0d4;
+  background: var(--bg-color);
+  color: var(--text-color);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   padding: 6px 0;
