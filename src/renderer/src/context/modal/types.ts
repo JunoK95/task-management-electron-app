@@ -1,6 +1,7 @@
 // modal/types.ts
 export type ModalPayloads = {
   settings: void;
+  'tags-view': { taskId: string };
   'task-create': { workspaceId: string; projectId?: string };
   'task-view': { taskId: string };
   'task-edit': { taskId: string };

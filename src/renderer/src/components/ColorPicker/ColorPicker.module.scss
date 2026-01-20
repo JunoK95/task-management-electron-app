@@ -1,0 +1,85 @@
+.root {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  user-select: none;
+}
+
+.sat {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  touch-action: none;
+  box-sizing: border-box;
+}
+
+.satWhite {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+.satBlack {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #000, transparent);
+}
+
+.satThumb {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hue {
+  position: relative;
+  width: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(to top, red, yellow, lime, cyan, blue, magenta, red);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  touch-action: none;
+}
+
+.hueThumb {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.valueRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.input {
+  width: 112px;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: none;
+}

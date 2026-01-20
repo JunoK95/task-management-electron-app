@@ -1,7 +1,13 @@
+import TagsForm from '@/components/Forms/TagsForm/TagsForm';
+
 type Props = {};
 
 function TagsPage({}: Props) {
-  return <div>TagsPage</div>;
+  return (
+    <div>
+      <TagsForm />
+    </div>
+  );
 }
 
 export default TagsPage;

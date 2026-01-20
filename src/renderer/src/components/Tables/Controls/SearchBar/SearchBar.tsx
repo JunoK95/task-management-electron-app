@@ -6,10 +6,16 @@ import styles from './SearchBar.module.scss';
 type Props = {
   value: string;
   onChange: (v: string) => void;
+  placeholder?: string;
   debounceMs?: number;
 };
 
-export default function SearchBar({ value, onChange, debounceMs = 300 }: Props) {
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = 'Search',
+  debounceMs = 300
+}: Props) {
   const [internalValue, setInternalValue] = useState(value);
   const [debouncedValue] = useDebounce(internalValue, debounceMs);
 
@@ -22,7 +28,7 @@ export default function SearchBar({ value, onChange, debounceMs = 300 }: Props) 
     <input
       type="text"
       className={styles.input}
-      placeholder="Search tasks..."
+      placeholder={placeholder}
       value={internalValue}
       onChange={(e) => setInternalValue(e.target.value)}
     />

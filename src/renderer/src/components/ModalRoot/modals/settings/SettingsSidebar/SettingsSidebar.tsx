@@ -14,7 +14,7 @@ interface Props {
 
 export default function SettingsSidebar({ active, onSelect }: Props) {
   const { signOut } = useAuth();
-  const { closeSettings } = useModal();
+  const { close } = useModal();
 
   const groups = [
     {
@@ -39,7 +39,7 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
 
   const handleLogout = async () => {
     await signOut();
-    closeSettings();
+    close();
   };
 
   return (
