@@ -17,6 +17,8 @@
     border: 1px solid var(--border);
     font-size: 14px;
     outline: none;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     transition: border-color 0.15s ease;
 
     &:focus {

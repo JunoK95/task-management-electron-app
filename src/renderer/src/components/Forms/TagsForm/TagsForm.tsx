@@ -1,8 +1,10 @@
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/Button/Button';
 import ColorPicker from '@/components/ColorPicker/ColorPicker';
+import ColorPickerOpenButton from '@/components/ColorPicker/ColorPickerOpenButton';
 import Dropdown from '@/components/Dropdown/Dropdown';
 import Input from '@/components/Input/Input';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
@@ -17,7 +19,7 @@ function TagsForm({}: Props) {
   const { data: tags = [] } = useWorkspaceTags(workspaceId);
   const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [colorValue, setColorValue] = useState('');
+  const [colorValue, setColorValue] = useState('#FFF');
 
   const createTag = useCreateTag(workspaceId);
 
@@ -39,7 +41,13 @@ function TagsForm({}: Props) {
       <div>
         <Input label={'Tag label'} value={inputValue} onChange={handleChange} />
         <div>
-          <Dropdown label={'color'}>
+          <Dropdown
+            trigger={
+              <ColorPickerOpenButton color={colorValue}>
+                <ChevronDown size={16} />
+              </ColorPickerOpenButton>
+            }
+          >
             <ColorPicker value={colorValue} onChange={handleColorChange} />
           </Dropdown>
         </div>

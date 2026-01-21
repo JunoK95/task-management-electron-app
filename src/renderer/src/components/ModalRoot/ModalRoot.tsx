@@ -13,6 +13,7 @@ export function ModalRoot() {
     case 'task-create':
       return <TaskFormModal {...modal.payload} onClose={close} />;
 
+    case 'tags-view':
     case null:
     default:
       return null;

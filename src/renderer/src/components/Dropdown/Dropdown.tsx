@@ -1,23 +1,29 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, cloneElement, ReactElement } from 'react';
 
 import styles from './Dropdown.module.scss';
 
+type Clickable = {
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  'aria-haspopup'?: string;
+  'aria-expanded'?: boolean;
+};
+
 interface DropdownProps {
-  label: React.ReactNode;
+  trigger: ReactElement<Clickable>;
   children: React.ReactNode;
   align?: 'left' | 'right';
 }
 
-export default function Dropdown({ label, children, align = 'left' }: DropdownProps) {
+export default function Dropdown({ trigger, children, align = 'left' }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
+    const handleClick = (e: Event) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
-    }
+    };
 
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
@@ -25,9 +31,14 @@ export default function Dropdown({ label, children, align = 'left' }: DropdownPr
 
   return (
     <div className={styles.wrapper} ref={ref}>
-      <button className={styles.trigger} onClick={() => setOpen((v) => !v)}>
-        {label}
-      </button>
+      {cloneElement(trigger, {
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          trigger.props.onClick?.(e);
+          setOpen((v) => !v);
+        },
+        'aria-haspopup': 'menu',
+        'aria-expanded': open
+      })}
 
       {open && <div className={`${styles.menu} ${styles[`menu--${align}`]}`}>{children}</div>}
     </div>
