@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useModal } from '@/hooks/useModal';
 import { useProjects } from '@/queries/projects/useProjects';
+import { useRemoveTagFromTask } from '@/queries/tags/useRemoveTagFromTask';
 import { useTaskTags } from '@/queries/tags/useTaskTags';
-import { themeVariables } from '@/styles/themeColors';
 import { Task } from '@/types';
 import { TaskPriority, TaskStatus } from '@/types/enums';
 import { assertDefined } from '@/utils/assertDefined';
@@ -25,8 +26,8 @@ function TaskDetailsPanel({ task, onChange }: Props) {
   assertDefined(workspaceId, 'workspaceId is required');
   const { data: projects = [] } = useProjects(workspaceId);
   const { data: tags } = useTaskTags(id);
-
-  console.log('Tags', tags);
+  const { openViewTaskTags } = useModal();
+  const removeTagFromTask = useRemoveTagFromTask(id);
 
   const projectOptions = useMemo(
     () =>
@@ -55,6 +56,10 @@ function TaskDetailsPanel({ task, onChange }: Props) {
     if (task[name] === value) return;
 
     onChange(name, value);
+  };
+
+  const handleRemoveTag = (tagId: string) => {
+    removeTagFromTask.mutate({ tag_id: tagId, task_id: id });
   };
 
   return (
@@ -97,20 +102,18 @@ function TaskDetailsPanel({ task, onChange }: Props) {
       <div className={styles.row}>
         <div className={styles.label}>Tags</div>
         <div className={styles.tagsGroup}>
-          <TaskTags
-            label="Pill"
-            onClick={() => {
-              console.log('click');
-            }}
-            onDeleteClick={() => {
-              console.log('delete clicked');
-            }}
-          />
-          <TaskTags label="success" color={themeVariables.success} />
-          <TaskTags label="Error" color={themeVariables.error} />
-          <TaskTags label="Warning" color={themeVariables.warning} />
-          <TaskTags label="Blue" color={themeVariables.low} onClick={() => {}} />
-          <TaskTags label="+ add" onClick={() => {}} />
+          {tags &&
+            tags.map((tag) => (
+              <TaskTags
+                key={`task-detail-tag-${tag.id}`}
+                label={tag.name}
+                color={tag.color || undefined}
+                onDeleteClick={() => {
+                  handleRemoveTag(tag.id);
+                }}
+              />
+            ))}
+          <TaskTags label="+ add" onClick={() => openViewTaskTags(workspaceId, id)} />
         </div>
       </div>
     </section>

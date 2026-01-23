@@ -21,6 +21,9 @@ export function useModal() {
     // pass taskId
     openViewTask: (taskId: string) => ctx.open('task-view', { taskId }),
     openEditTask: (taskId: string) => ctx.open('task-edit', { taskId }),
-    openViewTags: (taskId: string) => ctx.open('tags-view', { taskId })
+    openViewTags: (taskId: string) => ctx.open('tags-view', { taskId }),
+    openCreateTags: (workspaceId: string) => ctx.open('tags-create', { workspaceId }),
+    openViewTaskTags: (workspaceId: string, taskId: string) =>
+      ctx.open('task-tags-view', { workspaceId, taskId })
   };
 }

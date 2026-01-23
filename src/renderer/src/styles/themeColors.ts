@@ -61,3 +61,32 @@ export const darkThemeVariables = {
   success: '#30d158',
   warning: '#ffd60a'
 };
+
+export const accentOptions = [
+  // Red
+  { id: 'crimson', label: 'Crimson', value: '#E5484D' },
+
+  // Orange
+  { id: 'orange', label: 'Orange', value: '#F97316' },
+
+  // Yellow
+  { id: 'amber', label: 'Amber', value: '#F59E0B' },
+
+  // Green
+  { id: 'emerald', label: 'Emerald', value: '#10B981' },
+
+  // Blue
+  { id: 'blue', label: 'Blue', value: '#0A84FF' },
+
+  // Indigo
+  { id: 'indigo', label: 'Indigo', value: '#6366F1' },
+
+  // Violet
+  { id: 'purple', label: 'Purple', value: '#8B5CF6' },
+
+  // Pink
+  { id: 'pink', label: 'Pink', value: '#EC4899' },
+
+  // Neutral
+  { id: 'slate', label: 'Slate', value: '#475569' }
+];

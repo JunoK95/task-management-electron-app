@@ -94,3 +94,16 @@
   background: none;
   color: var(--text-color);
 }
+
+.recommendedColors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 16px);
+  gap: 8px;
+  .recommendedColor {
+    width: 16px;
+    height: 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+}

@@ -1,15 +1,15 @@
-import TagsForm from '@/components/Forms/TagsForm/TagsForm';
+import CreateTagForm from '@/components/Forms/CreateTagForm/CreateTagForm';
 import Modal from '@/components/Modal/Modal';
-import { useModal } from '@/hooks/useModal';
 
-type Props = {};
+type Props = {
+  workspaceId: string;
+  onClose: () => void;
+};
 
-function TagsFormModal({}: Props) {
-  const { close } = useModal();
-
+function TagsFormModal({ workspaceId, onClose }: Props) {
   return (
-    <Modal open={true} onClose={close}>
-      <TagsForm />
+    <Modal open={true} onClose={onClose}>
+      <CreateTagForm workspaceId={workspaceId} />
     </Modal>
   );
 }

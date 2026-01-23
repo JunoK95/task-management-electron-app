@@ -1,11 +1,15 @@
 @use '../../styles/index.scss';
 
 .tag {
-  display: flex;
+  display: inline-flex;
   gap: 4px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  flex: 0 0 auto;
+  width: fit-content;
+
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid var(--hover);
@@ -16,9 +20,12 @@
   &:hover {
     background-color: var(--hover);
   }
+
   .text {
     @extend .overline;
+    white-space: nowrap; // ⬅️ prevents wrapping expansion
   }
+
   .delete {
     display: flex;
     align-items: center;
@@ -27,6 +34,7 @@
     margin-right: -8px;
     border-radius: 100%;
     transition: 0.15s ease;
+
     &:hover {
       background-color: rgba($color: #333, $alpha: 0.5);
     }

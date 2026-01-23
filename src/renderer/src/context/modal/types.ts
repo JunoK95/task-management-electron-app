@@ -2,9 +2,11 @@
 export type ModalPayloads = {
   settings: void;
   'tags-view': { taskId: string };
+  'tags-create': { workspaceId: string };
   'task-create': { workspaceId: string; projectId?: string };
   'task-view': { taskId: string };
   'task-edit': { taskId: string };
+  'task-tags-view': { workspaceId: string; taskId: string };
 };
 
 export type ModalType = keyof ModalPayloads;

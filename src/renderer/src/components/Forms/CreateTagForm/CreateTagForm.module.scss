@@ -1,0 +1,33 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100%;
+  }
+
+  .tagPreview {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+  }
+
+  .inputWrapper {
+    flex: 0 0 auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+}

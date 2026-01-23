@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
+import { accentOptions } from '@/styles/themeColors';
 import {
   clamp,
   hexToRgb,
@@ -16,9 +17,17 @@ export type ColorPickerProps = {
   value?: string;
   onChange?: (hex: string) => void;
   size?: number;
+  recommendedColors?: string[];
 };
 
-export default function ColorPicker({ value = '#3b82f6', onChange, size = 180 }: ColorPickerProps) {
+const defaultRecommendedColors = accentOptions.map((color) => color.value);
+
+export default function ColorPicker({
+  value = '#3b82f6',
+  recommendedColors = defaultRecommendedColors,
+  onChange,
+  size = 180
+}: ColorPickerProps) {
   const { r, g, b } = hexToRgb(value);
   const initial = rgbToHsv(r, g, b);
 
@@ -124,7 +133,21 @@ export default function ColorPicker({ value = '#3b82f6', onChange, size = 180 }:
           </div>
         </div>
       </div>
-
+      {recommendedColors && (
+        <div className={styles.recommendedColors}>
+          {recommendedColors.map((color) => (
+            <div
+              key={color}
+              className={styles.recommendedColor}
+              style={{ background: color }}
+              onClick={() => {
+                setInputValue(color);
+                commitInput(color);
+              }}
+            />
+          ))}
+        </div>
+      )}
       <div className={styles.valueRow}>
         <div className={styles.preview} style={{ background: hex }} />
         <input className={styles.input} value={inputValue} onChange={onInputChange} />
