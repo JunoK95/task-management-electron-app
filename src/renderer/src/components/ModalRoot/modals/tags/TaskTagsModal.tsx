@@ -1,9 +1,14 @@
+import { useState } from 'react';
+
 import Modal from '@/components/Modal/Modal';
-import TaskTags from '@/components/TaskTags/TaskTags';
+import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import { useAddTagToTask } from '@/queries/tags/useAddTagToTask';
 import { useRemoveTagFromTask } from '@/queries/tags/useRemoveTagFromTask';
 import { useTaskTags } from '@/queries/tags/useTaskTags';
 import { useWorkspaceTags } from '@/queries/tags/useWorkspaceTags';
+import { Tag } from '@/types';
+
+import { TagsTable } from './TagsTable';
 
 type Props = {
   taskId: string;
@@ -17,6 +22,9 @@ function TaskTagsModal({ taskId, workspaceId, onClose }: Props) {
   const { data: taskTags = [] } = useTaskTags(taskId);
   const addTagToTask = useAddTagToTask(taskId);
   const removeTagFromTask = useRemoveTagFromTask(taskId);
+  const [searchValue, setSearchValue] = useState('');
+
+  const selectedTagIds = taskTags.map((tag) => tag.id);
 
   const handleAddTag = (tagId: string) => {
     addTagToTask.mutate({ tag_id: tagId, task_id: taskId });
@@ -28,26 +36,26 @@ function TaskTagsModal({ taskId, workspaceId, onClose }: Props) {
   console.log('Workspace Tags', workspaceTags);
   console.log('Task Tags', taskTags);
 
+  const handleRowClick = (tag: Tag, isSelected: boolean) => {
+    if (isSelected) {
+      handleAddTag(tag.id);
+    } else {
+      handleRemoveTag(tag.id);
+    }
+  };
+
   return (
     <Modal open={true} onClose={onClose}>
-      <div>Tags for Task {taskId}</div>
-      {workspaceTags.map((tag) => (
-        <TaskTags
-          key={tag.id}
-          label={tag.name}
-          color={tag.color || undefined}
-          onClick={() => handleAddTag(tag.id)}
-        />
-      ))}
-      <div>Tags attached to Task:</div>
-      {taskTags.map((tag) => (
-        <TaskTags
-          key={tag.id}
-          label={tag.name}
-          color={tag.color || undefined}
-          onDeleteClick={() => handleRemoveTag(tag.id)}
-        />
-      ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: '400px' }}>
+        <SearchBar value={searchValue} onChange={(value) => setSearchValue(value)} />
+        <div>
+          <TagsTable
+            data={workspaceTags}
+            onRowClick={handleRowClick}
+            selectedTagIds={selectedTagIds}
+          />
+        </div>
+      </div>
     </Modal>
   );
 }

@@ -1,0 +1,95 @@
+@use '../../../../styles/index.scss';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ======================
+   ROW
+   ====================== */
+.row {
+  height: 36px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+
+  &:hover {
+    background-color: var(--hover);
+  }
+
+  &[data-selected='true'] {
+    background-color: var(--hover);
+  }
+}
+
+/* ======================
+   CELL BASE
+   ====================== */
+.cell {
+  padding: 0 12px;
+  vertical-align: middle;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* ======================
+   COLOR DOT
+   ====================== */
+.color {
+  width: 32px;
+  padding-left: 16px;
+
+  span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+}
+
+/* ======================
+   TAG NAME
+   ====================== */
+.name {
+  @extend .overline;
+  font-weight: 500;
+}
+
+/* ======================
+   TASK COUNT
+   ====================== */
+.task_count {
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* ======================
+   SELECT (CHECKBOX)
+   ====================== */
+.select {
+  width: 48px;
+  padding-right: 16px;
+  text-align: right;
+
+  input {
+    cursor: pointer;
+    transition: opacity 120ms ease;
+  }
+}
+
+/* Default: hidden */
+.select input {
+  opacity: 0;
+  pointer-events: none;
+  color-scheme: light;
+}
+
+/* Show on hover OR when selected */
+.row:hover .select input,
+.row[data-selected='true'] .select input {
+  opacity: 1;
+  pointer-events: auto;
+}
