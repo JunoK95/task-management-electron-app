@@ -5,11 +5,8 @@
   border-collapse: collapse;
 }
 
-/* ======================
-   ROW
-   ====================== */
 .row {
-  height: 36px;
+  height: 30px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: background-color 120ms ease;
@@ -21,21 +18,24 @@
   &[data-selected='true'] {
     background-color: var(--hover);
   }
+
+  &:first-child {
+    border-top: 1px solid var(--border);
+  }
 }
 
-/* ======================
-   CELL BASE
-   ====================== */
 .cell {
-  padding: 0 12px;
+  padding: 0 4px;
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-color);
+  &.no-data {
+    text-align: center;
+    padding: 16px 0;
+    color: var(--text-muted);
+  }
 }
 
-/* ======================
-   COLOR DOT
-   ====================== */
 .color {
   width: 32px;
   padding-left: 16px;
@@ -48,27 +48,18 @@
   }
 }
 
-/* ======================
-   TAG NAME
-   ====================== */
 .name {
   @extend .overline;
   font-weight: 500;
 }
 
-/* ======================
-   TASK COUNT
-   ====================== */
-.task_count {
+.due_date {
   text-align: right;
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 11px;
   white-space: nowrap;
 }
 
-/* ======================
-   SELECT (CHECKBOX)
-   ====================== */
 .select {
   width: 48px;
   padding-right: 16px;

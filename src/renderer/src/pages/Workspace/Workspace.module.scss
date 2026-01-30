@@ -1,0 +1,20 @@
+@use '../../styles/index.scss';
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 200px;
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    @extend .overline;
+  }
+}
