@@ -25,7 +25,18 @@ async function createWorkspace(payload: { name: string }) {
   });
 
   if (error) throw error;
-  return data; // workspace_id
+  return data;
 }
 
-export { getWorkspaces, getWorkspace, createWorkspace };
+async function getWorkspaceDashboardStats(workspaceId: string) {
+  const { data, error } = await supabase
+    .from('workspace_dashboard_stats')
+    .select('*')
+    .eq('workspace_id', workspaceId)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export { getWorkspaces, getWorkspace, createWorkspace, getWorkspaceDashboardStats };

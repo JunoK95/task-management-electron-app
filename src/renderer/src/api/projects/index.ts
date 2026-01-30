@@ -21,3 +21,14 @@ export async function createProject(payload: ProjectFormValues) {
   if (error) throw error;
   return data;
 }
+
+export async function getProjectDashboardStats(projectId: string) {
+  const { data, error } = await supabase
+    .from('project_dashboard_stats')
+    .select('*')
+    .eq('project_id', projectId)
+    .single();
+
+  if (error) throw error;
+  return data;
+}

@@ -1,7 +1,9 @@
 import { supabase } from '@/services/supabase/client';
 import type { CreateTaskInput, Task, TaskFilters, UpdateTaskInput } from '@/types';
+import { dateToString } from '@/utils/dateToString';
+import { addDays } from 'date-fns';
 
-export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; total: number }> {
+export async function getTasks(filters: TaskFilters) {
   let query = supabase.from('tasks').select('*', { count: 'exact' });
 
   if (filters.projectId) query = query.eq('project_id', filters.projectId);
@@ -15,15 +17,35 @@ export async function getTasks(filters: TaskFilters): Promise<{ data: Task[]; to
 
   if (filters.search) query = query.ilike('title', `%${filters.search}%`);
 
+  // 🔥 Upcoming tasks logic
+  if (filters.upcomingDays) {
+    const now = new Date();
+    const futureDate = addDays(now, filters.upcomingDays);
+    const nowISO = dateToString(now);
+    const futureISO = dateToString(futureDate);
+
+    console.log('Now ISO:', nowISO);
+    console.log('Future ISO:', futureISO);
+
+    query = query.gte('due_at', nowISO).lte('due_at', futureISO);
+  }
+
+  // Optional overdue include
+  // TODO: Fix this to work with upcomingDays filter
+  if (filters.includeOverdue) {
+    const now = new Date();
+    const nowISO = dateToString(now);
+    query = query.or(`due_at.lt.${nowISO},due_at.is.null`);
+  }
+
   const page = filters.page ?? 1;
   const perPage = filters.perPage ?? 10;
 
   const { data, error, count } = await query
-    .order('created_at', { ascending: false })
+    .order('due_at', { ascending: true }) // upcoming tasks sorted by due date
     .range((page - 1) * perPage, page * perPage - 1);
 
   if (error) throw error;
-
   return { data: data ?? [], total: count ?? 0 };
 }
 

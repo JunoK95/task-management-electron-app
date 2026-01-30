@@ -29,4 +29,6 @@ export type TaskFilters = {
   search?: string | null;
   page?: number;
   perPage?: number;
+  upcomingDays?: number;
+  includeOverdue?: boolean;
 };

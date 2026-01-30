@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import { useProjectDashboardStats } from '@/queries/projects/useProjectDashboardStats';
 import { useProjectDetails } from '@/queries/projects/useProjectDetails';
 import { useTasks } from '@/queries/tasks/useTasks';
 import { assertDefined } from '@/utils/assertDefined';
@@ -13,13 +14,16 @@ function ProjectDetailsPage({}: Props) {
 
   const { data: project } = useProjectDetails(projectId);
   const { data: tasksData } = useTasks({ projectId: projectId });
+  const { data: projectDashboardStats } = useProjectDashboardStats(projectId);
 
   const tasks = tasksData?.data || [];
+
+  console.log('Project Dashboard Stats:', projectDashboardStats);
 
   return (
     <div>
       <h1>{project?.name}</h1>
-      <code>{project?.objective}</code>
+      <p>{project?.objective}</p>
       <p>{project?.description}</p>
       {tasks.length === 0 && <p>No tasks found for this project.</p>}
       <ul>

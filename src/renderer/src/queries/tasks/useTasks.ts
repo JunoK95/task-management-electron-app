@@ -1,14 +1,14 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { getTasks, TaskFilters } from '@/api/tasks';
-import { Task } from '@/types';
+import { getTasks } from '@/api/tasks';
+import { Task, TaskFilters } from '@/types';
 
 export function useTasks(filters: TaskFilters): UseQueryResult<{ data: Task[]; total: number }> {
   return useQuery({
     queryKey: ['tasks', filters],
     queryFn: () => getTasks(filters),
     staleTime: 5000,
-    retry: false, // Add this to prevent infinite retries on errors
+    retry: false,
     refetchOnWindowFocus: true
   });
 }
