@@ -33,14 +33,37 @@ function WorkspacePage({}: Props) {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
       <h2>{workspace?.name || 'No workspace found'}</h2>
       <div className={styles['dashboard-grid']}>
-        <div>Graph</div>
         <Card>
           <div className={styles['card-container']}>
             <div className={styles['card-header']}>
               <div>Upcoming tasks ({upcomingTasks?.total || 0})</div>
+              <div>
+                <ChevronLeft size={16} />
+                <ChevronRight size={16} />
+              </div>
+            </div>
+            <TaskTableSimplified data={upcomingTasks?.data || []} onRowClick={handleRowClick} />
+          </div>
+        </Card>
+        <Card>
+          <div className={styles['card-container']}>
+            <div className={styles['card-header']}>
+              <div>Ongoing projects</div>
+              <div>
+                <ChevronLeft size={16} />
+                <ChevronRight size={16} />
+              </div>
+            </div>
+            <TaskTableSimplified data={upcomingTasks?.data || []} onRowClick={handleRowClick} />
+          </div>
+        </Card>
+        <Card>
+          <div className={styles['card-container']}>
+            <div className={styles['card-header']}>
+              <div>People</div>
               <div>
                 <ChevronLeft size={16} />
                 <ChevronRight size={16} />

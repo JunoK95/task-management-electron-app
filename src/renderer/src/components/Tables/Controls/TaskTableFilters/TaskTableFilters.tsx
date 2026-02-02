@@ -1,4 +1,4 @@
-import { TaskFilters } from '@/api/tasks';
+import { TaskFilters } from '@/types';
 
 import styles from './TaskTableFilters.module.scss';
 

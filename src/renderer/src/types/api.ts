@@ -1,4 +1,4 @@
-import type { Task, Workspace } from './db';
+import type { TaskRow, WorkspaceRow } from './db';
 
 export interface CreateWorkspaceInput {
   name: string;
@@ -10,10 +10,10 @@ export interface CreateWorkspaceResponse {
 
 export interface TasksByProject {
   projectId: string;
-  tasks: Task[];
+  tasks: TaskRow[];
 }
 
 export interface WorkspaceSummary {
-  workspace: Workspace;
+  workspace: WorkspaceRow;
   taskCount: number;
 }

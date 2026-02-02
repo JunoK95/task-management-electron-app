@@ -1,7 +1,8 @@
+import { addDays } from 'date-fns';
+
 import { supabase } from '@/services/supabase/client';
 import type { CreateTaskInput, Task, TaskFilters, UpdateTaskInput } from '@/types';
 import { dateToString } from '@/utils/dateToString';
-import { addDays } from 'date-fns';
 
 export async function getTasks(filters: TaskFilters) {
   let query = supabase.from('tasks').select('*', { count: 'exact' });
