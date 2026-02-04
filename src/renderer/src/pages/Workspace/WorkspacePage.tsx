@@ -6,6 +6,7 @@ import ProjectItem from '@/components/ProjectItem/ProjectItem';
 import { TaskTableSimplified } from '@/components/Tables/TaskTableSimplified/TaskTableSimplified';
 import { useProjects } from '@/queries/projects/useProjects';
 import { useTasks } from '@/queries/tasks/useTasks';
+import { useWorkspaceMembers } from '@/queries/workspace_members/useWorkspaceMembers';
 import { useCurrentWorkspace } from '@/queries/workspaces/useCurrentWorkspace';
 import { useWorkspaceDashboard } from '@/queries/workspaces/useWorkspaceDashboardStats';
 import { ROUTES } from '@/routes/routes';
@@ -31,6 +32,7 @@ function WorkspacePage({}: Props) {
     perPage: 10
   });
   const { data: projects } = useProjects(workspaceId);
+  const { data: members } = useWorkspaceMembers(workspaceId);
 
   console.log('Workspace Dashboard Stats:', workspaceDashboardStats);
   console.log('Upcoming Tasks:', upcomingTasks);
@@ -125,7 +127,19 @@ function WorkspacePage({}: Props) {
                 <ChevronRight size={16} />
               </div>
             </div>
-            <TaskTableSimplified data={upcomingTasks?.data || []} onRowClick={handleRowClick} />
+            <div className={styles['projects-grid']}>
+              {members && members.length > 0 ? (
+                members.map((member) => (
+                  <div key={member.id} className={styles.item}>
+                    {member.email}
+                    <br />
+                    {member.role}
+                  </div>
+                ))
+              ) : (
+                <div>No members found</div>
+              )}
+            </div>
           </div>
         </Card>
       </div>
