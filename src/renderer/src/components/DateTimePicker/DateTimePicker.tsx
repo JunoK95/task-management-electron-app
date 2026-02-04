@@ -88,6 +88,9 @@ const DateTimePicker = React.forwardRef<HTMLInputElement, DateTimePickerProps>(
           {inputValue
             ? formatDisplay(fromDateTimeLocal(inputValue)) // convert to ISO for display
             : (placeholder ?? 'Select date & time')}
+          <svg className={styles.arrow} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M5.23 7.21a.75.75 0 011.06.02L10 11.793l3.71-4.565a.75.75 0 111.14.977l-4.25 5.227a.75.75 0 01-1.14 0l-4.25-5.227a.75.75 0 01.02-1.06z" />
+          </svg>
         </button>
 
         <input

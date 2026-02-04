@@ -100,6 +100,14 @@ function TaskDetailsPanel({ task, onChange }: Props) {
         />
       </div>
       <div className={styles.row}>
+        <div className={styles.label}>Assignee</div>
+        <DateTimePicker
+          name="due_at"
+          value={due_at ? due_at : undefined}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className={styles.row}>
         <div className={styles.label}>Tags</div>
         <div className={styles.tagsGroup}>
           {tags &&

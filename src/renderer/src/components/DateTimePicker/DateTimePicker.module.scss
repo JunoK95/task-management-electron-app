@@ -12,6 +12,7 @@
 }
 
 .selector {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -45,10 +46,12 @@
   pointer-events: none;
 }
 
-/* Custom arrow */
 .arrow {
-  margin-left: auto;
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
   pointer-events: none;
+  transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
   fill: #6b7280; /* Gray-500 */

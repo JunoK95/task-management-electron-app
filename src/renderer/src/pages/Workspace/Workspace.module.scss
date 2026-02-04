@@ -1,5 +1,26 @@
 @use '../../styles/index.scss';
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  .stat-container {
+    display: flex;
+    flex-direction: column;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      @extend .overline;
+    }
+    .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+  }
+}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -17,4 +38,10 @@
     align-items: flex-start;
     @extend .overline;
   }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
 }
