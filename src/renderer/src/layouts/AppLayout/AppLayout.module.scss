@@ -18,8 +18,14 @@
 }
 
 .content {
+  display: flex;
+  justify-content: center;
   flex: 1;
   overflow: auto;
+  & .content-inner {
+    width: 100%;
+    max-width: 1200px;
+  }
 }
 
 /* Mobile */

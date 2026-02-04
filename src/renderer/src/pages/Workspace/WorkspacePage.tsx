@@ -53,8 +53,6 @@ function WorkspacePage({}: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: 1200,
-        margin: '0 auto',
         gap: '12px'
       }}
     >

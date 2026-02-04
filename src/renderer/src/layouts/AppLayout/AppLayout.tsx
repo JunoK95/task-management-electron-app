@@ -73,7 +73,9 @@ export default function AppLayout(): JSX.Element {
         {isSidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
 
         <main className={styles.content}>
-          <Outlet />
+          <div className={styles['content-inner']}>
+            <Outlet />
+          </div>
         </main>
         <ModalRoot />
       </div>
