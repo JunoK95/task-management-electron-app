@@ -1,14 +1,16 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { ColumnDef } from '@tanstack/react-table';
+import { formatDistanceToNow } from 'date-fns';
 import { JSX, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import TaskTableFilters from '@/components/Tables/Controls/TaskTableFilters/TaskTableFilters';
-import TaskTable from '@/components/Tables/TaskTable/TaskTable';
+import { DataTable } from '@/components/Tables/DataTable/DataTable';
 import { useTasks } from '@/queries/tasks/useTasks';
 import { ROUTES } from '@/routes/routes';
-import { TaskFilters } from '@/types';
+import { Task, TaskFilters } from '@/types';
 
 import styles from './TasksPage.module.scss';
 
@@ -28,24 +30,64 @@ function TasksPage(): JSX.Element {
     [page, perPage, status, priority, search, workspaceId]
   );
 
-  const { data, isFetching } = useTasks(filters);
+  const { data: tasks, isFetching } = useTasks(filters);
 
-  const totalPages = data ? Math.ceil(data.total / perPage) : 1;
+  const totalPages = tasks ? Math.ceil(tasks.total / perPage) : 1;
 
   const handlePageChange = (nextPage: number): void => {
     if (nextPage < 1 || nextPage > totalPages || nextPage === page) return;
     setPage(nextPage);
   };
 
-  const handleRowClick = (id: string): void => {
-    const task = data?.data.find((t) => t.id === id);
+  const handleRowClick = (rowData: Partial<Task>): void => {
+    const id = rowData.id as string;
+    const task = tasks?.data.find((t) => t.id === id);
     if (!task) return;
 
-    // ✅ seed detail cache
+    // seed task detail cache
     queryClient.setQueryData(['task', id], task);
 
     navigate(ROUTES.WORKSPACES.TASKS.DETAILS(task.workspace_id!, task.id));
   };
+
+  const columns: ColumnDef<Partial<Task>>[] = [
+    {
+      accessorKey: 'title',
+      header: 'Task',
+      cell: (info) => info.getValue()
+    },
+    {
+      accessorKey: 'project.name',
+      header: 'Project',
+      cell: (info) => info.getValue() || '-'
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status'
+    },
+    {
+      accessorKey: 'priority',
+      header: 'Priority'
+    },
+    {
+      accessorKey: 'due_at',
+      header: 'Due Date',
+      cell: (info) => {
+        const v = info.getValue() as string;
+        return v ? formatDistanceToNow(new Date(v), { addSuffix: true }) : '-';
+      }
+    }
+  ];
+
+  const data: Partial<Task>[] =
+    tasks?.data.map((task) => ({
+      id: task.id,
+      title: task.title,
+      status: task.status,
+      project: task.project,
+      priority: task.priority,
+      due_at: task.due_at
+    })) || [];
 
   return (
     <div className={styles.container}>
@@ -57,7 +99,7 @@ function TasksPage(): JSX.Element {
         onStatusChange={setStatus}
         onPriorityChange={setPriority}
       />
-      <TaskTable tasks={data?.data ?? []} isLoading={isFetching} onRowClick={handleRowClick} />
+      <DataTable data={data ?? []} columns={columns} onRowClick={handleRowClick} />
       <Pagination
         page={page}
         totalPages={totalPages}

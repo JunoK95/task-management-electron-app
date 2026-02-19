@@ -32,3 +32,9 @@ export type TaskFilters = {
   upcomingDays?: number;
   includeOverdue?: boolean;
 };
+
+export type SuggestedTaskFilters = {
+  workspaceId: string;
+  projectId?: string;
+  completedTaskId?: string;
+};

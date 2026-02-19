@@ -1,0 +1,47 @@
+@use '../../../styles/index.scss';
+
+.wrapper {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headerCell {
+  @extend .overline;
+  text-align: left;
+  padding: 8px;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.table thead tr th:last-child {
+  text-align: right;
+}
+
+.row {
+  transition: background 0.15s ease;
+  .cell {
+    padding: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cell:last-child {
+    text-align: right;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--hover);
+  }
+
+  &:active {
+    background-color: var(--border);
+  }
+}

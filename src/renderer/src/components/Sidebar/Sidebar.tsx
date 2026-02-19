@@ -82,7 +82,7 @@ export default function Sidebar({ title, groups = [], showUserMenu = true }: Pro
           Quick Add
         </div>
         <NavLink
-          to={'/dashboard'}
+          to={ROUTES.WORKSPACES.DASHBOARD(workspaceId!)}
           className={({ isActive }) =>
             clsx(
               styles['sidebar__item'],

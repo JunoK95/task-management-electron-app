@@ -1,11 +1,27 @@
 import { addDays } from 'date-fns';
 
 import { supabase } from '@/services/supabase/client';
-import type { CreateTaskInput, Task, TaskFilters, UpdateTaskInput } from '@/types';
+import type {
+  CreateTaskInput,
+  SuggestedTask,
+  SuggestedTaskFilters,
+  Task,
+  TaskFilters,
+  UpdateTaskInput
+} from '@/types';
 import { dateToString } from '@/utils/dateToString';
 
 export async function getTasks(filters: TaskFilters) {
-  let query = supabase.from('tasks').select('*', { count: 'exact' });
+  let query = supabase.from('tasks').select(
+    `
+      *,
+      project:projects (
+        id,
+        name
+      )
+    `,
+    { count: 'exact' }
+  );
 
   if (filters.projectId) query = query.eq('project_id', filters.projectId);
   if (filters.workspaceId) query = query.eq('workspace_id', filters.workspaceId);
@@ -18,24 +34,20 @@ export async function getTasks(filters: TaskFilters) {
 
   if (filters.search) query = query.ilike('title', `%${filters.search}%`);
 
-  // 🔥 Upcoming tasks logic
   if (filters.upcomingDays) {
     const now = new Date();
     const futureDate = addDays(now, filters.upcomingDays);
     const nowISO = dateToString(now);
     const futureISO = dateToString(futureDate);
 
-    console.log('Now ISO:', nowISO);
-    console.log('Future ISO:', futureISO);
-
     query = query.gte('due_at', nowISO).lte('due_at', futureISO);
   }
 
-  // Optional overdue include
-  // TODO: Fix this to work with upcomingDays filter
   if (filters.includeOverdue) {
     const now = new Date();
     const nowISO = dateToString(now);
+
+    // ⚠️ note: or() overrides previous filters unless wrapped properly
     query = query.or(`due_at.lt.${nowISO},due_at.is.null`);
   }
 
@@ -43,10 +55,11 @@ export async function getTasks(filters: TaskFilters) {
   const perPage = filters.perPage ?? 10;
 
   const { data, error, count } = await query
-    .order('due_at', { ascending: true }) // upcoming tasks sorted by due date
+    .order('due_at', { ascending: true })
     .range((page - 1) * perPage, page * perPage - 1);
 
   if (error) throw error;
+
   return { data: data ?? [], total: count ?? 0 };
 }
 
@@ -82,4 +95,28 @@ export async function deleteTask(id: string): Promise<Task> {
 
   if (error) throw error;
   return data;
+}
+
+export async function getTaskSuggestions({
+  workspaceId,
+  projectId,
+  completedTaskId
+}: SuggestedTaskFilters): Promise<SuggestedTask[]> {
+  const { data, error } = await supabase.functions.invoke('generate-task-suggestions', {
+    body: {
+      workspace_id: workspaceId,
+      project_id: projectId,
+      completed_task_id: completedTaskId
+    }
+  });
+
+  if (error) throw error;
+
+  // Parse the string inside data to get usable JSON
+  let parsedData: { suggestions: SuggestedTask[] } = { suggestions: [] };
+  if (typeof data === 'string') {
+    parsedData = JSON.parse(data);
+  }
+
+  return parsedData.suggestions;
 }
