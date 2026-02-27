@@ -7,7 +7,7 @@ import { assertDefined } from '@/utils/assertDefined';
 
 import styles from './TaskDetailsPage.module.scss';
 
-function TaskDetailsPage({}) {
+function TaskDetailsPage() {
   const { workspaceId, taskId } = useParams();
 
   assertDefined(workspaceId, 'WorkspaceID required');
@@ -30,18 +30,14 @@ function TaskDetailsPage({}) {
 
   const task = taskDetails.data;
 
-  const { title = '', description = ' ' } = task;
+  const { title = '', description = '' } = task;
 
   const handleUpdate = (name: string, value: string) => {
-    console.log(name, value);
     updateTask.mutate(
       { id: taskId, [name]: value },
       {
         onError: (e) => {
           console.error(e);
-        },
-        onSuccess: () => {
-          console.log('SUCCESS');
         }
       }
     );

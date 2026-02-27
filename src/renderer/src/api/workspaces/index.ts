@@ -14,9 +14,9 @@ async function getWorkspaces(): Promise<Workspace[]> {
 }
 
 async function getWorkspace(id: string): Promise<Workspace> {
-  const { data, error } = await supabase.from('workspaces').select('*').eq('id', id);
+  const { data, error } = await supabase.from('workspaces').select('*').eq('id', id).single();
   if (error) throw error;
-  return data[0];
+  return data;
 }
 
 async function createWorkspace(payload: { name: string }) {

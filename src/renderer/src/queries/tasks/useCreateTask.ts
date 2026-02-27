@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createTask } from '@/api/tasks';
-import { TaskFilters } from '@/types';
+import { Task, TaskFilters } from '@/types';
+
+type TaskList = { data: Task[]; total: number };
 
 export function useCreateTask(filters: TaskFilters) {
   const qc = useQueryClient();
@@ -13,12 +15,12 @@ export function useCreateTask(filters: TaskFilters) {
 
       await qc.cancelQueries({ queryKey: key });
 
-      const previous = qc.getQueryData(key);
+      const previous = qc.getQueryData<TaskList>(key);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      qc.setQueryData(key, (old: any[] | undefined) => {
-        if (!old) return [{ ...newTask, id: 'optimistic-' + crypto.randomUUID() }];
-        return [...old, { ...newTask, id: 'optimistic-' + crypto.randomUUID() }];
+      qc.setQueryData<TaskList>(key, (old) => {
+        const optimisticTask = { ...newTask, id: 'optimistic-' + crypto.randomUUID() } as Task;
+        if (!old) return { data: [optimisticTask], total: 1 };
+        return { ...old, data: [...old.data, optimisticTask], total: old.total + 1 };
       });
 
       return { previous };
@@ -33,5 +35,5 @@ export function useCreateTask(filters: TaskFilters) {
     }
   });
 
-  return mutation; // returns the full mutation object, which includes isLoading
+  return mutation;
 }

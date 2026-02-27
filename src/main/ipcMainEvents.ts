@@ -2,11 +2,20 @@ import { ipcMain } from 'electron';
 import nodeNotifier from 'node-notifier';
 
 export default function ipcMainEvents(): void {
-  ipcMain.on('ping', () => console.log('pong'));
+  ipcMain.on('notify', (_event, payload: unknown) => {
+    if (
+      typeof payload !== 'object' ||
+      payload === null ||
+      typeof (payload as Record<string, unknown>).title !== 'string' ||
+      typeof (payload as Record<string, unknown>).message !== 'string'
+    ) {
+      return;
+    }
 
-  // Listen for notification requests from renderer
-  ipcMain.on('notify', (event, { title, message }) => {
-    console.log('Notification request received:', title, message, event && 'event');
+    const { title, message } = payload as { title: string; message: string };
+
+    if (!title.trim() || !message.trim()) return;
+
     nodeNotifier.notify(
       {
         title: `${title} ${Date.now()}`, // force unique ID
@@ -14,9 +23,8 @@ export default function ipcMainEvents(): void {
         sound: true,
         wait: false
       },
-      (err, response, metadata) => {
+      (err) => {
         if (err) console.error('Notifier error:', err);
-        else console.log('Notifier result:', response, metadata);
       }
     );
   });

@@ -11,8 +11,6 @@ export async function getWorkspaceMembers(workspaceId: string) {
 
   const userIds = memberIds.map((m) => m.user_id);
 
-  console.log('User IDs:', memberIds);
-
   const { data: users, error: userError } = await supabase
     .from('profiles')
     .select('*')
@@ -22,10 +20,7 @@ export async function getWorkspaceMembers(workspaceId: string) {
 
   const combinedData = memberIds.map((member) => {
     const user = users?.find((u) => u.id === member.user_id);
-    return {
-      ...member,
-      ...user
-    };
+    return user ? { ...member, ...user } : member;
   });
 
   return combinedData;

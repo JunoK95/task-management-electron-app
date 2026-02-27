@@ -15,9 +15,7 @@ import { assertDefined } from '@/utils/assertDefined';
 
 import styles from './Workspace.module.scss';
 
-type Props = {};
-
-function WorkspacePage({}: Props) {
+function WorkspacePage() {
   const navigate = useNavigate();
   const { workspaceId } = useParams();
 
@@ -34,16 +32,11 @@ function WorkspacePage({}: Props) {
   const { data: projects } = useProjects(workspaceId);
   const { data: members } = useWorkspaceMembers(workspaceId);
 
-  console.log('Workspace Dashboard Stats:', workspaceDashboardStats);
-  console.log('Upcoming Tasks:', upcomingTasks);
-
-  const handleRowClick = (task: Task, isSelected: boolean) => {
-    console.log('Clicked task:', task, 'Is selected:', isSelected);
+  const handleRowClick = (task: Task) => {
     navigate(ROUTES.WORKSPACES.TASKS.DETAILS(workspaceId, task.id));
   };
 
   const handleProjectClick = (project: Project) => {
-    console.log('Project clicked:', project);
     navigate(ROUTES.WORKSPACES.PROJECTS.DETAILS(workspaceId, project.id));
   };
 
