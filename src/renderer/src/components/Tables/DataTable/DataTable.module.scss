@@ -4,6 +4,22 @@
   width: 100%;
 }
 
+/* Density Variables */
+.default {
+  --cell-padding-y: 8px;
+  --cell-padding-x: 6px;
+}
+
+.compact {
+  --cell-padding-y: 6px;
+  --cell-padding-x: 4px;
+}
+
+.spacious {
+  --cell-padding-y: 12px;
+  --cell-padding-x: 10px;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -12,26 +28,22 @@
 .headerCell {
   @extend .overline;
   text-align: left;
-  padding: 8px;
+  padding: var(--cell-padding-y) var(--cell-padding-x);
   font-size: 11px;
   border-bottom: 1px solid var(--border);
   font-weight: 600;
 }
 
-.table thead tr th:last-child {
-  text-align: right;
-}
-
 .row {
   transition: background 0.15s ease;
-  .cell {
-    padding: 8px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-  }
+
   .cell:last-child {
     text-align: right;
   }
+}
+
+.table thead tr th:last-child {
+  text-align: right;
 }
 
 .clickable {
@@ -44,4 +56,14 @@
   &:active {
     background-color: var(--border);
   }
+}
+
+.selected {
+  background-color: var(--hover);
+}
+
+.cell {
+  padding: var(--cell-padding-y) var(--cell-padding-x);
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
 }

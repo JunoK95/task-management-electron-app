@@ -1,0 +1,59 @@
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Sizes */
+.sm {
+  width: 6px;
+  height: 6px;
+}
+
+.md {
+  width: 8px;
+  height: 8px;
+}
+
+.lg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Status colors */
+.success {
+  background-color: var(--success, #16a34a);
+}
+
+.warning {
+  background-color: var(--warning, #f59e0b);
+}
+
+.error {
+  background-color: var(--error, #dc2626);
+}
+
+.info {
+  background-color: var(--info, #2563eb);
+}
+
+.neutral {
+  background-color: var(--muted, #9ca3af);
+}
+
+/* Slow pulse animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2.5s ease-in-out infinite;
+}

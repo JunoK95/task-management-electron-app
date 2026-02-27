@@ -27,17 +27,22 @@ function ProjectDetailsPage() {
   const [page, setPage] = useState(1);
 
   const { data: myProfile } = useMyProfile();
-  const { data: project } = useProjectDetails(projectId);
-  const { data: tasksData } = useTasks({ projectId, page, perPage: PER_PAGE });
+  const {
+    data: project,
+    isPending: projectPending,
+    isError: projectError
+  } = useProjectDetails(projectId);
+  const {
+    data: tasksData,
+    isPending: tasksPending,
+    isError: tasksError
+  } = useTasks({ projectId, page, perPage: PER_PAGE });
   const { data: projectDashboardStats } = useProjectDashboardStats(projectId);
   const { data: suggestedTasks } = useSuggestedTasks({ workspaceId, projectId });
 
-  // Suppress unused warning during development — remove when myProfile is used in UI
+  // Suppress unused warning during development — remove when used in UI
   void myProfile;
   void projectDashboardStats;
-
-  const tasks = tasksData?.data ?? [];
-  const totalPages = Math.max(1, Math.ceil((tasksData?.total ?? 0) / PER_PAGE));
 
   const mostSuggestedTaskIds = useMemo(
     () => new Set(suggestedTasks?.slice(0, 3).map((t) => t.task_id)),
@@ -82,6 +87,12 @@ function ProjectDetailsPage() {
     ],
     [mostSuggestedTaskIds]
   );
+
+  if (projectPending || tasksPending) return <div>Loading...</div>;
+  if (projectError || tasksError) return <div>Error loading project.</div>;
+
+  const tasks = tasksData?.data ?? [];
+  const totalPages = Math.max(1, Math.ceil((tasksData?.total ?? 0) / PER_PAGE));
 
   const data: Partial<Task>[] = tasks.map((task) => ({
     id: task.id,

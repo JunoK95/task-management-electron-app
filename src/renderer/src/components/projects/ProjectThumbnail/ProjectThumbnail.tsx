@@ -1,3 +1,4 @@
+import Card from '@/components/Card/Card';
 import { Project } from '@/types';
 
 import styles from './ProjectThumbnail.module.scss';
@@ -11,9 +12,9 @@ function ProjectThumbnail({ project, onClick }: Props) {
   const { name } = project;
 
   return (
-    <div className={styles.container} onClick={onClick}>
+    <Card className={styles.container} onClick={onClick}>
       <div className={styles.name}>{name}</div>
-    </div>
+    </Card>
   );
 }
 
