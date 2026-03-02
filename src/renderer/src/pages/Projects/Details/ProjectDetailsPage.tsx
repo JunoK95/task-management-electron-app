@@ -3,6 +3,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { generateProjectPlan } from '@/api/projects';
+import { Button } from '@/components/Button/Button';
 import StatusDot from '@/components/StatusDot/StatusDot';
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
 import { DataTable } from '@/components/Tables/DataTable/DataTable';
@@ -25,6 +27,7 @@ function ProjectDetailsPage() {
   assertDefined(workspaceId, 'workspaceId is required');
 
   const [page, setPage] = useState(1);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const { data: myProfile } = useMyProfile();
   const {
@@ -39,6 +42,17 @@ function ProjectDetailsPage() {
   } = useTasks({ projectId, page, perPage: PER_PAGE });
   const { data: projectDashboardStats } = useProjectDashboardStats(projectId);
   const { data: suggestedTasks } = useSuggestedTasks({ workspaceId, projectId });
+
+  const handleProjectTaskGeneration = async () => {
+    setIsGenerating(true);
+    try {
+      await generateProjectPlan({ projectId, workspaceId });
+    } catch (error) {
+      console.error('Error generating project plan:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   // Suppress unused warning during development — remove when used in UI
   void myProfile;
@@ -110,6 +124,11 @@ function ProjectDetailsPage() {
 
   return (
     <div>
+      <div>
+        <Button onClick={handleProjectTaskGeneration} disabled={isGenerating}>
+          {isGenerating ? 'Generating...' : 'Generate Tasks'}
+        </Button>
+      </div>
       <h1>{project?.name}</h1>
       <p>{project?.objective}</p>
       <p>{project?.description}</p>

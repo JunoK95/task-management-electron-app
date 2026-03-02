@@ -32,3 +32,21 @@ export async function getProjectDashboardStats(projectId: string) {
   if (error) throw error;
   return data;
 }
+
+export async function generateProjectPlan({
+  projectId,
+  workspaceId
+}: {
+  projectId: string;
+  workspaceId: string;
+}) {
+  const response = await supabase.functions.invoke('generate-project-plan', {
+    body: { workspace_id: workspaceId, project_id: projectId }
+  });
+
+  const { data, error } = response;
+  console.log('generateProjectPlan response:', { data, error });
+
+  if (error) throw error;
+  return response;
+}
