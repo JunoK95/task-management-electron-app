@@ -3,11 +3,12 @@ import { formatDistanceToNow } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { generateProjectPlan } from '@/api/projects';
 import { Button } from '@/components/Button/Button';
 import StatusDot from '@/components/StatusDot/StatusDot';
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
 import { DataTable } from '@/components/Tables/DataTable/DataTable';
+import { useModal } from '@/hooks/useModal';
+import { useGenerateProjectPlan } from '@/queries/projects/useGenerateProjectPlan';
 import { useProjectDashboardStats } from '@/queries/projects/useProjectDashboardStats';
 import { useProjectDetails } from '@/queries/projects/useProjectDetails';
 import { useSuggestedTasks } from '@/queries/tasks/useSuggestedTasks';
@@ -21,13 +22,15 @@ const PER_PAGE = 10;
 
 function ProjectDetailsPage() {
   const navigate = useNavigate();
+  const { openGeneratedTasks, openCreateTask } = useModal();
   const { projectId, workspaceId } = useParams();
 
   assertDefined(projectId, 'projectId is required');
   assertDefined(workspaceId, 'workspaceId is required');
 
   const [page, setPage] = useState(1);
-  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generatePlan = useGenerateProjectPlan(projectId, workspaceId);
 
   const { data: myProfile } = useMyProfile();
   const {
@@ -43,15 +46,15 @@ function ProjectDetailsPage() {
   const { data: projectDashboardStats } = useProjectDashboardStats(projectId);
   const { data: suggestedTasks } = useSuggestedTasks({ workspaceId, projectId });
 
-  const handleProjectTaskGeneration = async () => {
-    setIsGenerating(true);
-    try {
-      await generateProjectPlan({ projectId, workspaceId });
-    } catch (error) {
-      console.error('Error generating project plan:', error);
-    } finally {
-      setIsGenerating(false);
-    }
+  const handleProjectTaskGeneration = () => {
+    openGeneratedTasks(projectId, workspaceId, [], true);
+    generatePlan.mutate(undefined, {
+      onSuccess: (tasks) => openGeneratedTasks(projectId, workspaceId, tasks, false),
+      onError: (error) => {
+        console.error('Error generating project plan:', error);
+        openGeneratedTasks(projectId, workspaceId, [], false);
+      }
+    });
   };
 
   // Suppress unused warning during development — remove when used in UI
@@ -124,12 +127,15 @@ function ProjectDetailsPage() {
 
   return (
     <div>
-      <div>
-        <Button onClick={handleProjectTaskGeneration} disabled={isGenerating}>
-          {isGenerating ? 'Generating...' : 'Generate Tasks'}
-        </Button>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <h1 style={{ margin: 0 }}>{project?.name}</h1>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button variant="secondary" onClick={() => openCreateTask(workspaceId, projectId)}>
+            Add Task
+          </Button>
+          <Button onClick={handleProjectTaskGeneration}>Auto Add</Button>
+        </div>
       </div>
-      <h1>{project?.name}</h1>
       <p>{project?.objective}</p>
       <p>{project?.description}</p>
       {tasks.length === 0 ? (

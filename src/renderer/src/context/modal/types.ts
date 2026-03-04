@@ -1,3 +1,5 @@
+import { Task } from '@/types';
+
 // modal/types.ts
 export type ModalPayloads = {
   settings: void;
@@ -7,6 +9,7 @@ export type ModalPayloads = {
   'task-view': { taskId: string };
   'task-edit': { taskId: string };
   'task-tags-view': { workspaceId: string; taskId: string };
+  'generated-tasks': { tasks: Task[]; isLoading: boolean; projectId: string; workspaceId: string };
 };
 
 export type ModalType = keyof ModalPayloads;

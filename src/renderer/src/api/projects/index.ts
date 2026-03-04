@@ -1,5 +1,5 @@
 import { supabase } from '@/services/supabase/client';
-import { Project, ProjectFormValues } from '@/types';
+import { Project, ProjectFormValues, Task } from '@/types';
 
 export async function getProjectById(id: string): Promise<Project> {
   const { data, error } = await supabase.from('projects').select().eq('id', id).single();
@@ -39,14 +39,11 @@ export async function generateProjectPlan({
 }: {
   projectId: string;
   workspaceId: string;
-}) {
-  const response = await supabase.functions.invoke('generate-project-plan', {
+}): Promise<Task[]> {
+  const { data, error } = await supabase.functions.invoke('generate-project-plan', {
     body: { workspace_id: workspaceId, project_id: projectId }
   });
 
-  const { data, error } = response;
-  console.log('generateProjectPlan response:', { data, error });
-
   if (error) throw error;
-  return response;
+  return (data as { tasks: Task[] }).tasks ?? [];
 }

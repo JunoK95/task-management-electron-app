@@ -1,5 +1,6 @@
 import { useModal } from '@/hooks/useModal';
 
+import GeneratedTasksModal from './modals/project/GeneratedTasksModal';
 import SettingsModal from './modals/settings/SettingsModal/SettingsModal';
 import TagsFormModal from './modals/tags/TagsFormModal';
 import TaskTagsModal from './modals/tags/TaskTagsModal';
@@ -14,7 +15,9 @@ export function ModalRoot() {
     case 'task-create':
       return <TaskFormModal {...modal.payload} onClose={close} />;
     case 'tags-view':
-      return;
+      return null;
+    case 'generated-tasks':
+      return <GeneratedTasksModal {...modal.payload} onClose={close} />;
     case 'tags-create':
       return <TagsFormModal {...modal.payload} onClose={close} />;
     case 'task-tags-view':

@@ -5,7 +5,7 @@ import { SuggestedTask, SuggestedTaskFilters } from '@/types';
 
 export function useSuggestedTasks(filters: SuggestedTaskFilters): UseQueryResult<SuggestedTask[]> {
   return useQuery({
-    queryKey: ['tasks', filters],
+    queryKey: ['task-suggestions', filters],
     queryFn: () => getTaskSuggestions(filters),
     staleTime: 5000,
     retry: false,

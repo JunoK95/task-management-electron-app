@@ -53,8 +53,11 @@ export default function ProjectForm({ defaultValues, loading, onSubmit }: Props)
 
       {/* Footer */}
       <div className={styles.footer}>
+        <Button color="secondary" type="submit" disabled={loading}>
+          {loading ? 'Creating...' : 'Create Project'}
+        </Button>
         <Button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create project'}
+          {loading ? 'Creating...' : 'Create & Auto-generate tasks'}
         </Button>
       </div>
     </form>

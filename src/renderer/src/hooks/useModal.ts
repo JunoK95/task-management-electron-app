@@ -24,6 +24,8 @@ export function useModal() {
     openViewTags: (taskId: string) => ctx.open('tags-view', { taskId }),
     openCreateTags: (workspaceId: string) => ctx.open('tags-create', { workspaceId }),
     openViewTaskTags: (workspaceId: string, taskId: string) =>
-      ctx.open('task-tags-view', { workspaceId, taskId })
+      ctx.open('task-tags-view', { workspaceId, taskId }),
+    openGeneratedTasks: (projectId: string, workspaceId: string, tasks: import('@/types').Task[] = [], isLoading = false) =>
+      ctx.open('generated-tasks', { tasks, isLoading, projectId, workspaceId })
   };
 }
