@@ -18,6 +18,8 @@ import { ROUTES } from '@/routes/routes';
 import { Task } from '@/types';
 import { assertDefined } from '@/utils/assertDefined';
 
+import styles from './ProjectDetailsPage.module.scss';
+
 const PER_PAGE = 10;
 
 function ProjectDetailsPage() {
@@ -77,7 +79,7 @@ function ProjectDetailsPage() {
         accessorKey: 'title',
         header: 'Task',
         cell: (info) => (
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px' }}>
+          <div className={styles.titleCell}>
             {mostSuggestedTaskIds.has(info.row.original.id!) && (
               <StatusDot status="success" size="sm" pulse={true} />
             )}
@@ -127,9 +129,9 @@ function ProjectDetailsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ margin: 0 }}>{project?.name}</h1>
-        <div style={{ display: 'flex', gap: '8px' }}>
+      <div className={styles.header}>
+        <h1>{project?.name}</h1>
+        <div className={styles.headerActions}>
           <Button variant="secondary" onClick={() => openCreateTask(workspaceId, projectId)}>
             Add Task
           </Button>

@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+
+.titleCell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}

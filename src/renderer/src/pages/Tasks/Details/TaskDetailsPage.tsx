@@ -45,10 +45,14 @@ function TaskDetailsPage() {
 
   return (
     <div className={styles.page}>
-      <h2>{title}</h2>
-      <p>{description ? description : 'No Description'}</p>
-      <div className={styles['details-panel']}>
-        <TaskDetailsPanel task={task} onChange={handleUpdate} />
+      <div className={styles.layout}>
+        <div className={styles.content}>
+          <h2>{title}</h2>
+          <p>{description ? description : 'No Description'}</p>
+        </div>
+        <div className={styles['details-panel']}>
+          <TaskDetailsPanel task={task} onChange={handleUpdate} />
+        </div>
       </div>
     </div>
   );
