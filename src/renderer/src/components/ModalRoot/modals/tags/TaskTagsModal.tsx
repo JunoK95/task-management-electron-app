@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import Modal from '@/components/Modal/Modal';
+import { Modal } from 'juno-ui-library';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import { TagsTable } from '@/components/Tables/TagsTable/TagsTable';
 import { useAddTagToTask } from '@/queries/tags/useAddTagToTask';
@@ -42,7 +42,7 @@ function TaskTagsModal({ taskId, workspaceId, onClose }: Props) {
   };
 
   return (
-    <Modal open onClose={onClose}>
+    <Modal open onClose={onClose} title="Task Tags">
       <div
         style={{
           display: 'flex',

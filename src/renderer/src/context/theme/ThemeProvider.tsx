@@ -7,10 +7,11 @@ type Theme = 'light' | 'dark';
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setThemeState] = useState<Theme>('light');
 
-  // Apply theme to <body>
+  // Apply theme to <body> and <html data-theme> (for juno-ui-library)
   const applyTheme = (t: Theme) => {
     document.body.classList.remove('light', 'dark');
     document.body.classList.add(t);
+    document.documentElement.setAttribute('data-theme', t);
   };
 
   // Safe setter that updates class + state + localStorage

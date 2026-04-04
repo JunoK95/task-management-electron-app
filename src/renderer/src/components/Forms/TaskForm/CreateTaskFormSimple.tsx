@@ -1,13 +1,11 @@
 import clsx from 'clsx';
-import { useForm } from 'react-hook-form';
+import { Button, DatePicker } from 'juno-ui-library';
+import { Select } from 'juno-ui-library';
+import { useForm, Controller } from 'react-hook-form';
 
 import AutoGrowTextarea from '@/components/AutoGrowTextarea/AutoGrowTextarea';
-import { Button } from '@/components/Button/Button';
-import DateTimePicker from '@/components/DateTimePicker/DateTimePicker';
-import Select from '@/components/Select/Select';
 import Separator from '@/components/Separator/Separator';
 import { CreateTaskInput, Project } from '@/types';
-import { dateToString } from '@/utils/dateToString';
 
 import styles from './TaskForm.module.scss';
 
@@ -28,6 +26,7 @@ function CreateTaskFormSimple({
 }: Props) {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
   } = useForm<CreateTaskInput>({ defaultValues });
@@ -37,8 +36,6 @@ function CreateTaskFormSimple({
     value: project.id
   }));
   projectOptions.unshift({ label: 'No Project', value: '' });
-
-  const defaultDueDate = dateToString(new Date()) || '';
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -59,10 +56,17 @@ function CreateTaskFormSimple({
               defaultValue={''}
               {...register('project_id')}
             />
-            <DateTimePicker
-              label="Due Date"
-              defaultValue={defaultDueDate}
-              {...register('due_at')}
+            <Controller
+              name="due_at"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  label="Due Date"
+                  mode="datetime"
+                  value={field.value ? new Date(field.value) : null}
+                  onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+                />
+              )}
             />
           </div>
         </div>

@@ -51,33 +51,30 @@ const Pill: React.FC<PillProps> = ({ label, type = 'default', onClick }) => {
     }
   };
 
-  // Determine base colors
-  const baseColors = colorSets[type] || colorSets['default'];
-
-  // Define hover colors (you can customize these)
   const hoverColors = {
     default: {
       backgroundColor: '#d0d0d0',
       color: '#000'
     },
     success: {
-      backgroundColor: '#5cb85c', // slightly darker
+      backgroundColor: '#5cb85c',
       color: themeVariables.text
     },
     error: {
-      backgroundColor: '#c9302c', // darker red
+      backgroundColor: '#c9302c',
       color: themeVariables.text
     },
     warning: {
-      backgroundColor: '#e6b91e', // darker yellow
+      backgroundColor: '#e6b91e',
       color: themeVariables.text
     },
     blue: {
-      backgroundColor: '#006bb3', // darker blue
+      backgroundColor: '#006bb3',
       color: themeVariables.text
     }
-    // Add more if needed
   };
+
+  const baseColors = colorSets[type] || colorSets['default'];
 
   const [hovered, setHovered] = useState(false);
 
@@ -95,7 +92,7 @@ const Pill: React.FC<PillProps> = ({ label, type = 'default', onClick }) => {
           : `1px solid ${currentColors.backgroundColor}`,
         cursor: onClick ? 'pointer' : 'default',
         userSelect: 'none',
-        transition: 'all 0.2s ease' // smooth transition
+        transition: 'all 0.2s ease'
       }}
       onClick={onClick}
       onMouseEnter={() => {

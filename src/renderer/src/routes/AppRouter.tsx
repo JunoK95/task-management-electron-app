@@ -1,5 +1,9 @@
 import { JSX } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import { isElectron } from '@/lib/platform';
+
+const Router = isElectron() ? HashRouter : BrowserRouter;
 
 import AppLayout from '@/layouts/AppLayout/AppLayout';
 import { WorkspaceLayout } from '@/layouts/WorkspaceLayout/WorkspaceLayout';
@@ -22,7 +26,7 @@ import { PublicRoute } from './PublicRoute';
 
 export default function AppRouter(): JSX.Element {
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         {/* ---------- PUBLIC ROUTES ---------- */}
         <Route element={<PublicRoute />}>
@@ -67,6 +71,6 @@ export default function AppRouter(): JSX.Element {
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </HashRouter>
+    </Router>
   );
 }

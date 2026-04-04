@@ -4,6 +4,44 @@
   gap: 8px;
 }
 
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.15s;
+  align-self: flex-start;
+
+  &:hover {
+    background: var(--hover);
+    color: var(--text);
+  }
+}
+
+.toggleActive {
+  color: var(--text);
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .group {
   display: flex;
   align-items: center;

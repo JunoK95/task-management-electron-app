@@ -1,8 +1,8 @@
 import clsx from 'clsx';
+import { Button } from 'juno-ui-library';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@/components/Button/Button';
 import { ProjectFormValues } from '@/types';
 
 import styles from './ProjectForm.module.scss';
@@ -53,7 +53,7 @@ export default function ProjectForm({ defaultValues, loading, onSubmit }: Props)
 
       {/* Footer */}
       <div className={styles.footer}>
-        <Button color="secondary" type="submit" disabled={loading}>
+        <Button variant="outline" type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create Project'}
         </Button>
         <Button type="submit" disabled={loading}>

@@ -1,6 +1,6 @@
+import { Button } from 'juno-ui-library';
 import { useParams } from 'react-router-dom';
 
-import { Button } from '@/components/Button/Button';
 import SearchBar from '@/components/Tables/Controls/SearchBar/SearchBar';
 import { TagsTable } from '@/components/Tables/TagsTable/TagsTable';
 import { useModal } from '@/hooks/useModal';

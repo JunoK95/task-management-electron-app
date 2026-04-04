@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+
 import { TaskFilters } from '@/types';
 
 import styles from './TaskTableFilters.module.scss';
@@ -18,33 +21,52 @@ export default function TaskTableFilters({
   onStatusChange,
   onPriorityChange
 }: Props) {
+  const [open, setOpen] = useState(false);
+
+  const hasActiveFilters = status !== 'all' || priority !== 'all';
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.group}>
-        <span className={styles.label}>Priority:</span>
-        {priorityOptions.map((p) => (
-          <button
-            key={p}
-            className={`${styles.pill} ${priority === p ? styles.active : ''}`}
-            onClick={() => onPriorityChange(p)}
-          >
-            {p}
-          </button>
-        ))}
-      </div>
+      <button
+        className={`${styles.toggle} ${hasActiveFilters ? styles.toggleActive : ''}`}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span>Filters{hasActiveFilters ? ' •' : ''}</span>
+        <ChevronDown
+          size={14}
+          className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
+        />
+      </button>
 
-      <div className={styles.group}>
-        <span className={styles.label}>Status:</span>
-        {statusOptions.map((s) => (
-          <button
-            key={s}
-            className={`${styles.pill} ${status === s ? styles.active : ''}`}
-            onClick={() => onStatusChange(s)}
-          >
-            {s.replace('_', ' ')}
-          </button>
-        ))}
-      </div>
+      {open && (
+        <div className={styles.filters}>
+          <div className={styles.group}>
+            <span className={styles.label}>Priority:</span>
+            {priorityOptions.map((p) => (
+              <button
+                key={p}
+                className={`${styles.pill} ${priority === p ? styles.active : ''}`}
+                onClick={() => onPriorityChange(p)}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.group}>
+            <span className={styles.label}>Status:</span>
+            {statusOptions.map((s) => (
+              <button
+                key={s}
+                className={`${styles.pill} ${status === s ? styles.active : ''}`}
+                onClick={() => onStatusChange(s)}
+              >
+                {s.replace('_', ' ')}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

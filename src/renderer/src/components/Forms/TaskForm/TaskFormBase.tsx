@@ -1,9 +1,7 @@
 import clsx from 'clsx';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { Button, DatePicker, Select } from 'juno-ui-library';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import { Button } from '@/components/Button/Button';
-import DatePicker from '@/components/DatePicker/DatePicker';
-import Select from '@/components/Select/Select';
 import type { Workspace, Project, CreateTaskInput } from '@/types';
 
 import styles from './TaskForm.module.scss';
@@ -27,6 +25,7 @@ export function TaskFormBase({
 }: Props) {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
   } = useForm<CreateTaskInput>({ defaultValues });
@@ -69,9 +68,42 @@ export function TaskFormBase({
         {...register('status')}
       />
 
-      <DatePicker label="Start" {...register('start_at')} />
-      <DatePicker label="Due" {...register('due_at')} />
-      <DatePicker label="Reminder" {...register('remind_at')} />
+      <Controller
+        name="start_at"
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            label="Start"
+            mode="datetime"
+            value={field.value ? new Date(field.value) : null}
+            onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+          />
+        )}
+      />
+      <Controller
+        name="due_at"
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            label="Due"
+            mode="datetime"
+            value={field.value ? new Date(field.value) : null}
+            onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+          />
+        )}
+      />
+      <Controller
+        name="remind_at"
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            label="Reminder"
+            mode="datetime"
+            value={field.value ? new Date(field.value) : null}
+            onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+          />
+        )}
+      />
 
       <div className={styles.footer}>
         <Button type="button" onClick={onCancel}>

@@ -1,8 +1,8 @@
+import { Button } from 'juno-ui-library';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthCard from '@/components/AuthCard/AuthCard';
-import { Button } from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import { OAuthButton } from '@/components/OAuthButton/OauthButton';
 import Separator from '@/components/Separator/Separator';

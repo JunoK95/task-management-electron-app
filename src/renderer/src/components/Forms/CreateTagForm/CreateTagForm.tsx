@@ -1,6 +1,6 @@
+import { Button } from 'juno-ui-library';
 import { useState } from 'react';
 
-import { Button } from '@/components/Button/Button';
 import ColorPicker from '@/components/ColorPicker/ColorPicker';
 import Input from '@/components/Input/Input';
 import TaskTags from '@/components/TaskTags/TaskTags';

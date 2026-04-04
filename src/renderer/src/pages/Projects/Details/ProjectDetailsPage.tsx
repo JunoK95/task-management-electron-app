@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { formatDistanceToNow } from 'date-fns';
+import { Button } from 'juno-ui-library';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button } from '@/components/Button/Button';
 import StatusDot from '@/components/StatusDot/StatusDot';
 import Pagination from '@/components/Tables/Controls/Pagination/Pagination';
 import { DataTable } from '@/components/Tables/DataTable/DataTable';
@@ -132,7 +132,7 @@ function ProjectDetailsPage() {
       <div className={styles.header}>
         <h1>{project?.name}</h1>
         <div className={styles.headerActions}>
-          <Button variant="secondary" onClick={() => openCreateTask(workspaceId, projectId)}>
+          <Button variant="outline" onClick={() => openCreateTask(workspaceId, projectId)}>
             Add Task
           </Button>
           <Button onClick={handleProjectTaskGeneration}>Auto Add</Button>

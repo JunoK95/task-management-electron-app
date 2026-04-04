@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Modal } from 'juno-ui-library';
+
 import CreateTaskFormSimple from '@/components/Forms/TaskForm/CreateTaskFormSimple';
-import Modal from '@/components/Modal/Modal';
 import { useProjects } from '@/queries/projects/useProjects';
 import { useCreateTask } from '@/queries/tasks/useCreateTask';
 import { ROUTES } from '@/routes/routes';
@@ -51,7 +52,7 @@ function TaskFormModal({ workspaceId, onClose }: Props) {
   };
 
   return (
-    <Modal open={true} onClose={onClose}>
+    <Modal open={true} onClose={onClose} title="New Task">
       {renderSection()}
     </Modal>
   );

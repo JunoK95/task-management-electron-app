@@ -11,9 +11,8 @@
     "jsx": "react-jsx",
 
     // ✅ IMPORTANT
-    "baseUrl": "src/renderer/src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/renderer/src/*"]
     }
   }
 }

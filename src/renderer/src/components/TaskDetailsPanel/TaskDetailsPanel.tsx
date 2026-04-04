@@ -1,3 +1,4 @@
+import { DatePicker, Select } from 'juno-ui-library';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -10,8 +11,6 @@ import { TaskPriority, TaskStatus } from '@/types/enums';
 import { assertDefined } from '@/utils/assertDefined';
 
 import styles from './TaskDetailsPanel.module.scss';
-import DateTimePicker from '../DateTimePicker/DateTimePicker';
-import Select from '../Select/Select';
 import TaskTags from '../TaskTags/TaskTags';
 
 type Props = {
@@ -93,18 +92,10 @@ function TaskDetailsPanel({ task, onChange }: Props) {
       </div>
       <div className={styles.row}>
         <div className={styles.label}>Deadline</div>
-        <DateTimePicker
-          name="due_at"
-          value={due_at ? due_at : undefined}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className={styles.row}>
-        <div className={styles.label}>Assignee</div>
-        <DateTimePicker
-          name="due_at"
-          value={due_at ? due_at : undefined}
-          onChange={handleInputChange}
+        <DatePicker
+          mode="datetime"
+          value={due_at ? new Date(due_at) : null}
+          onChange={(date) => onChange('due_at', date ? date.toISOString() : '')}
         />
       </div>
       <div className={styles.row}>

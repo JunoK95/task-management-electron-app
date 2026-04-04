@@ -1,4 +1,4 @@
-import Modal from '@/components/Modal/Modal';
+import { Modal } from 'juno-ui-library';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { useTheme } from '@/hooks/useTheme';
 

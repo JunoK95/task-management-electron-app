@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
-function Versions(): React.JSX.Element {
-  const [versions] = useState(window.electron.process.versions);
+import { isElectron } from '@/lib/platform';
+
+function Versions(): React.JSX.Element | null {
+  const [versions] = useState(isElectron() ? window.electron!.process.versions : null);
+
+  if (!isElectron() || !versions) return null;
 
   return (
     <ul className="versions">

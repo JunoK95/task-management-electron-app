@@ -1,5 +1,5 @@
 interface Window {
-  electronAPI: {
+  electronAPI?: {
     notify: (title: string, body: string) => void;
   };
 }

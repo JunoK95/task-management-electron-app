@@ -69,6 +69,48 @@ Components use **SCSS modules** (`.module.scss` co-located with each component).
 
 `@/` resolves to `src/renderer/src/` — use it for all renderer imports.
 
+### Optimistic updates pattern
+
+Use `optimisticPatchAutoLists` from `lib/react-query/` for any mutation that updates an entity that also appears in lists:
+
+```ts
+onMutate: async (updated) => {
+  await qc.cancelQueries();
+  const optimistic = optimisticPatchAutoLists<Task>(qc, {
+    entityKey: ['task', taskId],
+    listPrefix: ['tasks', workspaceId],
+    id: updated.id,
+    patch,
+  });
+  return optimistic; // returned as ctx
+},
+onError: (_err, _vars, ctx) => { ctx?.rollback(); },
+onSettled: () => { qc.invalidateQueries(...) },
+```
+
+### CSS variables
+
+Always use CSS custom properties from `styles/variables.scss`, never hardcode colors:
+- `--text`, `--text-muted`, `--text-strong`, `--text-on-accent`
+- `--surface`, `--surface-menu`, `--border`
+- `--hover`, `--selected`
+- `--error`, `--success`, `--warning`
+- Status/priority: `--low`, `--normal`, `--high`, `--pending`, `--in_progress`, `--completed`
+
+### Enums
+
+Task priorities: `'low' | 'medium' | 'high' | 'urgent'`
+Task statuses: `'pending' | 'in_progress' | 'completed'`
+Import from `@/types` — never hardcode these strings inline.
+
 ## Testing
 
 Tests use Jest + jsdom + `@testing-library/react`. Test files live alongside source files (e.g. `AuthCard.test.tsx` next to `AuthCard.tsx`). SCSS modules are mocked via `identity-obj-proxy`. The Supabase client is mocked at `src/renderer/src/__mocks__/client.ts`.
+
+## Key rules
+
+- Never use raw DB types (`Database['public']['Tables']['tasks']['Row']`) in components — use domain types from `types/domain/`
+- New components go in `components/<ComponentName>/` with a co-located `<ComponentName>.module.scss`
+- New query hooks go in `queries/<entity>/use<Operation>.ts`
+- New API functions go in `api/<entity>/index.ts`
+- Use `@/` alias for all renderer imports, never relative paths that cross the `src/renderer/src/` boundary

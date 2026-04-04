@@ -10,10 +10,12 @@
   background-color: var(--surface-menu);
   padding: 12px;
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   .row {
+    display: flex;
+    flex-direction: column;
+
     .label {
       @extend .overline;
       margin-bottom: 4px;

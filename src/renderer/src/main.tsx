@@ -1,8 +1,11 @@
+import 'juno-ui-library/dist/juno-ui-library.css';
 import './styles/index.scss';
 
 // Apply theme based on system preference
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-document.body.classList.add(prefersDark ? 'dark' : 'light');
+const initialTheme = prefersDark ? 'dark' : 'light';
+document.body.classList.add(initialTheme);
+document.documentElement.setAttribute('data-theme', initialTheme);
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';

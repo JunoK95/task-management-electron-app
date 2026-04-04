@@ -1,12 +1,8 @@
-@use '../../styles/index.scss';
-
 .pill {
   display: inline-block;
-  border-radius: 100px;
-  padding: 4px 12px;
-  overflow: hidden;
-  box-sizing: border-box;
-  text-align: center;
-  line-height: 12px;
-  @extend .overline;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
 }

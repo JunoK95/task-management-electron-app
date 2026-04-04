@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { Button } from 'juno-ui-library';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@/components/Button/Button';
 import { useCreateWorkspace } from '@/queries/workspaces/useCreateWorkspace';
 
 import styles from './WorkspaceForm.module.scss';

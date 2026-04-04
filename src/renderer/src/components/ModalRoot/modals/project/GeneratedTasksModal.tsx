@@ -4,7 +4,7 @@ import { Check, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { createTask } from '@/api/tasks';
-import Modal from '@/components/Modal/Modal';
+import { Modal } from 'juno-ui-library';
 import { DataTable } from '@/components/Tables/DataTable/DataTable';
 import { Task } from '@/types';
 
@@ -104,7 +104,7 @@ export default function GeneratedTasksModal({
   ];
 
   return (
-    <Modal open onClose={onClose}>
+    <Modal open onClose={onClose} title="Generated Tasks" size="lg">
       <div
         style={{
           display: 'flex',
@@ -113,7 +113,6 @@ export default function GeneratedTasksModal({
           minWidth: '600px'
         }}
       >
-        <h2 style={{ margin: 0 }}>Generated Tasks</h2>
         {isLoading ? (
           <div>Generating tasks...</div>
         ) : taskList.length === 0 ? (

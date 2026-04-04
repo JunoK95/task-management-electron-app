@@ -1,5 +1,6 @@
+import { Modal } from 'juno-ui-library';
+
 import CreateTagForm from '@/components/Forms/CreateTagForm/CreateTagForm';
-import Modal from '@/components/Modal/Modal';
 
 type Props = {
   workspaceId: string;
@@ -8,7 +9,7 @@ type Props = {
 
 function TagsFormModal({ workspaceId, onClose }: Props) {
   return (
-    <Modal open={true} onClose={onClose}>
+    <Modal open={true} onClose={onClose} title="Create Tag">
       <CreateTagForm workspaceId={workspaceId} />
     </Modal>
   );

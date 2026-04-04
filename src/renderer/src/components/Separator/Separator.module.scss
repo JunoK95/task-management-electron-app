@@ -1,20 +1,27 @@
 .separator {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.withLabel {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 16px 0;
+  gap: 10px;
+  margin: 8px 0;
 
-  &__line {
+  &::before,
+  &::after {
+    content: '';
     flex: 1;
     height: 1px;
-    background-color: var(--border);
+    background: var(--border);
   }
+}
 
-  &__label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
+.labelText {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
 }

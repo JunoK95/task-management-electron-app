@@ -1,24 +1,33 @@
-import clsx from 'clsx';
-import { InputHTMLAttributes } from 'react';
+import React from 'react';
 
 import styles from './Input.module.scss';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  id?: string;
 }
 
-export default function Input({ label, error, className, ...props }: InputProps) {
-  return (
-    <div className={clsx(styles['input-wrapper'], className)}>
-      <label className={styles['input-wrapper__label']}>{label}</label>
-      <input
-        className={clsx(styles['input-wrapper__input'], {
-          [styles['input-wrapper__input--error']]: error
-        })}
-        {...props}
-      />
-      {error && <span className={styles['input-wrapper__error']}>{error}</span>}
-    </div>
-  );
-}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ label, error, id, className, ...rest }, ref) => {
+    return (
+      <div className={styles.wrapper}>
+        {label && (
+          <label htmlFor={id} className={styles.label}>
+            {label}
+          </label>
+        )}
+        <input
+          id={id}
+          ref={ref}
+          className={`${styles.input} ${error ? styles.inputError : ''} ${className || ''}`}
+          {...rest}
+        />
+        {error && <span className={styles.hint}>{error}</span>}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';
+export default Input;
