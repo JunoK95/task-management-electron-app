@@ -1,10 +1,8 @@
 import clsx from 'clsx';
-import { Button, DatePicker } from 'juno-ui-library';
-import { Select } from 'juno-ui-library';
+import { Button, DatePicker, Select } from 'juno-ui-library';
 import { useForm, Controller } from 'react-hook-form';
 
 import AutoGrowTextarea from '@/components/AutoGrowTextarea/AutoGrowTextarea';
-import Separator from '@/components/Separator/Separator';
 import { CreateTaskInput, Project } from '@/types';
 
 import styles from './TaskForm.module.scss';
@@ -38,47 +36,39 @@ function CreateTaskFormSimple({
   projectOptions.unshift({ label: 'No Project', value: '' });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.simpleForm}>
       <input
         placeholder="What needs to be done?"
         className={clsx(styles.title, errors.title && styles.error)}
         {...register('title', { required: true })}
       />
 
-      <AutoGrowTextarea placeholder="Description" {...register('description')} />
-      <Separator />
-      <div className={styles['form-footer']}>
-        <div>
-          <div className={styles.left}>
-            <Select
-              options={projectOptions}
-              label="Project"
-              defaultValue={''}
-              {...register('project_id')}
-            />
-            <Controller
-              name="due_at"
-              control={control}
-              render={({ field }) => (
-                <DatePicker
-                  label="Due Date"
-                  mode="datetime"
-                  value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => field.onChange(date ? date.toISOString() : null)}
-                />
-              )}
-            />
-          </div>
+      <AutoGrowTextarea placeholder="Add a description…" {...register('description')} />
+
+      <div className={styles.footer}>
+        <div className={styles.footerControls}>
+          <Select options={projectOptions} defaultValue={''} {...register('project_id')} />
+          <Controller
+            name="due_at"
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                label=""
+                placeholder="Due date"
+                mode="datetime"
+                value={field.value ? new Date(field.value) : null}
+                onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+              />
+            )}
+          />
         </div>
-        <div className={styles.action}>
-          <div className={styles.right}>
-            <Button type="button" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              Save
-            </Button>
-          </div>
+        <div className={styles.footerActions}>
+          <Button variant="ghost" type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button intent="primary" type="submit" disabled={isLoading}>
+            Create
+          </Button>
         </div>
       </div>
     </form>

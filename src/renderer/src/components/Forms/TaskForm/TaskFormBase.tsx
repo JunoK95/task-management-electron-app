@@ -36,7 +36,7 @@ export function TaskFormBase({
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.baseForm}>
       <input
         placeholder="What needs to be done?"
         className={clsx(styles.title, errors.title && styles.error)}
@@ -105,7 +105,7 @@ export function TaskFormBase({
         )}
       />
 
-      <div className={styles.footer}>
+      <div className={styles['footer-base']}>
         <Button type="button" onClick={onCancel}>
           Cancel
         </Button>
